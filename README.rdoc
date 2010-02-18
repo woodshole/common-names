@@ -1,11 +1,43 @@
+= Common Names for Higher Taxa
 
-== Anage
+== Objectives
 
-Customer: 
+The objective of this project is to develop an interactive web application
+that provides interfaces to do two distinct but related tasks. Each of these
+tasks relates to viewing and annotating data that is tied to a hierarchical
+taxonomic classification of organism group names. The scope of this
+classification is on the higher taxonomic groups
+(Kingdom-Phylum-Class-Order-Family). The two distinct tasks are:
 
-Basecamp: 
+(1) Enables users of the system to view and create and download common name alternatives for Latinized taxon names for the higher taxonomic groups (Kingdom through Family) of organisms.  Common names may be created for any written language recognized by the ISO 693-3 language encoding system.
+(2) Enable users of the system to browse image thumbnails associated with an organism group and select one or more images that best represent the group according to the opinion of the user.
 
-Highrise: 
+In addition to their common connection to a hierarchical taxonomic framework,
+both of these tasks require some sort of user authentication to track the
+provenance of new data records and annotations. Collectively, these provide a
+rationale for developing a common system for building these applications.
 
-Describe the project here.
+== Overview
 
+The basic organizational unit of biodiversity is a taxon. Species form the
+primary taxon element and species are organized into a hierarchical set of
+named groups that conform to the Linnaean classification system where groups
+are assigned ranks (Kingdom, Phylum, etc.) These classifications are used to
+represent the current taxonomic views regarding the relationships of species
+but their hierarchical structure provides a basis for using classifications
+like a computerized file system for organizing information about species.
+Biodiversity applications presenting species information often provide
+interfaces that allow species information to be organized and accessed like a
+typical filesystem. This is a useful approach as it allows information to be
+organized around a natural system well known to biologists.
+
+Many non-scientists may be unfamiliar with parts of all of the Latinised terms
+used for organism names. Additional cues may provide valuable context to that
+increases the utility and facilitates the navigation of the taxonomic
+framework. Two of these cues or contexts form the basis for this project:
+common names and pictures of plants and animals, as thumbnails. Both of these
+entities may be used in combination with, or instead of, scientific names for
+taxon groups to improve navigation and orientation. The objective of this
+application is to provide interfaces to add these two classes of content to a
+consensus higher taxonomy and to easily download some or all of the
+accumulated content for import and use in biodiversity applications.
