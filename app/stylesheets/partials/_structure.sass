@@ -1,0 +1,141 @@
+// Main Structure
+
+body
+  #main
+    :padding-top 2em
+    +container
+    :margin-bottom 65px
+    #user_control
+      :display block
+      :float right
+      :width 310px
+      #login, #signup
+        :display none
+    #header
+      :margin-bottom 1em
+    #flash
+    #content
+      table
+        :margin 0
+        :width auto !important
+        td.permalink
+          :font-weight 600
+          :font-size 1.5em
+    #footer
+      :clear both
+      :margin-top 1em
+      a
+        :vertical-align middle
+  #presence
+    :bottom 0
+    :right 0
+    :height 55px
+    :padding 0
+    :position fixed
+    :width 100%
+    :z-index 99
+    #karma-widget
+      :margin-right 30px
+      :height 100%
+      :width 110px
+      :float right
+      :background url(/images/karma_tiny.gif) no-repeat -5px -5px
+      -moz-border-radius-topleft: 10px
+      -webkit-border-top-left-radius: 10px      
+      -moz-border-radius-topright: 10px
+      -webkit-border-top-right-radius: 10px      
+      :border 1px solid gray
+      :background-color rgba(255,255,255,.8)
+      :padding 15px 15px 15px 75px
+      #karma, #achievements
+        :font-weight 600
+      
+
+// Component Styles
+#spinner
+  :display none
+
+#login-buttons
+  :float right
+  
+#login
+  :display block
+  :padding 15px
+  :border 1px solid gray
+  :background-color rgba(255,255,255,.8)
+  :width 275px
+  -moz-border-radius: 5px
+  -webkit-border-radius: 5px
+  .form-row
+    :display block
+    .alt
+      :float right
+    #user_email, #user_password
+      :width 120px
+    #user_openid_identifier
+      :width 237px
+    .remember-me
+      :font-size 70%
+      :font-weight 400
+    .email, .password, .remember-me
+      :padding-right 5px
+    .email, .password, .remember-me
+      :float left
+    .submit
+      :float right
+      :padding-top 8px
+      a
+        :margin 0 !important
+    .regular_button, .openid_button
+      :float right
+  #openid
+    :display none
+
+.button_row
+  :margin-top 1em
+    
+form
+  +blueprint-form
+  
+.form_input
+  :margin-bottom 1em
+  
+// Visual Fixes
+
+/* new clearfix from perishablepress.com */
+.clearfix:after
+  :visibility hidden
+  :display block
+  :font-size 0
+  :content " "
+  :clear both
+  :height 0
+  
+// Grayable background for pop-ups
+#backgroundGray
+  :display none
+  :position fixed
+  // hack for internet explorer 6  
+  _position: absolute 
+  :height 100%
+  :width 100%
+  :top 0
+  :left 0
+  :background black
+  :border 1px solid #cecece
+  :z-index 1
+  :opacity 0.8
+  
+#popup
+  :display none
+  :position fixed
+  // hack for internet explorer 6  
+  _position: absolute
+  :height 200px
+  :width 700px
+  :z-index 2
+  h2, h3, h4
+    :color white !important
+
+table#longevity
+  :width auto

@@ -1,0 +1,7 @@
+log/*.log
+tmp/*
+nbproject
+*.tmp
+*/*.tmp
+config/campfire.yml
+rerun.txt
