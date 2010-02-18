@@ -9,8 +9,8 @@ taxonomic classification of organism group names. The scope of this
 classification is on the higher taxonomic groups
 (Kingdom-Phylum-Class-Order-Family). The two distinct tasks are:
 
-(1) Enables users of the system to view and create and download common name alternatives for Latinized taxon names for the higher taxonomic groups (Kingdom through Family) of organisms.  Common names may be created for any written language recognized by the ISO 693-3 language encoding system.
-(2) Enable users of the system to browse image thumbnails associated with an organism group and select one or more images that best represent the group according to the opinion of the user.
+1. Enables users of the system to view and create and download common name alternatives for Latinized taxon names for the higher taxonomic groups (Kingdom through Family) of organisms.  Common names may be created for any written language recognized by the ISO 693-3 language encoding system.
+2. Enable users of the system to browse image thumbnails associated with an organism group and select one or more images that best represent the group according to the opinion of the user.
 
 In addition to their common connection to a hierarchical taxonomic framework,
 both of these tasks require some sort of user authentication to track the
