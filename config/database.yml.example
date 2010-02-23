@@ -4,11 +4,11 @@
 # require a password.
 
 development:
-  adapter: postgresql
+  adapter: mysql
   database: anage_development
 
 test: &TEST
-  adapter: postgresql
+  adapter: mysql
   database: anage_test
 
 cucumber:
