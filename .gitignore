@@ -5,3 +5,4 @@ nbproject
 */*.tmp
 config/campfire.yml
 rerun.txt
+config/database.yml
