@@ -70,7 +70,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -98,7 +98,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#kingdom-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -132,7 +132,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#kingdom-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -160,7 +160,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#phylum-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -193,7 +193,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#phylum-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -221,7 +221,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#class-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -253,7 +253,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#class-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -281,7 +281,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#order-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -313,7 +313,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#order-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -341,7 +341,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#family-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -372,7 +372,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#family-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
@@ -387,7 +387,7 @@ $(function(){
           // Update the main page content.
           $.ajax({
               type: 'GET',
-              url: '/species/data', 
+              url: '/taxa/data', 
               data: { 'taxon_id': $('#genus-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
