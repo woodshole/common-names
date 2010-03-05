@@ -3,13 +3,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   
   map.resources :taxa, :collection => { :data => :get }
-  # map.with_options :controller => :lifespans do |a|
-  #   a.new_lifespan '/species/:species_id/lifespans/new', :action => :new, :conditions => {:method => :get}
-  #   a.edit_lifespan '/species/:species_id/lifespans/:id/edit', :action => :edit, :conditions => {:method => :get}
-  #   a.connect '/species/:species_id/lifespans', :action => :create, :conditions => {:method => :post}
-  #   a.connect '/species/:species_id/lifespans/:id', :action => :update, :conditions => {:method => :put}
-  # end
-  
   
   # AJAX Navigation
   map.taxonomy_dropdown '/taxonomy/dropdown/:rank', 

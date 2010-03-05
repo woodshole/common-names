@@ -8,11 +8,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   
   private
-  
-    def load_taxonomy
-      @taxonomy = [["Animalia", "Animalia"]]
-    end
-  
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find

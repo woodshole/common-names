@@ -3,7 +3,7 @@ class TaxaController < ApplicationController
   
   def index
     if params[:taxon]
-      if ! @taxon = Taxon.find_by_name(params[:taxon].capitalize)
+      unless @taxon = Taxon.find_by_name(params[:taxon].capitalize)
         @taxon = Taxon.root
         @disable_remaining_dropdowns = "disabled"
         flash.now[:notice] = "#{params[:rank].capitalize} #{params[:taxon].capitalize} could not be found."
@@ -75,5 +75,9 @@ class TaxaController < ApplicationController
       render :update
     end
   end
-
+  
+  private
+    def load_taxonomy
+      @taxonomy = [["Animalia", "Animalia"]]
+    end
 end

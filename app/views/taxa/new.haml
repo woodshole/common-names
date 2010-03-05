@@ -1,4 +1,4 @@
-= render :partial => "/shared/header", :locals => { :title => "New Species", :subtitle => "", :flash => flash }
+= render :partial => "/shared/header", :locals => { :title => "New Name", :subtitle => "", :flash => flash }
 
 - form_for :species, :url => {:action => :create}, :html => {:method => :post} do |f|
   = render :partial => "/taxonomy_navigation/dropdowns"
