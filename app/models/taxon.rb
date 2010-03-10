@@ -14,6 +14,8 @@
 class Taxon < ActiveRecord::Base
   acts_as_nested_set
   
+  has_many :common_names
+  
   before_save :rebuild_lineage_ids
   
   named_scope :kingdoms, lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 0}.merge(conditions), :order => :name} }
@@ -25,13 +27,13 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
-  def paginated_sorted_names(page)
-    begin
-      Taxon.paginate_by_sql("SELECT name FROM taxa WHERE lft >= #{self.lft} AND rgt <= #{self.rgt} ORDER BY name ASC", :page => page)
-    rescue
-      raise "Left and Right attributes were nil!"
-    end
-  end
+  # def paginated_sorted_names(page)
+  #   begin
+  #     Taxon.paginate_by_sql("SELECT name FROM taxa WHERE lft >= #{self.lft} AND rgt <= #{self.rgt} ORDER BY name ASC", :page => page)
+  #   rescue
+  #     raise "Left and Right attributes were nil!"
+  #   end
+  # end
   
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }

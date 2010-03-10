@@ -18,12 +18,12 @@ class TaxaController < ApplicationController
   end
   
   def data
-    if params[:taxon_id] && ! params[:taxon_id].blank?
-      @taxon = Taxon.find(params[:taxon_id])
+    unless params[:taxon_name].blank?
+      @taxon = Taxon.find_by_name(params[:taxon_name])
     else
       @taxon = Taxon.find(1)
     end
-    @names = @taxon.paginated_sorted_names(params[:page])
+    @names = @taxon.common_names.all
     render :partial => "table", :layout => false
   end
 

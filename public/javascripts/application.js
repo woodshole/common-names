@@ -62,11 +62,8 @@ $(function(){
       
       // If someone selects 'any'
       if ($('#kingdom-dropdown').val() == '') {
-          
           $('#phylum-dropdown').attr('disabled', 'disabled');
-          
           $('#spinner').fadeIn();
-          
           // Update the main page content.
           $.ajax({
               type: 'GET',
@@ -76,12 +73,9 @@ $(function(){
                   $('#species').fadeIn();
                   $('#spinner').fadeOut();
               }
-          });
-          
+          });   
       } else {
-          
           $('#spinner').fadeIn();
-          
           // Populate the phylum dropdown.
           $.ajax({
               type: 'GET',
@@ -91,15 +85,13 @@ $(function(){
                   $('#phylum-dropdown').html(response);
               }
           });
-
           // Enable the phylum dropdown.
           $('#phylum-dropdown').removeAttr('disabled');
-      
           // Update the main page content.
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#kingdom-dropdown').val() },
+              data: { 'taxon_name': $('#kingdom-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -107,13 +99,8 @@ $(function(){
                   $('#spinner').fadeOut();
               }
           });
-      
       }
-      
    });
-   
-   
-   
    
    
    $('#phylum-dropdown').change(function() {
@@ -133,7 +120,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#kingdom-dropdown').val() },
+              data: { 'taxon_name': $('#kingdom-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -161,7 +148,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#phylum-dropdown').val() },
+              data: { 'taxon_name': $('#phylum-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -194,7 +181,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#phylum-dropdown').val() },
+              data: { 'taxon_name': $('#phylum-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -222,7 +209,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#class-dropdown').val() },
+              data: { 'taxon_name': $('#class-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -254,7 +241,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#class-dropdown').val() },
+              data: { 'taxon_name': $('#class-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -282,7 +269,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#order-dropdown').val() },
+              data: { 'taxon_name': $('#order-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -314,7 +301,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#order-dropdown').val() },
+              data: { 'taxon_name': $('#order-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -342,7 +329,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#family-dropdown').val() },
+              data: { 'taxon_name': $('#family-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -373,7 +360,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#family-dropdown').val() },
+              data: { 'taxon_name': $('#family-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();
@@ -388,7 +375,7 @@ $(function(){
           $.ajax({
               type: 'GET',
               url: '/taxa/data', 
-              data: { 'taxon_id': $('#genus-dropdown').val() },
+              data: { 'taxon_name': $('#genus-dropdown').val() },
               success: function(response) {
                   $('#species').html(response);
                   $('#species').fadeIn();

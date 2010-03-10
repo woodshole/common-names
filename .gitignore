@@ -7,3 +7,4 @@ config/campfire.yml
 rerun.txt
 config/database.yml
 db/schema.rb
+capybara*.html

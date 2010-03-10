@@ -4,7 +4,7 @@ module TaxonomyNavigationHelper
   # dropdowns.
   def options_for_taxonomy_select(taxons=[], selected=nil)
     # Map to sets of names and ids.
-    elements = taxons.map { |t| [t.name, t.id] }
+    elements = taxons.map { |t| [t.name, t.name] }
     # Prepend the "Any" option.
     elements.unshift(['Any', ''])
     options_for_select elements, selected

@@ -1,6 +1,7 @@
 %table
   %tr
     %th Names
+  - @names.each do |name|
     %tr
-      %td A link to a name
-        
+      %td 
+        =name.name
