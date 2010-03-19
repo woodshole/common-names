@@ -15,16 +15,15 @@ Given /^a taxon of ID 1 exists$/ do
 end
 
 Given /^a user account exists$/ do
-  u = User.new({:password => 'jerome', :password_confirmation => 'jerome', :email => 'agoddard@mbl.edu'})
-  u.save
+  u = User.create!({:password => 'jerome', :password_confirmation => 'jerome', :email => 'agoddard@mbl.edu'})
 end
 
 Given /^I am a logged in user$/ do
   steps %Q{
     When I am on the index
     And I follow "login_button" within "div#login-buttons"
-    And I fill in "user_email" with "agoddard@mbl.edu"
-    And I fill in "user_password" with "jerome"
+    And I fill in "email" with "agoddard@mbl.edu"
+    And I fill in "password" with "jerome"
     And I press "Login"
     Then I should see "Login successful!"
   }

@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resource :user_session
   map.resources :users
+  map.resources :common_names
   
   map.resources :taxa, :collection => { :data => :get }
   
@@ -8,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.taxonomy_dropdown '/taxonomy/dropdown/:rank', 
     :controller => :taxonomy_navigation, 
     :action => :dropdown_options, 
-    :rank => /(kingdoms|phylums|classes|orders|families)/,
+    :rank => /(kingdom|phylum|class|order|family)/,
     :conditions => {:method => :get}
   
   map.taxon '/:rank/:taxon',

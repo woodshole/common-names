@@ -49,348 +49,134 @@ $(function(){
   $('#karma-tabs').tabs({
       collapsible: true
   });
+  
 
-   
-   // Taxatoy-like navigation
-   $('#kingdom-dropdown').change(function() {
-      // Disable all dropdowns to the right of phylum.
-      $('#class-dropdown').attr('disabled', 'disabled');
-      $('#order-dropdown').attr('disabled', 'disabled');
-      $('#family-dropdown').attr('disabled', 'disabled');
-      $('#genus-dropdown').attr('disabled', 'disabled');
-      $('#species').fadeOut();
-      
-      // If someone selects 'any'
-      if ($('#kingdom-dropdown').val() == '') {
-          $('#phylum-dropdown').attr('disabled', 'disabled');
-          $('#spinner').fadeIn();
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });   
-      } else {
-          $('#spinner').fadeIn();
-          // Populate the phylum dropdown.
-          $.ajax({
-              type: 'GET',
-              url: '/taxonomy/dropdown/phylums', 
-              data: { parent_id: $('#kingdom-dropdown').val() },
-              success: function(response) {
-                  $('#phylum-dropdown').html(response);
-              }
-          });
-          // Enable the phylum dropdown.
-          $('#phylum-dropdown').removeAttr('disabled');
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#kingdom-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#phylum-dropdown').parent().effect('highlight', {}, 500);
-                  $('#spinner').fadeOut();
-              }
-          });
-      }
-   });
-   
-   
-   $('#phylum-dropdown').change(function() {
-      // Disable all dropdowns to the right of class.
-      $('#order-dropdown').attr('disabled', 'disabled');
-      $('#family-dropdown').attr('disabled', 'disabled');
-      $('#genus-dropdown').attr('disabled', 'disabled');
-      $('#species').fadeOut();
-      
-      // If someone selects 'any'
-      if ($('#phylum-dropdown').val() == '') {
-          
-          $('#class-dropdown').attr('disabled', 'disabled');
-          $('#spinner').fadeIn();
-          
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#kingdom-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-          
-      } else {
-          $('#spinner').fadeIn();
-      
-          // Populate the class dropdown.
-          $.ajax({
-              type: 'GET',
-              url: '/taxonomy/dropdown/classes', 
-              data: { parent_id: $('#phylum-dropdown').val() },
-              success: function(response) {
-                  $('#class-dropdown').html(response);
-              }
-          });
+  
+  function get_current_name() {
+    return $('#family-dropdown').val() || $('#order-dropdown').val() ||
+      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val();
+  }
 
-          // Enable the class dropdown.
-          $('#class-dropdown').removeAttr('disabled');
-      
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#phylum-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#class-dropdown').parent().effect('highlight', {}, 500);
-                  $('#spinner').fadeOut();
-              }
-          });
-      
+	function update_main_content(taxon){
+		$.ajax({
+        type: 'GET',
+        url: '/taxa/data', 
+        data: { taxon_name: taxon },
+        beforeSend: function() {
+          $('#spinner').fadeIn();
+        },
+        success: function(response) {
+          $('#spinner').fadeOut('fast');
+          $('#species').html(response);
+          $('#create-new').show();
+          $('#species').fadeIn();
+        }
+    });
+  }
+  
+  function populate_dropdown(dropdown, taxon){
+    $.ajax({
+        type: 'GET',
+        url: '/taxonomy/dropdown/' + dropdown, 
+        data: { parent_name: taxon },
+        success: function(response) {
+            $('#' + dropdown + '-dropdown').html(response);
+            $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);
+            
+        }
+    });
+  }
+  
+  function reset_right_of(taxa){
+    switch(taxa){
+      case 'kingdom':
+        $('#phylum-dropdown').val('Any');
+        reset_right_of('phylum');
+      case 'phylum':
+        $('#class-dropdown').val('Any');
+        reset_right_of('class');
+      case 'class':
+        $('#order-dropdown').val('Any');
+        reset_right_of('order');
+      case 'order':
+        $('#family-dropdown').val('Any');
+      case 'family':
+        return;
       }
-      
-   });
-   
-   
-   
-   
-   
-   $('#class-dropdown').change(function() {
-      // Disable all dropdowns to the right of class.
-      $('#family-dropdown').attr('disabled', 'disabled');
-      $('#genus-dropdown').attr('disabled', 'disabled');
-      $('#species').fadeOut();
-      
-      // If someone selects 'any'
-      if ($('#class-dropdown').val() == '') {
-          
-          $('#order-dropdown').attr('disabled', 'disabled');
-          $('#spinner').fadeIn();
-          
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#phylum-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-          
-      } else {
-          $('#spinner').fadeIn();
-      
-          // Populate the order dropdown.
-          $.ajax({
-              type: 'GET',
-              url: '/taxonomy/dropdown/orders', 
-              data: { parent_id: $('#class-dropdown').val() },
-              success: function(response) {
-                  $('#order-dropdown').html(response);
-              }
-          });
+  }
+  
+  function disable_right_of(taxa){
+    switch(taxa){
+      case 'kingdom':
+        $('#phylum-dropdown').attr('disabled', 'disabled');
+        disable_right_of('phylum');
+      case 'phylum':
+        $('#class-dropdown').attr('disabled', 'disabled');
+        disable_right_of('class');
+      case 'class':
+        $('#order-dropdown').attr('disabled', 'disabled');
+        disable_right_of('order');
+      case 'order':
+        $('#family-dropdown').attr('disabled', 'disabled');
+      case 'family':
+        return;
+      }
+  }
 
-          // Enable the order dropdown.
-          $('#order-dropdown').removeAttr('disabled');
-      
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#class-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#order-dropdown').parent().effect('highlight', {}, 500);
-                  $('#spinner').fadeOut();
-              }
-          });
-      
-      }
-      
-   });
-   
-   
-   
-   
-   
-   $('#order-dropdown').change(function() {
-      // Disable all dropdowns to the right of family.
-      $('#genus-dropdown').attr('disabled', 'disabled');
-      $('#species').fadeOut();
-      
-      // If someone selects 'any'
-      if ($('#order-dropdown').val() == '') {
-          
-          $('#family-dropdown').attr('disabled', 'disabled');
-          $('#spinner').fadeIn();
-          
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#class-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-          
+  var higher_order = ['kingdom','phylum','class','order','family'];
+  //this just binds the same function to each div
+  // #kingdom-dropdown, #phylum-dropdown, etc.
+  jQuery.each(higher_order, function(i, on) {
+    $('#' + on + '-dropdown').change(function() {
+      right = higher_order[i+1];
+      current_taxon = $('#' + on + '-dropdown').val();
+      $('#species').fadeOut();  
+      reset_right_of(on);
+      disable_right_of(right);
+      if (current_taxon == '') {
+        // try to update current_taxon
+        current_taxon = (on != 'kingdom') ? $('#' + higher_order[i-1] + '-dropdown').val() : '';
+        // if it's still empty, that means kingdom is Any
+        if (current_taxon == '') {
+          $('#create').slideUp();
+          $('#species').fadeOut();
+        }
+        $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
-          $('#spinner').fadeIn();
-      
-          // Populate the family dropdown.
-          $.ajax({
-              type: 'GET',
-              url: '/taxonomy/dropdown/families', 
-              data: { parent_id: $('#order-dropdown').val() },
-              success: function(response) {
-                  $('#family-dropdown').html(response);
-              }
-          });
-
-          // Enable the family dropdown.
-          $('#family-dropdown').removeAttr('disabled');
-      
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#order-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#family-dropdown').parent().effect('highlight', {}, 500);
-                  $('#spinner').fadeOut();
-              }
-          });
-      
+        populate_dropdown(right, current_taxon);
+        // we have a taxon so we should show the create form
+        if ($('#create').is(":hidden")) {
+          $('#create').slideDown();
+        }
+        $('#' + right + '-dropdown').removeAttr('disabled');
       }
-      
-   });
-   
-   
-   
-   
-   
-   
+      update_main_content(current_taxon);
+    });
+    //return after binding the function to order so it doesn't bind to family
+    return (on != 'order');
+  });
+
+  // defined seperately because it is so simple.
    $('#family-dropdown').change(function() {
-      
-      $('#species').fadeOut();
-       
-      // If someone selects 'any'
-      if ($('#family-dropdown').val() == '') {
-          
-          $('#genus-dropdown').attr('disabled', 'disabled');
-          $('#spinner').fadeIn();
-          
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#order-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-          
-      } else {
-          $('#spinner').fadeIn();
-       
-          // Populate the genus dropdown.
-          $.ajax({
-              type: 'GET',
-              url: '/taxonomy/dropdown/genuses', 
-              data: { parent_id: $('#family-dropdown').val() },
-              success: function(response) {
-                  $('#genus-dropdown').html(response);
-              }
-          });
+     current_taxon = $('#family-dropdown').val();
+     update_main_content(current_taxon);
+    });
+    
+  // override submit action and use ajax instead
+  $('#create_form').submit(function() {
+    current_taxon = get_current_name();
+    $('#spinner').fadeIn();
+  	$.ajax({
+  		type: 'POST',
+  		url: "/common_names",
+  		data: {name: $('#new-name').val(), taxon_name: current_taxon},
+  		success: function(response) {
+  		  $('#species').html(response);
+  		  $('#new-name').val('');
+      }
+  	});
+  	$('#spinner').fadeOut();
+    return false;
+  });
 
-          // Enable the genus dropdown.
-          $('#genus-dropdown').removeAttr('disabled');
-      
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#family-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#genus-dropdown').parent().effect('highlight', {}, 500);
-                  $('#spinner').fadeOut();
-              }
-          });
-      
-      }
-      
-   });
-   
-   
-   
-   
-   
-   
-   
-   $('#genus-dropdown').change(function() {
-       
-      $('#species').fadeOut();
-       
-       // If someone selects 'any'
-      if ($('#genus-dropdown').val() == '') {
-          $('#spinner').fadeIn();
-          
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#family-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-          
-      } else {
-          $('#spinner').fadeIn();
-      
-          // Update the main page content.
-          $.ajax({
-              type: 'GET',
-              url: '/taxa/data', 
-              data: { 'taxon_name': $('#genus-dropdown').val() },
-              success: function(response) {
-                  $('#species').html(response);
-                  $('#species').fadeIn();
-                  $('#spinner').fadeOut();
-              }
-          });
-      
-      }
-      
-    });
-    
-    $('#create-species').click(function() {
-       $("#backgroundGray").fadeIn(3000);
-       $('#popup').centerScreen();
-       $("#popup").fadeIn(5000);
-    });
-    
 });

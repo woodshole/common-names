@@ -3,7 +3,8 @@ class UserSessionsController < ApplicationController
   before_filter :require_user, :only => :destroy
   
   def create
-    @user_session = UserSession.new(params[:user])
+    # flattened the params hash wtoutrageousskuillduggery
+    @user_session = UserSession.new(params)
     if @user_session.save
       flash[:success] = "Login successful!"
       redirect_to root_url

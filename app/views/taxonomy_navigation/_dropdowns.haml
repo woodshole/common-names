@@ -1,7 +1,7 @@
 #taxonomic_selector.clearfix
   .rank
     = label_tag 'kingdom-dropdown', 'Kingdom'
-    = select_tag 'kingdom', options_for_taxonomy_select(Taxon.kingdoms, (@taxon.self_and_ancestors[1] ? @taxon.self_and_ancestors[1].id : nil)), :id => 'kingdom-dropdown'
+    = select_tag 'kingdom', options_for_taxonomy_select(Taxon.kingdom, (@taxon.self_and_ancestors[1] ? @taxon.self_and_ancestors[1].id : nil)), :id => 'kingdom-dropdown'
   - %w( phylum class order family ).each_with_index do |rank, i|
     - if i > @rank
       - @disable_remaining_dropdowns = "disabled"

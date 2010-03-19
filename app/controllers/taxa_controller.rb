@@ -18,64 +18,19 @@ class TaxaController < ApplicationController
   end
   
   def data
-    unless params[:taxon_name].blank?
-      @taxon = Taxon.find_by_name(params[:taxon_name])
+    if params[:taxon_name].blank?
+      @taxon = Taxon.find_by_name('UBT')
     else
-      @taxon = Taxon.find(1)
+      @taxon = Taxon.find_by_name(params[:taxon_name])
     end
     @names = @taxon.common_names.all
     render :partial => "table", :layout => false
-  end
-
-  def new
-    @species = Species.new
-    @taxon = Taxon.root
-  end
-
-  def create
-    @taxon = Taxon.root
-    if params[:genus]
-      @genus = Taxon.find(params[:genus])
-      @species = Species.new(params[:species])
-      @species.rank = 6
-      @species.parent_id = @genus.id
-      if @species.save
-        flash[:success] = "Species saved."
-        redirect_to species_path(:id => @species.id)
-      else
-        flash.now[:failure] = "Species failed to save."
-        render :new
-      end
-    else
-      flash.now[:failure] = "You need to select a genus."
-      render :new
-    end
   end
 
   def show
     @taxon = Taxon.find(params[:id])
   end
 
-  def edit
-    @species = Species.find(params[:id])
-    @age = @species.age ? @species.age : @species.build.age
-  end
-
-  def update
-    @species = Species.find(params[:id])
-    @age = Age.find_or_create_by_taxon_id(params[:id])
-    if Species.transaction {
-        @species.update_attributes(params[:species])
-        @age.update_attributes(params[:species][:age])
-    } then
-      flash[:success] = "Species updated."
-      redirect_to species_path(:id => @species.id)
-    else
-      flash.now[:failure] = "Species failed to update."
-      render :update
-    end
-  end
-  
   private
     def load_taxonomy
       @taxonomy = [["Animalia", "Animalia"]]
