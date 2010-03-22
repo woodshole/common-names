@@ -1,6 +1,13 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
+  
+  var config = {
+  // public calls only require an API key which is not enough to
+  // edit our account.
+   api_key:'dbf7edfd64d73e094d2f620158d52ba3',
+   link_to_size:'t'
+  };
     
     $.fn.centerScreen = function(loaded) {
         var obj = this;
@@ -57,7 +64,7 @@ $(function(){
       $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val();
   }
 
-	function update_main_content(taxon){
+	function update_main_content(taxon, on){
 		$.ajax({
         type: 'GET',
         url: '/taxa/data', 
@@ -72,6 +79,34 @@ $(function(){
           $('#species').fadeIn();
         }
     });
+    $('#photos').html('');
+    var machine_tag = 'taxonomy:' + on + '=' +  taxon;
+    $.getJSON('http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=dbf7edfd64d73e094d2f620158d52ba3&machine_tags=' + machine_tag + '&format=json&jsoncallback=?',
+    function(rsp) {
+       if (rsp.stat != 'ok' || rsp.photos.total == 0){
+          $('#photos').append('<div id="no_results">No image results</div>');
+          return;
+        }
+        var pics = (rsp.photos.length < 8) ? rsp.photos.length : 8;
+        for (var i=0; i<pics; i++){
+          var photo = rsp.photos.photo[i];
+          var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
+          $('#photos').append(img);
+        }
+      });
+  }
+  
+  function displayImages(on, taxon, rsp){
+        if (rsp.stat != 'ok' || rsp.photos.total == 0){
+          $('#photos').append('<div id="no_results">No images for machine tag taxonomy:' + on + '=' +taxon);
+          return;
+        }
+        var pics = (rsp.photos.length < 8) ? rsp.photos.length : 8;
+        for (var i=0; i<pics; i++){
+          var photo = rsp.photos.photo[i];
+          var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
+          $('#photos').append(img);
+        }
   }
   
   function populate_dropdown(dropdown, taxon){
@@ -82,7 +117,7 @@ $(function(){
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);
-            
+            $('#' + dropdown + '-dropdown').removeAttr('disabled');
         }
     });
   }
@@ -148,9 +183,8 @@ $(function(){
         if ($('#create').is(":hidden")) {
           $('#create').slideDown();
         }
-        $('#' + right + '-dropdown').removeAttr('disabled');
       }
-      update_main_content(current_taxon);
+      update_main_content(current_taxon, on);
     });
     //return after binding the function to order so it doesn't bind to family
     return (on != 'order');
@@ -159,7 +193,7 @@ $(function(){
   // defined seperately because it is so simple.
    $('#family-dropdown').change(function() {
      current_taxon = $('#family-dropdown').val();
-     update_main_content(current_taxon);
+     update_main_content(current_taxon, 'family');
     });
     
   // override submit action and use ajax instead
