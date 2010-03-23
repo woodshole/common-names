@@ -14,26 +14,26 @@
 class Taxon < ActiveRecord::Base
   acts_as_nested_set
   
+  has_many :common_names
+  
   before_save :rebuild_lineage_ids
   
-  named_scope :kingdoms, lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 0}.merge(conditions), :order => :name} }
-  named_scope :phylums,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 1}.merge(conditions), :order => :name} }
-  named_scope :classes,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 2}.merge(conditions), :order => :name} }
-  named_scope :orders,   lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 3}.merge(conditions), :order => :name} }
-  named_scope :families, lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 4}.merge(conditions), :order => :name} }
-  named_scope :genuses,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 5}.merge(conditions), :order => :name} }
-  named_scope :species,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 6}.merge(conditions), :order => :name} }
+  named_scope :kingdom, lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 0}.merge(conditions), :order => :name} }
+  named_scope :phylum,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 1}.merge(conditions), :order => :name} }
+  named_scope :class,  lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 2}.merge(conditions), :order => :name} }
+  named_scope :order,   lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 3}.merge(conditions), :order => :name} }
+  named_scope :family, lambda { |conditions| conditions ||= {}; {:conditions => {:rank => 4}.merge(conditions), :order => :name} }
   
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
-  def paginated_sorted_species(page)
-    begin
-      Taxon.paginate_by_sql("SELECT * FROM taxa WHERE lft >= #{self.lft} AND rgt <= #{self.rgt} AND rank = 6 ORDER BY name ASC", :page => page)
-    rescue
-      raise "Left and Right attributes were nil!"
-    end
-  end
+  # def paginated_sorted_names(page)
+  #   begin
+  #     Taxon.paginate_by_sql("SELECT name FROM taxa WHERE lft >= #{self.lft} AND rgt <= #{self.rgt} ORDER BY name ASC", :page => page)
+  #   rescue
+  #     raise "Left and Right attributes were nil!"
+  #   end
+  # end
   
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }

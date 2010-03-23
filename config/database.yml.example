@@ -5,11 +5,11 @@
 
 development:
   adapter: mysql
-  database: anage_development
+  database: common_names_development
 
 test: &TEST
   adapter: mysql
-  database: anage_test
+  database: common_names_test
 
 cucumber:
   <<: *TEST
