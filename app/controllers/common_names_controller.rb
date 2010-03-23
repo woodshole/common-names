@@ -4,6 +4,6 @@ class CommonNamesController < ApplicationController
     common_name = CommonName.new(:name => params[:name], :taxon => @taxon)
     common_name.save()
     @names = @taxon.common_names.all
-    render :partial => "taxa/table", :layout => false
+    render :partial => "taxa/list", :layout => false
   end
 end
