@@ -9,3 +9,4 @@ config/database.yml
 db/schema.rb
 capybara*.html
 app/stylesheets/.sass*
+config/flickr.yml
