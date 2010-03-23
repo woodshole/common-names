@@ -1,8 +1,7 @@
-#header
-  - if title
-    %h1= title
-  - if subtitle
-    %h2= subtitle
-  %hr
+.box#header
+  %h1#logo
+    = image_tag 'gbif_small.gif', :alt => 'GBIF'
+    Common Names for Higher Taxa
+
 #flash
   = render :partial => "/shared/flash", :locals => { :flash => flash }
