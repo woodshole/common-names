@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  belongs_to :language
   acts_as_authentic
   include KarmaClient::User
   
