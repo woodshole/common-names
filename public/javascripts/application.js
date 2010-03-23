@@ -8,55 +8,25 @@ $(function(){
    api_key:'dbf7edfd64d73e094d2f620158d52ba3',
    link_to_size:'t'
   };
-    
-    $.fn.centerScreen = function(loaded) {
-        var obj = this;
-        if(!loaded) {
-            obj.css('top', $(window).height()/2-this.height()/2);
-            obj.css('left', $(window).width()/2-this.width()/2);
-            $(window).resize(function() { obj.centerScreen(!loaded); });
-        } else {
-            obj.stop();
-            obj.animate({ top: $(window).height()/2-this.height()/2, left: $
-            (window).width()/2-this.width()/2}, 200, 'linear');
-        }
-    } 
-   
-   // Login interface
-   $('#login_button').click(function(){
-       $('#login-buttons').hide();
-       $('#login').show();
-   });
-   
-   $('#login_cancel_button').click(function(){
-       $('#login').hide();
-       $('#login-buttons').show();
-   });
-   
-   $('.regular_button').click(function(){
-      $('#openid').hide();
-      $('#standard').show();
-   });
-   
-   $('.openid_button').click(function(){
-      $('#standard').hide();
-      $('#openid').show();
-   });
-   
-  $('#user_openid_identifier').coolinput({
-    blurClass: 'blur',
-    iconClass: 'openid_icon'
+  $('a.delete').click(function(){
+    $.ajax({
+      type: 'delete',
+      url: $(this).attr('href'),
+    });
   });
   
-  $('#user_email, #user_password').coolinput({
-    blurClass: 'blur'
-  });
-  
-  // KARMA!
-  $('#karma-tabs').tabs({
-      collapsible: true
-  });
-  
+  $.fn.centerScreen = function(loaded) {
+    var obj = this;
+    if(!loaded) {
+        obj.css('top', $(window).height()/2-this.height()/2);
+        obj.css('left', $(window).width()/2-this.width()/2);
+        $(window).resize(function() { obj.centerScreen(!loaded); });
+    } else {
+        obj.stop();
+        obj.animate({ top: $(window).height()/2-this.height()/2, left: $
+        (window).width()/2-this.width()/2}, 200, 'linear');
+    }
+  } 
 
   
   function get_current_name() {
@@ -69,26 +39,22 @@ $(function(){
         type: 'GET',
         url: '/taxa/data', 
         data: { taxon_name: taxon },
-        beforeSend: function() {
-          $('#spinner').fadeIn();
-        },
         success: function(response) {
-          $('#spinner').fadeOut('fast');
           $('#species').html(response);
           $('#create-new').show();
           $('#species').fadeIn();
         }
     });
-    $('#photos').html('');
+    $('#photos').empty();
     var machine_tag = 'taxonomy:' + on + '=' +  taxon;
-    $.getJSON('http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=dbf7edfd64d73e094d2f620158d52ba3&machine_tags=' + machine_tag + '&format=json&jsoncallback=?',
-    function(rsp) {
+    $('#spinner').fadeIn();
+    flickr_search(machine_tag, function(rsp){
        if (rsp.stat != 'ok' || rsp.photos.total == 0){
           $('#photos').append('<div id="no_results">No image results</div>');
           return;
         }
-        var pics = (rsp.photos.length < 8) ? rsp.photos.length : 8;
-        for (var i=0; i<pics; i++){
+        var default_pics = (rsp.photos.total < 8) ? rsp.photos.total : 8;
+        for (var i=0; i<default_pics; i++){
           var photo = rsp.photos.photo[i];
           var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
           $('#photos').append(img);
@@ -96,17 +62,10 @@ $(function(){
       });
   }
   
-  function displayImages(on, taxon, rsp){
-        if (rsp.stat != 'ok' || rsp.photos.total == 0){
-          $('#photos').append('<div id="no_results">No images for machine tag taxonomy:' + on + '=' +taxon);
-          return;
-        }
-        var pics = (rsp.photos.length < 8) ? rsp.photos.length : 8;
-        for (var i=0; i<pics; i++){
-          var photo = rsp.photos.photo[i];
-          var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
-          $('#photos').append(img);
-        }
+  function flickr_search(tag, callback){
+    var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + config['api_key'] + '&machine_tags=' + tag + '&format=json&jsoncallback=?';
+    $.getJSON(url, callback);
+    $('#spinner').fadeOut();
   }
   
   function populate_dropdown(dropdown, taxon){
@@ -159,6 +118,12 @@ $(function(){
   }
 
   var higher_order = ['kingdom','phylum','class','order','family'];
+  //on load, reset everything to zero
+  for (var i=0; i<higher_order.length; i++){
+    $('#' + higher_order[i] + '-dropdown').attr('disabled','disabled');
+    $('#' + higher_order[i] + '-dropdown').val('Any');
+  }
+  $('#kingdom-dropdown').attr('disabled','');
   //this just binds the same function to each div
   // #kingdom-dropdown, #phylum-dropdown, etc.
   jQuery.each(higher_order, function(i, on) {
@@ -199,7 +164,6 @@ $(function(){
   // override submit action and use ajax instead
   $('#create_form').submit(function() {
     current_taxon = get_current_name();
-    $('#spinner').fadeIn();
   	$.ajax({
   		type: 'POST',
   		url: "/common_names",
@@ -209,7 +173,6 @@ $(function(){
   		  $('#new-name').val('');
       }
   	});
-  	$('#spinner').fadeOut();
     return false;
   });
 
