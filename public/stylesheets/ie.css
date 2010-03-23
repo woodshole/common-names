@@ -1,7 +1,23 @@
-/* line 2, ../../app/stylesheets/ie.sass */
-* html .clearfix {
-  zoom: 1; }
+/* line 1, ../../app/stylesheets/ie.sass */
+.box {
+  height: 1%; }
 
-/* line 6, ../../app/stylesheets/ie.sass */
-*:first-child+html .clearfix {
-  zoom: 1; }
+/* line 5, ../../app/stylesheets/ie.sass */
+fieldset {
+  margin-top: 30px; }
+
+/* line 9, ../../app/stylesheets/ie.sass */
+th, td {
+  padding: 5px 7px; }
+
+/* line 13, ../../app/stylesheets/ie.sass */
+#search #search-input {
+  height: 24px; }
+
+/* line 17, ../../app/stylesheets/ie.sass */
+#photos img {
+  margin-left: 10px; }
+
+/* line 21, ../../app/stylesheets/ie.sass */
+.col30.fix {
+  margin-right: -3px; }
