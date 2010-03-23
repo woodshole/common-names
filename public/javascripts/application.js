@@ -8,11 +8,20 @@ $(function(){
    api_key:'dbf7edfd64d73e094d2f620158d52ba3',
    link_to_size:'t'
   };
-  $('a.delete').click(function(){
+  
+  $('.delete').click(function(){
     $.ajax({
       type: 'delete',
       url: $(this).attr('href'),
+      success: function(){
+        window.location.reload();
+      }
     });
+    return false;
+  });
+  $('#user').click(function(){
+      this.focus();
+      this.select();
   });
   
   $.fn.centerScreen = function(loaded) {
@@ -35,6 +44,7 @@ $(function(){
   }
 
 	function update_main_content(taxon, on){
+	  $('#flash').empty();
 		$.ajax({
         type: 'GET',
         url: '/taxa/data', 
@@ -46,14 +56,19 @@ $(function(){
         }
     });
     $('#photos').empty();
+    if (taxon == ''){
+      return;
+    }
     var machine_tag = 'taxonomy:' + on + '=' +  taxon;
     $('#spinner').fadeIn();
     flickr_search(machine_tag, function(rsp){
+       // if the stat is bad or there are no photos
        if (rsp.stat != 'ok' || rsp.photos.total == 0){
           $('#photos').append('<div id="no_results">No image results</div>');
           return;
         }
         var default_pics = (rsp.photos.total < 8) ? rsp.photos.total : 8;
+        // append each photo
         for (var i=0; i<default_pics; i++){
           var photo = rsp.photos.photo[i];
           var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
