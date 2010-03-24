@@ -1,0 +1,20 @@
+-count = Taxon.count
+-languages = CommonName.find_by_sql("select distinct language_id from common_names")
+
+%table
+  %tr
+    %th
+      language
+    %th
+      translated taxon
+    %th
+      percent translated
+  -languages.each do |language|
+    %tr
+      -c = CommonName.count(:conditions => "language_id = #{language.language_id}")
+      %td
+        =Language.find(language.language_id).english_name
+      %td
+        =c
+      %td
+        =c/count
