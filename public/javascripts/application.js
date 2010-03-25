@@ -8,6 +8,18 @@ $(function(){
    api_key:'dbf7edfd64d73e094d2f620158d52ba3',
    link_to_size:'t'
   };
+  var state = 'up';
+  $('#options_image').click(function(){
+    if (state == 'up') {
+      $('#options_image').attr("src", '/images/minus_button.gif');
+      $('#options').slideDown();
+      state = "down";
+    } else { 
+      $('#options_image').attr("src", '/images/plus_button.gif');
+      $('#options').slideUp();
+      state = "up";
+    }
+  });
   
   $('.delete').click(function(){
     $.ajax({
@@ -87,7 +99,7 @@ $(function(){
     $.ajax({
         type: 'GET',
         url: '/taxonomy/dropdown/' + dropdown, 
-        data: { parent_name: taxon },
+        data: { parent_name: taxon},
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);

@@ -183,6 +183,4 @@ a:hover.ico-more { background: #A5BB0F; color: #FFF; }
 #taxonomic_selector .rank label { margin-bottom: 10px; display: block; }
 #taxonomic_selector .rank input { display: block; }
 
-#create { display: none; }
-
-#spinner { display: none; }
+#create, #spinner, #options { display: none; }
