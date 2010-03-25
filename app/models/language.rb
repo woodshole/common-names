@@ -1,6 +1,8 @@
 class Language < ActiveRecord::Base
   has_many :common_names
   has_many :users
+  
+  validates_presence_of :iso_code, :english_name
 end
 
 # == Schema Information

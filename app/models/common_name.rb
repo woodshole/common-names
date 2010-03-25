@@ -1,6 +1,8 @@
 class CommonName < ActiveRecord::Base
   belongs_to :taxon
   belongs_to :language
+  
+  validates_presence_of :name, :taxon_id, :language_id
 end
 
 # == Schema Information
