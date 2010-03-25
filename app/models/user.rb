@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
     result    
   end
   
+  def language
+    Language.find(self.language_id).english_name
+  end
+  
 end
 # == Schema Information
 #
