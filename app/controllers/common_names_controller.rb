@@ -1,6 +1,5 @@
 class CommonNamesController < ApplicationController
   def create
-    debugger
     if @taxon = Taxon.find_by_name(params[:taxon_name])
       common_name = CommonName.new(:name => params[:name], :taxon => @taxon, :language => current_user.language)
       if common_name.save
