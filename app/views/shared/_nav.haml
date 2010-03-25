@@ -1,0 +1,10 @@
+#nav.box
+  %ul
+    -nav.each do |nav|
+      - if active == nav[0]
+        %li#nav-active
+          = link_to nav[0], nav[1]
+      - else
+        %li
+          = link_to nav[0], nav[1]
+      
