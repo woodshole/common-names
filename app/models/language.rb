@@ -3,6 +3,10 @@ class Language < ActiveRecord::Base
   has_many :users
   
   validates_presence_of :iso_code, :english_name
+  
+  def to_s
+    english_name
+  end
 end
 
 # == Schema Information

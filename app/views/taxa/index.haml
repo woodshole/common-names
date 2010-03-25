@@ -7,7 +7,8 @@
 .box.clear
   %h2.colored
     Common Names
-  #species
+  #names
+    = render :partial => "list"
   #create
     -if current_user
       #create-new

@@ -10,6 +10,7 @@ class TaxaController < ApplicationController
     else
       @taxon = Taxon.root
     end
+    @names = @taxon.common_names.all
     @rank = @taxon.rank
   end
   

@@ -62,9 +62,9 @@ $(function(){
         url: '/taxa/data', 
         data: { taxon_name: taxon },
         success: function(response) {
-          $('#species').html(response);
+          $('#names').html(response);
           $('#create-new').show();
-          $('#species').fadeIn();
+          $('#names').fadeIn();
         }
     });
     $('#photos').empty();
@@ -157,7 +157,7 @@ $(function(){
     $('#' + on + '-dropdown').change(function() {
       right = higher_order[i+1];
       current_taxon = $('#' + on + '-dropdown').val();
-      $('#species').fadeOut();  
+      $('#names').fadeOut();  
       reset_right_of(on);
       disable_right_of(right);
       if (current_taxon == '') {
@@ -166,7 +166,7 @@ $(function(){
         // if it's still empty, that means kingdom is Any
         if (current_taxon == '') {
           $('#create').slideUp();
-          $('#species').fadeOut();
+          $('#names').fadeOut();
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
@@ -196,7 +196,7 @@ $(function(){
   		url: "/common_names",
   		data: {name: $('#new-name').val(), taxon_name: current_taxon},
   		success: function(response) {
-  		  $('#species').html(response);
+  		  $('#names').html(response);
   		  $('#new-name').val('');
       }
   	});
