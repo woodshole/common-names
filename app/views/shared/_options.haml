@@ -1,0 +1,17 @@
+#options
+  %h2.colored
+    Options
+  - if current_user
+    %p
+      Current Language:
+      = current_user.language
+    %ul
+      %li
+        = radio_button_tag 'view', 'all'
+        = label_tag 'view_all', 'view all taxa'
+      %li
+        = radio_button_tag 'view', 'filter'
+        = label_tag 'view_filter', 'filter based on language preference'
+  - else
+    %p
+      You must be logged in to see your options!
