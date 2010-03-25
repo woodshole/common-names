@@ -1,16 +1,3 @@
-# == Schema Information
-#
-# Table name: taxa
-#
-#  id          :integer         not null, primary key
-#  name        :string(255)
-#  parent_id   :integer
-#  lft         :integer
-#  rgt         :integer
-#  rank        :integer
-#  lineage_ids :string(255)
-#
-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Taxon do
@@ -46,3 +33,17 @@ describe Taxon do
   end
   
 end
+
+# == Schema Information
+#
+# Table name: taxa
+#
+#  id          :integer(4)      not null, primary key
+#  name        :string(255)
+#  parent_id   :integer(4)
+#  lft         :integer(4)
+#  rgt         :integer(4)
+#  rank        :integer(4)
+#  lineage_ids :string(255)
+#
+

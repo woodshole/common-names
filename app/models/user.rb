@@ -21,11 +21,12 @@ class User < ActiveRecord::Base
   end
   
 end
+
 # == Schema Information
 #
 # Table name: users
 #
-#  id                :integer         not null, primary key
+#  id                :integer(4)      not null, primary key
 #  email             :string(255)
 #  crypted_password  :string(255)
 #  password_salt     :string(255)
@@ -33,5 +34,6 @@ end
 #  created_at        :datetime
 #  updated_at        :datetime
 #  openid_identifier :string(255)
+#  language_id       :integer(4)
 #
 
