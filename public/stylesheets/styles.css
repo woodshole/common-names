@@ -128,7 +128,7 @@ img.f-right { float: right; margin-left: 15px; }
 
 #topmenu { position: relative; float: right; bottom: 15px; }
 #topmenu ul { margin: 0; padding: 0; list-style: none; font: 100%/1.4 "arial",sans-serif; }
-#topmenu ul li { display: inline; margin: 0; float: left; padding: 0px 8px; background: url("img/dot-03.gif") 100% 0 repeat-y; }
+#topmenu ul li { display: inline; margin: 0; float: left; padding: 0px 8px; }
 #topmenu ul li a { display: block; border: 0; }
 #topmenu ul li#nav-active a { border: 0; font-weight: bold; }
 
@@ -151,7 +151,7 @@ img.f-right { float: right; margin-left: 15px; }
 #nav { clear: both; padding: 5px 0; border-left: 0 !important; border-right: 0 !important; border: 1px solid #CCC; }
 #nav ul { margin: 0; padding: 0; list-style: none; font: 100%/1.4 "arial",sans-serif; }
 #nav ul li { display: inline; margin: 0; padding: 0; }
-#nav ul li a { display: block; float: left; padding: 7px 15px; border: 0; background: url("img/dot-03.gif") 100% 0 repeat-y; }
+#nav ul li a { display: block; float: left; padding: 7px 15px; border: 0; }
 #nav ul li#nav-active a { border: 0; font-weight: bold; background: #A5BB0F; color: #FFF; }
 
 #content { clear: both; position: relative; top: -20px; padding: 10px 0 30px 0; overflow: hidden; }
