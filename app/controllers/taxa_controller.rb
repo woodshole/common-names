@@ -2,8 +2,14 @@ class TaxaController < ApplicationController
   before_filter :load_taxonomy
   
   def index
-    session[:language] ||= params[:language]
-    session[:filter] ||= params[:filter]
+    # If param exists AND it's different than the one in session, then change the session.
+    # TODO: Refactor me please!
+    if params[:language] && (session[:language] != params[:language])
+      session[:language] = params[:language]
+    end
+    if params[:filter] && (session[:filter]   != params[:filter])
+      session[:filter] = params[:filter]
+    end
     if params[:taxon]
       unless @taxon = Taxon.find_by_name(params[:taxon].capitalize)
         @taxon = Taxon.root
