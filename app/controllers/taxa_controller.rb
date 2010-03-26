@@ -2,6 +2,8 @@ class TaxaController < ApplicationController
   before_filter :load_taxonomy
   
   def index
+    session[:language] ||= params[:language]
+    session[:filter] ||= params[:filter]
     if params[:taxon]
       unless @taxon = Taxon.find_by_name(params[:taxon].capitalize)
         @taxon = Taxon.root
