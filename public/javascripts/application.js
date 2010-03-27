@@ -60,7 +60,7 @@ $(function(){
 		$.ajax({
         type: 'GET',
         url: '/taxa/data', 
-        data: { taxon_name: taxon },
+        data: { taxon_name: taxon, language: current_language },
         success: function(response) {
           $('#names').html(response);
           $('#create-new').show();
@@ -99,7 +99,7 @@ $(function(){
     $.ajax({
         type: 'GET',
         url: '/taxonomy/dropdown/' + dropdown, 
-        data: { parent_name: taxon},
+        data: { parent_name: taxon, language: current_language },
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);
@@ -194,7 +194,11 @@ $(function(){
   	$.ajax({
   		type: 'POST',
   		url: "/common_names",
-  		data: {name: $('#new-name').val(), taxon_name: current_taxon},
+  		data: {
+  		  name: $('#new-name').val(), 
+  		  taxon_name: current_taxon, 
+  		  language: current_language
+  		},
   		success: function(response) {
   		  $('#names').html(response);
   		  $('#new-name').val('');
