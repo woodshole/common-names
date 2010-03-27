@@ -4,10 +4,23 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  helper_method :current_user_session, :current_user, :load_taxonomy, :logged_in?
+  helper_method  :current_language, :current_user_session, :current_user, :load_taxonomy, :logged_in?
   filter_parameter_logging :password, :password_confirmation
   
   private
+    # grab the iso_code from the params, if none is chose... fall back to all
+    def current_language
+      language = nil
+      if not params[:language].blank?
+        if language = Language.find_by_iso_code(params[:language])
+          # language was properly set, now return      
+        else
+          flash[:failure] = "That language does not exist, remember to use the proper ISO code."
+        end
+      end
+      return language
+    end
+  
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find
@@ -52,4 +65,5 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+  
 end
