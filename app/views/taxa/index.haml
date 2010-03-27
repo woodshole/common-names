@@ -1,8 +1,10 @@
+- content_for :script do
+  = store_current_language_for_js()
+    
 = render :partial => "/shared/header", :locals => { :flash => flash, :title => 'Common Names for Higher Taxa'}
 = render :partial => '/shared/nav', :locals => {:nav => [['Home', root_path]], :active => 'Home'}
 = render :partial => "/shared/flash", :locals => { :flash => flash }
 = render :partial => "/taxonomy_navigation/dropdowns"
-
           
 .box.clear
   %h2.colored
