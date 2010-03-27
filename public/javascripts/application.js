@@ -206,5 +206,10 @@ $(function(){
   	});
     return false;
   });
+  
+  // redirect to a language if a language is chosen from the taxonomic browser
+  $('#choose_language').change(function(){
+    window.location.replace( '/language/' + $(this).val() );
+  });
 
 });

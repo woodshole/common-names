@@ -10,11 +10,14 @@
         =h @language 
     %ul
       %li
-        = radio_button_tag 'view', 'all'
-        = label_tag 'view_all', 'view all taxa'
+        = link_to 'view all taxa', root_path
       %li
-        = radio_button_tag 'view', 'filter'
-        = label_tag 'view_filter', 'filter based on language preference'
+        - if current_user
+          = link_to 'filter based on my language preference', language_path(current_user.language.iso_code)
+      %li
+        Select Other
+        - options = Language.all.map!{|d|[d.english_name, d.iso_code]}
+        = select_tag 'choose_language', options_for_select(options.unshift(['all','']))
   - else
-    %p
+    %p 
       You must be logged in to see your options!
