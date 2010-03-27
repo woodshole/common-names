@@ -4,7 +4,10 @@
   - if current_user
     %p
       Current Language:
-      = current_user.language
+      - if @language == nil
+        All
+      - else
+        =h @language 
     %ul
       %li
         = radio_button_tag 'view', 'all'
