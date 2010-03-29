@@ -60,7 +60,7 @@ $(function(){
 		$.ajax({
         type: 'GET',
         url: '/taxa/data', 
-        data: { taxon_name: taxon, language: current_language },
+        data: { taxon_name: taxon },
         success: function(response) {
           $('#names').html(response);
           $('#create-new').show();
@@ -197,7 +197,6 @@ $(function(){
   		data: {
   		  name: $('#new-name').val(), 
   		  taxon_name: current_taxon, 
-  		  language: current_language
   		},
   		success: function(response) {
   		  $('#names').html(response);
