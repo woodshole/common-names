@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :taxa, :collection => { :data => :get }
   map.language  '/language/:language', :controller => :taxa
+  map.connect   '/language/', :controller => :taxa
   
   # AJAX Navigation
   map.taxonomy_dropdown '/taxonomy/dropdown/:rank', 
