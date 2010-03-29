@@ -7,3 +7,15 @@ one:
 two:
   iso_code: MyString
   english_name: MyString
+
+# == Schema Information
+#
+# Table name: languages
+#
+#  id           :integer(4)      not null, primary key
+#  iso_code     :string(255)
+#  english_name :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+

@@ -60,11 +60,11 @@ $(function(){
 		$.ajax({
         type: 'GET',
         url: '/taxa/data', 
-        data: { taxon_name: taxon },
+        data: { taxon_name: taxon, language: current_language },
         success: function(response) {
-          $('#species').html(response);
+          $('#names').html(response);
           $('#create-new').show();
-          $('#species').fadeIn();
+          $('#names').fadeIn();
         }
     });
     $('#photos').empty();
@@ -99,7 +99,7 @@ $(function(){
     $.ajax({
         type: 'GET',
         url: '/taxonomy/dropdown/' + dropdown, 
-        data: { parent_name: taxon},
+        data: { parent_name: taxon, language: current_language },
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);
@@ -157,7 +157,7 @@ $(function(){
     $('#' + on + '-dropdown').change(function() {
       right = higher_order[i+1];
       current_taxon = $('#' + on + '-dropdown').val();
-      $('#species').fadeOut();  
+      $('#names').fadeOut();  
       reset_right_of(on);
       disable_right_of(right);
       if (current_taxon == '') {
@@ -166,7 +166,7 @@ $(function(){
         // if it's still empty, that means kingdom is Any
         if (current_taxon == '') {
           $('#create').slideUp();
-          $('#species').fadeOut();
+          $('#names').fadeOut();
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
@@ -194,13 +194,22 @@ $(function(){
   	$.ajax({
   		type: 'POST',
   		url: "/common_names",
-  		data: {name: $('#new-name').val(), taxon_name: current_taxon},
+  		data: {
+  		  name: $('#new-name').val(), 
+  		  taxon_name: current_taxon, 
+  		  language: current_language
+  		},
   		success: function(response) {
-  		  $('#species').html(response);
+  		  $('#names').html(response);
   		  $('#new-name').val('');
       }
   	});
     return false;
+  });
+  
+  // redirect to a language if a language is chosen from the taxonomic browser
+  $('#choose_language').change(function(){
+    window.location.replace( '/language/' + $(this).val() );
   });
 
 });

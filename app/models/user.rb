@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   acts_as_authentic
   include KarmaClient::User
   
+  validates_presence_of :language_id
+  
   # The permalink to use to refer to this user in the karma server. Must be
   # implemented for the karma client to work.
   def karma_permalink
@@ -16,16 +18,13 @@ class User < ActiveRecord::Base
     result    
   end
   
-  def language
-    Language.find(self.language_id).english_name
-  end
-  
 end
+
 # == Schema Information
 #
 # Table name: users
 #
-#  id                :integer         not null, primary key
+#  id                :integer(4)      not null, primary key
 #  email             :string(255)
 #  crypted_password  :string(255)
 #  password_salt     :string(255)
@@ -33,5 +32,6 @@ end
 #  created_at        :datetime
 #  updated_at        :datetime
 #  openid_identifier :string(255)
+#  language_id       :integer(4)
 #
 

@@ -2,7 +2,7 @@
   Account Settings
 .boxed
   %p.colored
-    = label_tag 'user[language_id]', 'Default Language'
+    = form.label :language_id, 'Default Language'
   = render :partial => 'language/language_select' 
   %p.colored
     = form.label :email
