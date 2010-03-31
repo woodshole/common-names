@@ -42,3 +42,5 @@ config.gem 'webrat', :version => '0.7.0'
 
 # Story driven development.
 config.gem 'cucumber', :version => '0.6.2'
+
+config.gem 'flickraw-cached'

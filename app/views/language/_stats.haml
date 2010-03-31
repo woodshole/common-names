@@ -1,5 +1,5 @@
 -count = Taxon.count
--languages = CommonName.find_by_sql("select distinct language_id from common_names")
+-languages = CommonName.find_by_sql("SELECT DISTINCT language_id FROM common_names WHERE language_id <> 'NULL'")
 
 %table
   %tr
