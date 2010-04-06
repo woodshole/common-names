@@ -8,6 +8,7 @@ $(function(){
    api_key:'dbf7edfd64d73e094d2f620158d52ba3',
    link_to_size:'t'
   };
+  
   var state = 'up';
   $('#options_image').click(function(){
     if (state == 'up') {
@@ -53,7 +54,26 @@ $(function(){
   function get_current_name() {
     return $('#family-dropdown').val() || $('#order-dropdown').val() ||
       $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val();
+      return false;
   }
+  
+  //exemplary photo
+  $('.exemplary').each(function(){
+    $(this).click(function(){
+      $.ajax({
+        type: 'POST',
+        url: '/photos',
+        data: {
+          taxon: get_current_name(),
+          url: $(this).find('img').attr('src').replace('_t.jpg','_m.jpg'),
+        }
+      });
+      $('#best').attr('src', $(this).find('img').attr('src').replace('_t.jpg','_m.jpg'));
+      //ajax create
+      return false;
+    });  
+  });
+  
 
 	function update_main_content(taxon, on){
 	  $('#flash').empty();
@@ -67,10 +87,11 @@ $(function(){
           $('#names').fadeIn();
         }
     });
-    $('#photos').empty();
+    empty_flickr_imgs();
     if (taxon == ''){
       return;
     }
+    refresh_exemplary_photo(taxon);
     var machine_tag = 'taxonomy:' + on + '=' +  taxon;
     $('#spinner').fadeIn();
     flickr_search(machine_tag, function(rsp){
@@ -83,10 +104,28 @@ $(function(){
         // append each photo
         for (var i=0; i<default_pics; i++){
           var photo = rsp.photos.photo[i];
-          var img = '<img src="http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg" />';
-          $('#photos').append(img);
+          var img = 'http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg';
+          $('#photo-' + i).attr('src', img);
         }
       });
+  }
+  
+  function refresh_exemplary_photo(taxon){
+    $.ajax({
+      type: 'GET',
+      url: '/best_photo',
+      data: { taxon: taxon },
+      success: function(response){
+        $('#best').attr('src', response);
+      }
+    });
+  }
+  
+  function empty_flickr_imgs(){
+    $('#no_results').remove();
+    for (var i=0; i<8; i++){
+      $('#photo-' + i).attr('src','');
+    }
   }
   
   function flickr_search(tag, callback){

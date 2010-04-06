@@ -1,6 +1,6 @@
 class Taxon < ActiveRecord::Base
   acts_as_nested_set
-  
+  has_many :photos
   has_many :common_names
   
   before_save :rebuild_lineage_ids
