@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  helper_method  :current_language, :current_user_session, :current_user, :load_taxonomy, :logged_in?
+  helper_method  :current_language, :current_filter, :current_user_session, :current_user, :load_taxonomy, :logged_in?
   filter_parameter_logging :password, :password_confirmation
   
   private
@@ -19,6 +19,11 @@ class ApplicationController < ActionController::Base
         end
       end
       return language
+    end
+    
+    def current_filter
+      session[:filter] = params[:filter] unless params[:filter].blank?
+      session[:filter]
     end
   
     def current_user_session
