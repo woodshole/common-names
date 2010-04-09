@@ -3,7 +3,7 @@ class Photo < ActiveRecord::Base
   belongs_to :taxon
   
   validates_presence_of :url, :taxon_id
-  validates_uniqueness_of :url
+  validates_uniqueness_of :url, :scope => [:taxon_id]
   
   def only_preferred
     Photo.find(:all, :conditions => "taxon_id = #{self.taxon_id} AND id <> #{self.id}").each do |photo|
@@ -12,11 +12,11 @@ class Photo < ActiveRecord::Base
     end
   end
   
-  def self.preferred(taxon)
+  def self.preferred(id)
     begin
-      Photo.find(1, :conditions => "taxon_id => #{Taxon.find_by_name(taxon).id} AND preferred = 1")
+      Photo.find(:first, :limit => 1, :conditions => "taxon_id = #{id} AND preferred = 1")
     rescue
-      Photo.find_by_taxon_id(Taxon.find_by_name(taxon).id)
+      Photo.find_by_taxon_id(id)
     end
   end
 end

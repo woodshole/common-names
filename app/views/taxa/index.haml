@@ -12,7 +12,6 @@
     Common Names
   .boxed
     #names
-      = render :partial => "list"
     #create
       -if current_user
         #create-new
@@ -29,11 +28,12 @@
 .box.clear
   %h2.colored
     Photos
-  #spinner= image_tag 'loader.gif'
   #photos.boxed
     -(1..8).each do |x|
       %a{:href => '#', :class => 'exemplary'}
         %img{:id => "photo-#{x}", :src => ''}
+    #no-results
+    #spinner= image_tag 'loader.gif'
   
 .box.clear
   %h2.colored

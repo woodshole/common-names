@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
-  def best
+  def show
     begin
-      @photo = Photo.preferred(params[:taxon])
+      @photo = Photo.preferred(params[:id])
     rescue
       @photo = nil
     end
@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
   end
   
   def create
-    attributes = {:taxon => Taxon.find_by_name(params[:taxon]),
+    attributes = {:taxon => Taxon.find(params[:id]),
       :url => params[:url],
       :preferred => 1}
     @photo = Photo.create!(attributes)

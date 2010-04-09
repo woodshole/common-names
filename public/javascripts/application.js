@@ -1,14 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
-  
-  var config = {
-  // public calls only require an API key which is not enough to
-  // edit our account.
-   api_key:'dbf7edfd64d73e094d2f620158d52ba3',
-   link_to_size:'t'
-  };
-  
   var state = 'up';
   $('#options_image').click(function(){
     if (state == 'up') {
@@ -22,16 +14,11 @@ $(function(){
     }
   });
   
-  $('.delete').click(function(){
-    $.ajax({
-      type: 'delete',
-      url: $(this).attr('href'),
-      success: function(){
-        window.location.reload();
-      }
-    });
+  $('a.delete').live('click', function(){
+    AJAX.deleteCommonName($(this).attr('dataid'));
     return false;
   });
+  
   $('#user').click(function(){
       this.focus();
       this.select();
@@ -50,8 +37,7 @@ $(function(){
     }
   } 
 
-  
-  function get_current_name() {
+  function get_current_id() {
     return $('#family-dropdown').val() || $('#order-dropdown').val() ||
       $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val();
       return false;
@@ -60,65 +46,30 @@ $(function(){
   //exemplary photo
   $('.exemplary').each(function(){
     $(this).click(function(){
-      $.ajax({
-        type: 'POST',
-        url: '/photos',
-        data: {
-          taxon: get_current_name(),
-          url: $(this).find('img').attr('src').replace('_t.jpg','_m.jpg'),
-        }
-      });
-      $('#best').attr('src', $(this).find('img').attr('src').replace('_t.jpg','_m.jpg'));
-      //ajax create
+      var url = $(this).find('img').attr('src');
+      AJAX.createPhoto(get_current_id(), url.replace('_t.jpg', '.jpg'));
+      $('#best').attr('src', url.replace('_t.jpg','_m.jpg'));
       return false;
     });  
   });
   
-
-	function update_main_content(taxon, on){
+	function update_main_content(taxon_id, on){
 	  $('#flash').empty();
-		$.ajax({
-        type: 'GET',
-        url: '/taxa/data', 
-        data: { taxon_name: taxon },
-        success: function(response) {
-          $('#names').html(response);
-          $('#create-new').show();
-          $('#names').fadeIn();
-        }
-    });
-    empty_flickr_imgs();
-    if (taxon == ''){
-      return;
-    }
-    refresh_exemplary_photo(taxon);
-    var machine_tag = 'taxonomy:' + on + '=' +  taxon;
-    $('#spinner').fadeIn();
-    flickr_search(machine_tag, function(rsp){
-       // if the stat is bad or there are no photos
-       if (rsp.stat != 'ok' || rsp.photos.total == 0){
-          $('#photos').append('<div id="no_results">No image results</div>');
-          return;
-        }
-        var default_pics = (rsp.photos.total < 8) ? rsp.photos.total : 8;
-        // append each photo
-        for (var i=0; i<default_pics; i++){
-          var photo = rsp.photos.photo[i];
-          var img = 'http://farm' + photo['farm'] + '.static.flickr.com/' + photo['server'] + '/' + photo['id'] + '_' + photo['secret'] + '_t.jpg';
-          $('#photo-' + i).attr('src', img);
-        }
-      });
+	  AJAX.getCommonName(taxon_id)
+    update_flickr(taxon_id, on);
   }
   
-  function refresh_exemplary_photo(taxon){
-    $.ajax({
-      type: 'GET',
-      url: '/best_photo',
-      data: { taxon: taxon },
-      success: function(response){
-        $('#best').attr('src', response);
-      }
-    });
+  function update_flickr(taxon_id, on){
+    empty_flickr_imgs();
+    var taxon_name = $('option[value=' + taxon_id + ']').text();
+    if (taxon_id == ''){
+      return;
+    }
+    AJAX.getPhoto(taxon_id);
+    var machine_tag = 'taxonomy:' + on + '=' +  taxon_name;
+    $('#spinner').fadeIn();
+    // fade out on the completion of the AJAX event.
+    Flickr.flickrSearch(machine_tag)
   }
   
   function empty_flickr_imgs(){
@@ -127,26 +78,7 @@ $(function(){
       $('#photo-' + i).attr('src','');
     }
   }
-  
-  function flickr_search(tag, callback){
-    var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + config['api_key'] + '&machine_tags=' + tag + '&format=json&jsoncallback=?';
-    $.getJSON(url, callback);
-    $('#spinner').fadeOut();
-  }
-  
-  function populate_dropdown(dropdown, taxon){
-    $.ajax({
-        type: 'GET',
-        url: '/taxonomy/dropdown/' + dropdown, 
-        data: { parent_name: taxon, language: current_language },
-        success: function(response) {
-            $('#' + dropdown + '-dropdown').html(response);
-            $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);
-            $('#' + dropdown + '-dropdown').removeAttr('disabled');
-        }
-    });
-  }
-  
+
   function reset_right_of(taxa){
     switch(taxa){
       case 'kingdom':
@@ -195,27 +127,27 @@ $(function(){
   jQuery.each(higher_order, function(i, on) {
     $('#' + on + '-dropdown').change(function() {
       right = higher_order[i+1];
-      current_taxon = $('#' + on + '-dropdown').val();
+      current_taxon_id = $('#' + on + '-dropdown').val();
       $('#names').fadeOut();  
       reset_right_of(on);
       disable_right_of(right);
-      if (current_taxon == '') {
+      if (current_taxon_id == '') {
         // try to update current_taxon
-        current_taxon = (on != 'kingdom') ? $('#' + higher_order[i-1] + '-dropdown').val() : '';
+        current_taxon_id = (on != 'kingdom') ? $('#' + higher_order[i-1] + '-dropdown').val() : '';
         // if it's still empty, that means kingdom is Any
-        if (current_taxon == '') {
+        if (current_taxon_id == '') {
           $('#create').slideUp();
           $('#names').fadeOut();
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
-        populate_dropdown(right, current_taxon);
+        AJAX.getTaxonomyDropdown(current_taxon_id, right);
         // we have a taxon so we should show the create form
         if ($('#create').is(":hidden")) {
           $('#create').slideDown();
         }
       }
-      update_main_content(current_taxon, on);
+      update_main_content(current_taxon_id, on);
     });
     //return after binding the function to order so it doesn't bind to family
     return (on != 'order');
@@ -223,25 +155,13 @@ $(function(){
 
   // defined seperately because it is so simple.
    $('#family-dropdown').change(function() {
-     current_taxon = $('#family-dropdown').val();
-     update_main_content(current_taxon, 'family');
+     id = $('#family-dropdown').val();
+     update_main_content(id, 'family');
     });
     
   // override submit action and use ajax instead
   $('#create_form').submit(function() {
-    current_taxon = get_current_name();
-  	$.ajax({
-  		type: 'POST',
-  		url: "/common_names",
-  		data: {
-  		  name: $('#new-name').val(), 
-  		  taxon_name: current_taxon, 
-  		},
-  		success: function(response) {
-  		  $('#names').html(response);
-  		  $('#new-name').val('');
-      }
-  	});
+    AJAX.createCommonName($('#new-name').val(), get_current_id());
     return false;
   });
   

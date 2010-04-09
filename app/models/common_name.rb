@@ -1,8 +1,10 @@
 class CommonName < ActiveRecord::Base
   belongs_to :taxon
   belongs_to :language
+  belongs_to :user
   
   validates_presence_of :name, :taxon_id, :language_id
+  validates_uniqueness_of :name, :scope => [:taxon_id]
 end
 
 # == Schema Information

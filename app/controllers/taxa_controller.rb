@@ -13,16 +13,6 @@ class TaxaController < ApplicationController
     @names = @taxon.language_common_names(current_language)
     @rank = @taxon.rank
   end
-  
-  def data    
-    if params[:taxon_name].blank?
-      @taxon = Taxon.find_by_name('UBT')
-    else
-      @taxon = Taxon.find_by_name(params[:taxon_name])
-    end
-    @names = @taxon.language_common_names(current_language)
-    render :partial => "list", :layout => false
-  end
 
   def show
     @taxon = Taxon.find(params[:id])

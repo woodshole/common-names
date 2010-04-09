@@ -7,8 +7,7 @@ class TaxonomyNavigationController < ApplicationController
   #
   #   GET /taxonomy/dropdown/orders?class=32
   def dropdown_options
-    id = Taxon.find_by_name(params[:parent_name]).id
-    @taxons = Taxon.send(params[:rank], :parent_id => id)
+    @taxons = Taxon.send(params[:rank], :parent_id => params[:id])
     render :layout => false
   end
 

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   belongs_to :language
   has_and_belongs_to_many :photo
+  has_many :common_names
   acts_as_authentic
   include KarmaClient::User
   
