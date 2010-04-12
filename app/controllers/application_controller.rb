@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
     # grab the iso_code from the params, if none is chose... fall back to all
     def current_language
       language = nil
-      if not params[:language].blank?
-        if language = Language.find_by_iso_code(params[:language])
-          # language was properly set, now return      
-        else
+      unless params[:language].blank?
+        begin
+          language = Language.find_by_iso_code(params[:language])
+        rescue
           flash[:failure] = "That language does not exist, remember to use the proper ISO code."
         end
       end

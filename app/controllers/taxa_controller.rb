@@ -1,17 +1,8 @@
 class TaxaController < ApplicationController
-  before_filter :load_taxonomy, :set_current_language
+  before_filter :set_current_language
   
   def index
-    if params[:taxon]
-      unless @taxon = Taxon.find_by_name(params[:taxon].capitalize)
-        @taxon = Taxon.root
-        flash.now[:notice] = "#{params[:rank].capitalize} #{params[:taxon].capitalize} could not be found."
-      end
-    else
-      @taxon = Taxon.root
-    end
-    @names = @taxon.language_common_names(current_language)
-    @rank = @taxon.rank
+    @taxon = Taxon.root
   end
 
   def show
@@ -20,10 +11,6 @@ class TaxaController < ApplicationController
 
 private
 
-  def load_taxonomy
-    @taxonomy = [["Animalia", "Animalia"]]
-  end
-  
   def set_current_language
     @language = current_language
   end

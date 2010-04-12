@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
   #FlickRaw
-#  config.gem 'flickraw'
+  config.gem 'flickr_fu'
   
   # Stylesheet library.
   config.gem 'compass', :version => '0.8.17'
