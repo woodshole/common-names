@@ -7,6 +7,9 @@ var AJAX = (function() {
     	success: function(response) {
     	  $('#names').html(response);
     	  $('#new-name').val('');
+      },
+      error: function(){
+        alert(name + " already exists");
       }
     });
   }
@@ -46,6 +49,19 @@ var AJAX = (function() {
     });
   }
   
+  var getPhotos = function(machineTag){
+    $.ajax({
+      type: 'GET',
+      url: '/photos',
+      data: { machine_tag: machineTag },
+      success: function(response){
+        $('#photos').html(response);
+        $('#photos > a').lightBox();
+        $('#spinner').fadeOut();
+      }
+    });
+  }
+  
   var createPhoto = function(id, url){
     $.ajax({
       type: 'POST',
@@ -72,6 +88,7 @@ var AJAX = (function() {
     getCommonName: getCommonName,
     deleteCommonName: deleteCommonName,
     getPhoto: getPhoto,
+    getPhotos: getPhotos,
     createPhoto: createPhoto,
     getTaxonomyDropdown: getTaxonomyDropdown
   };
