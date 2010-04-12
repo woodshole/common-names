@@ -1,4 +1,5 @@
 class PhotosController < ApplicationController
+  @@flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
   def show
     begin
       @photo = Photo.preferred(params[:id])
@@ -6,6 +7,11 @@ class PhotosController < ApplicationController
       @photo = nil
     end
     render :partial => 'best_photo', :layout => false
+  end
+
+  def index
+    @photos = @@flickr.photos.search(:machine_tags => params[:machine_tag], :per_page => 8)
+    render :partial => 'list', :layout => false
   end
   
   def create
