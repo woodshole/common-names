@@ -14,7 +14,7 @@ var AJAX = (function() {
     });
   }
   
-  var getCommonName = function(id){
+  var getCommonNames = function(id){
     $.ajax({
         type: 'GET',
         url: '/common_names/' + id,
@@ -85,7 +85,7 @@ var AJAX = (function() {
 
   return {
     createCommonName: createCommonName,
-    getCommonName: getCommonName,
+    getCommonNames: getCommonNames,
     deleteCommonName: deleteCommonName,
     getPhoto: getPhoto,
     getPhotos: getPhotos,

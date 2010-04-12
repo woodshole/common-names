@@ -39,12 +39,12 @@ $(function(){
 
   function getCurrentId() {
     return $('#family-dropdown').val() || $('#order-dropdown').val() ||
-      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val();
+      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val() || '';
   }
   
 	function updateMainContent(taxon_id, on){
 	  $('#flash').empty();
-	  AJAX.getCommonName(taxon_id);
+	  AJAX.getCommonNames(taxon_id);
 	  $('#photos').empty();
 	  if (taxon_id != ''){
       updateFlickr(taxon_id, on);
@@ -128,18 +128,18 @@ $(function(){
       disableRightOf(right);
       if (currentTaxonId == '') {
         // try to update current_taxon
-        currentTaxonId = (on != 'kingdom') ? $('#' + higherOrder[i-1] + '-dropdown').val() : '';
+        currentTaxonId = getCurrentId();
         // if it's still empty, that means kingdom is Any
         if (currentTaxonId == '') {
           resetMainDivs();
+        } else {
+          updateMainContent(currentTaxonId, higherOrder[i-1]);
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
         AJAX.getTaxonomyDropdown(currentTaxonId, right);
         // we have a taxon so we should show the create form
         enableMainDivs();
-      }
-      if (currentTaxonId != '') {
         updateMainContent(currentTaxonId, on);
       }
     });
