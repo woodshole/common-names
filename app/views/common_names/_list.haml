@@ -1,6 +1,8 @@
 %ul
+  - user = current_user
   - @names.each do |name|
     %li
       =name.name
-      %a{:class => "delete", :dataid => name.id, :href=>"/common_names/#{name.id}"}
-        =image_tag 'delete.gif'
+      - if name.owned_by? user
+        %a{:class => "delete", :dataid => name.id, :href=>"/common_names/#{name.id}"}
+          =image_tag 'delete.gif'

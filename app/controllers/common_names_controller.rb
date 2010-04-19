@@ -1,4 +1,6 @@
 class CommonNamesController < ApplicationController
+  
+  
   def show
     @taxon = params[:id].blank? ? Taxon.root : Taxon.find(params[:id])
     @names = @taxon.language_common_names(current_language)
@@ -6,7 +8,7 @@ class CommonNamesController < ApplicationController
   end
   
   def create    
-    language = current_user.language
+    language = current_language
     if @taxon = Taxon.find(params[:id])
       common_name = CommonName.new(:name => params[:name], :taxon => @taxon, :language => language, :user => current_user)
       if common_name.save

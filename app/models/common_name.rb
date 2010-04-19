@@ -5,6 +5,10 @@ class CommonName < ActiveRecord::Base
   
   validates_presence_of :name, :taxon_id, :language_id
   validates_uniqueness_of :name, :scope => [:taxon_id]
+  
+  def owned_by?(user)
+    return self.user == user
+  end
 end
 
 # == Schema Information

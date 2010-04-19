@@ -3,26 +3,30 @@
     Options
   - if current_user
     %p
-      - if @language == nil
+      - if current_language == nil
         You are currently viewing
         %strong scientific names.
       - else
         You are currently viewing
         %strong
           common names in
-          =h @language.to_s + "."
-    %p
-      Select Language
-      - options = Language.all.map!{|d|[d.english_name, d.iso_code]}
-      = select_tag 'choose_language', language_options
+          =h current_language.to_s + "."
     - if current_language
       %h4 Filters
       %ul
-        %li= link_to 'View all taxa', language_path(:language => current_language.iso_code)
-        %li= link_to 'View taxa with common names', language_path(:language => current_language.iso_code, :filter => "common")
-        %li= link_to 'View taxa without common names', language_path(:language => current_language.iso_code, :filter => "scientific")
+        %li
+          %a{'href' => "/"}
+            Clear filter
+        %li
+          %a{'href' => "?filter=all"}
+            = "View common names in #{current_language.to_s} where available with scientific names"
+        %li
+          %a{'href' => "?filter=common"}
+            = "View only taxa with common names in #{current_language.to_s}"
+        %li
+          %a{'href' => "?filter=scientific"}
+            = "View only taxa without common names in #{current_language.to_s}"
       
-     
   - else
     %p 
       You must be logged in to see your options!

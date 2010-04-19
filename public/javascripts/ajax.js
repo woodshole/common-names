@@ -49,11 +49,11 @@ var AJAX = (function() {
     });
   }
   
-  var getPhotos = function(machineTag){
+  var getPhotos = function(id){
     $.ajax({
       type: 'GET',
       url: '/photos',
-      data: { machine_tag: machineTag },
+      data: { id: id },
       success: function(response){
         $('#photos').html(response);
         $('#photos > a').lightBox();

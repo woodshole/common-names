@@ -18,9 +18,9 @@ class Taxon < ActiveRecord::Base
   # object that is passed in. If not, we send all common names back.
   def language_common_names(language=nil)
     if language
-      self.common_names.find_all {|d| d.language.iso_code == language.iso_code }
+      self.common_names.find(:all, :order => "name DESC") {|d| d.language.iso_code == language.iso_code }
     else
-      self.common_names
+      self.common_names.all(:order => "name DESC")
     end
   end
   

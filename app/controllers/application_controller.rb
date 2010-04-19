@@ -10,20 +10,11 @@ class ApplicationController < ActionController::Base
   private
     # grab the iso_code from the params, if none is chose... fall back to all
     def current_language
-      language = nil
-      unless params[:language].blank?
-        begin
-          language = Language.find_by_iso_code(params[:language])
-        rescue
-          flash[:failure] = "That language does not exist, remember to use the proper ISO code."
-        end
-      end
-      return language
+      current_user ? current_user.language : nil
     end
     
     def current_filter
-      session[:filter] = params[:filter] unless params[:filter].blank?
-      session[:filter]
+      current_user ? params[:filter] : nil
     end
   
     def current_user_session
@@ -38,10 +29,6 @@ class ApplicationController < ActionController::Base
     
     def logged_in?
       ! current_user.nil?
-    end
-    
-    def karma
-      current_user.karma
     end
     
     def require_user

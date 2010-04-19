@@ -42,22 +42,16 @@ $(function(){
       $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val() || '';
   }
   
-	function updateMainContent(taxon_id, on){
+	function updateMainContent(taxon_id){
 	  $('#flash').empty();
 	  AJAX.getCommonNames(taxon_id);
 	  $('#photos').empty();
 	  if (taxon_id != ''){
-      updateFlickr(taxon_id, on);
+      AJAX.getPhoto(taxon_id);
+      $('#spinner').fadeIn();
+      // fade out on the completion of the AJAX event.
+      AJAX.getPhotos(taxon_id);
     }
-  }
-  
-  function updateFlickr(taxon_id, on){
-    var taxonName = $('option[value=' + taxon_id + ']').text();
-    AJAX.getPhoto(taxon_id);
-    var machine_tag = 'taxonomy:' + on + '=' +  taxonName;
-    $('#spinner').fadeIn();
-    // fade out on the completion of the AJAX event.
-    AJAX.getPhotos(machine_tag);
   }
 
   function resetRightOf(taxa){
@@ -135,14 +129,14 @@ $(function(){
           resetMainDivs();
         } else {
           // if we got something, update the main content
-          updateMainContent(currentTaxonId, higherOrder[i-1]);
+          updateMainContent(currentTaxonId);
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
         AJAX.getTaxonomyDropdown(currentTaxonId, right);
         // we have a taxon so we should show the create form
         enableMainDivs();
-        updateMainContent(currentTaxonId, on);
+        updateMainContent(currentTaxonId);
       }
     });
     //return after binding the function to order so it doesn't bind to family
@@ -152,7 +146,7 @@ $(function(){
   // defined seperately because it is so simple.
    $('#family-dropdown').change(function() {
      id = $('#family-dropdown').val();
-     updateMainContent(id, 'family');
+     updateMainContent(id);
     });
     
   // override submit action and use ajax instead
