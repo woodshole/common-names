@@ -1,5 +1,7 @@
 class PhotosController < ApplicationController
   @@flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
+  before_filter :require_user, :only => :create
+  
   def show
     begin
       @photo = Photo.preferred(params[:id])

@@ -14,6 +14,10 @@
 
 // Offering a Custom Alias suport - More info: http://docs.jquery.com/Plugins/Authoring#Custom_Alias
 (function($) {
+  function getCurrentId() {
+    return $('#family-dropdown').val() || $('#order-dropdown').val() ||
+      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val() || '';
+  }
 	/**
 	 * $ is an alias to jQuery object
 	 *
@@ -30,7 +34,8 @@
 			imageLoading:			'images/lightbox-ico-loading.gif',		// (string) Path and the name of the loading icon
 			imageBtnPrev:			'images/lightbox-btn-prev.gif',			// (string) Path and the name of the prev button image
 			imageBtnNext:			'images/lightbox-btn-next.gif',			// (string) Path and the name of the next button image
-			imageBtnClose:			'images/lightbox-btn-close.gif',		// (string) Path and the name of the close btn
+			imageBtnClose:		'images/lightbox-btn-close.gif',		// (string) Path and the name of the close btn
+			imageBtnSave:     'images/cn-btn-save.gif', 
 			imageBlank:				'images/lightbox-blank.gif',			// (string) Path and the name of a blank image (one pixel)
 			// Configuration related to container image box
 			containerBorderSize:	10,			// (integer) If you adjust the padding in the CSS for the container, #lightbox-container-image-box, you will need to update this value
@@ -114,6 +119,13 @@
 							<span id="lightbox-image-details-currentNumber"></span>
 						</div>
 						<div id="lightbox-secNav">
+						
+						<!--USER ADDED-->
+						  <a href="#" id="cn-secNav-btnSave">
+						    <img src="../images/cn-btn-save.gif">
+						  </a>
+						<!--END USER ADDED-->
+						
 							<a href="#" id="lightbox-secNav-btnClose">
 								<img src="../images/lightbox-btn-close.gif">
 							</a>
@@ -125,7 +137,7 @@
 		 */
 		function _set_interface() {
 			// Apply the HTML markup into body tag
-			$('body').append('<div id="jquery-overlay"></div><div id="jquery-lightbox"><div id="lightbox-container-image-box"><div id="lightbox-container-image"><img id="lightbox-image"><div style="" id="lightbox-nav"><a href="#" id="lightbox-nav-btnPrev"></a><a href="#" id="lightbox-nav-btnNext"></a></div><div id="lightbox-loading"><a href="#" id="lightbox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="lightbox-container-image-data-box"><div id="lightbox-container-image-data"><div id="lightbox-image-details"><span id="lightbox-image-details-caption"></span><span id="lightbox-image-details-currentNumber"></span></div><div id="lightbox-secNav"><a href="#" id="lightbox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
+			$('body').append('<div id="jquery-overlay"></div><div id="jquery-lightbox"><div id="lightbox-container-image-box"><div id="lightbox-container-image"><img id="lightbox-image"><div style="" id="lightbox-nav"><a href="#" id="lightbox-nav-btnPrev"></a><a href="#" id="lightbox-nav-btnNext"></a></div><div id="lightbox-loading"><a href="#" id="lightbox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="lightbox-container-image-data-box"><div id="lightbox-container-image-data"><div id="lightbox-image-details"><span id="lightbox-image-details-caption"></span><span id="lightbox-image-details-currentNumber"></span></div><div id="lightbox-secNav"><a href="#" id="lightbox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a><a href="#" id="cn-secNav-btnSave"><img src="' + settings.imageBtnSave + '"></a></div></div></div></div>');	
 			// Get page sizes
 			var arrPageSizes = ___getPageSize();
 			// Style overlay and show it
@@ -151,6 +163,16 @@
 				_finish();
 				return false;
 			});
+			
+			// USER CONTENT
+			// Asign the _favorite function to cn-secNav-btnClose
+			$('#cn-secNav-btnSave').click(function(){
+			  AJAX.createPhoto(getCurrentId(), $('#lightbox-image').attr('src'));
+			  _finish();
+			  return false;
+			});
+			// END USER CONTENT
+			
 			// If window was resized, calculate the new overlay dimensions
 			$(window).resize(function() {
 				// Get page sizes

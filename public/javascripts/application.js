@@ -126,6 +126,7 @@ $(function(){
       $('#names').fadeOut();  
       resetRightOf(on);
       disableRightOf(right);
+      // set something to "any"
       if (currentTaxonId == '') {
         // try to update current_taxon
         currentTaxonId = getCurrentId();
@@ -133,6 +134,7 @@ $(function(){
         if (currentTaxonId == '') {
           resetMainDivs();
         } else {
+          // if we got something, update the main content
           updateMainContent(currentTaxonId, higherOrder[i-1]);
         }
         $('#' + right + '-dropdown').attr('disabled', 'disabled');
