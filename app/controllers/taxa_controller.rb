@@ -3,8 +3,10 @@ class TaxaController < ApplicationController
   def index
     @taxon = Taxon.root
   end
-
+  
+  # show dropdown options
   def show
-    @taxon = Taxon.find(params[:id])
+    @taxa = Taxon.find(params[:id]).dropdown_options(params[:rank])
+    render :layout => false
   end
 end

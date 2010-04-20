@@ -14,6 +14,33 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
+  def dropdown_options(rank)
+      # if current_filter
+      #   # Map to sets of names and ids.
+      #   elements = []
+      #   taxons.each do |t|
+      #     # Check to see if we're filtering taxa by common names, and skip loop if filter doesn't allow this taxon.
+      #     next if current_filter == "common" && t.language_common_names(current_language).empty?
+      #     next if current_filter == "scientific"  && ! t.language_common_names(current_language).empty?
+      #   
+      #     # If there are no common names, surround the scientific name with parentheses.
+      #     if t.language_common_names(current_language).empty?
+      #       text = "(" + t.name + ")"
+      #     else
+      #       text = t.language_common_names(current_language)[0].name
+      #     end
+      #     # save this mini array for each elementa
+      #     elements << [text, t.id]
+      #   end
+      # else
+      #   elements = taxons.map { |t| [t.name, t.id] }
+      # end
+      #   
+    taxa = Taxon.send(rank, :parent_id => self.id)
+    taxa.map! {|t| [t.name, t.id]}
+    taxa.unshift(['Any', ''])
+  end
+  
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end

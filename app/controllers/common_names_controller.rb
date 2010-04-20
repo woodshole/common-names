@@ -1,17 +1,13 @@
 class CommonNamesController < ApplicationController
   def show
     taxon = params[:id].blank? ? Taxon.root : Taxon.find(params[:id])
-    language = current_language if current_filter
-    @names = CommonName.language_filter(taxon, language)
-    render :partial => "list", :layout => false
+    render_list(taxon)
   end
   
-  def create    
-    language = current_language
+  def create
     taxon = Taxon.find(params[:id])
-    common_name = CommonName.create!(:name => params[:name], :taxon => taxon, :language => language, :user => current_user)
-    @names = CommonName.language_filter(taxon, nil)
-    render :partial => "list", :layout => false
+    common_name = CommonName.create!(:name => params[:name], :taxon => taxon, :language => current_language, :user => current_user)
+    render_list(taxon)
   end
   
   def destroy
@@ -21,6 +17,12 @@ class CommonNamesController < ApplicationController
     else
       render :json => {:status => "failure"}
     end
+  end
+  
+  def render_list(taxon)
+    language = current_language if current_filter
+    @names = CommonName.language_filter(taxon, language)
+    render :partial => "list", :layout => false
   end
   
 end

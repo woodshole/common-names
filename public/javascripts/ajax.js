@@ -70,11 +70,12 @@ var AJAX = (function() {
     });
   }
   
+  // NOTE THIS IS PARENT ID
   var getTaxonomyDropdown = function(id, dropdown, language){
     $.ajax({
         type: 'GET',
-        url: '/taxonomy/dropdown/' + dropdown, 
-        data: { id: id, language: language },
+        url: '/taxa/' + dropdown, 
+        data: { id: id },
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);

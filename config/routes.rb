@@ -5,11 +5,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :photos
   
   # AJAX Navigation
-  map.taxonomy_dropdown '/taxonomy/dropdown/:rank', 
-    :controller => :taxonomy_navigation, 
-    :action => :dropdown_options, 
-    :rank => /(kingdom|phylum|class|order|family)/,
-    :conditions => {:method => :get}
+  map.taxonomy_dropdown '/taxa/:rank', 
+    :controller => :taxa, 
+    :action => :show, 
+    :rank => /(kingdom|phylum|class|order|family)/
   
   map.taxon '/:rank/:taxon',
     :controller => :taxa,
