@@ -9,6 +9,25 @@ class CommonName < ActiveRecord::Base
   def owned_by?(user)
     return self.user == user
   end
+  
+  def self.language_filter(taxa=nil, language=nil)
+    if language
+      self.find_by_sql("SELECT common_names.name, common_names.id, common_names.user_id
+       FROM common_names 
+       JOIN taxa 
+       ON common_names.taxon_id = taxa.id 
+       WHERE common_names.language_id = #{language.id} 
+       AND taxa.id = #{taxa.id} 
+       ORDER BY common_names.name ASC")
+    else
+      self.find_by_sql("SELECT common_names.name, common_names.id, common_names.user_id
+      FROM common_names
+      JOIN taxa
+      ON common_names.taxon_id = taxa.id
+      WHERE taxa.id = #{taxa.id}
+      ORDER BY common_names.name ASC")
+    end
+  end
 end
 
 # == Schema Information

@@ -1,6 +1,8 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
+  
+  //options
   var state = 'up';
   $('#options_image').click(function(){
     if (state == 'up') {
@@ -14,6 +16,7 @@ $(function(){
     }
   });
   
+  //delete
   $('a.delete').live('click', function(){
     AJAX.deleteCommonName($(this).attr('dataid'));
     return false;

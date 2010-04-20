@@ -14,16 +14,6 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
-  # Collect all common names attached to this taxon according to the language
-  # object that is passed in. If not, we send all common names back.
-  def language_common_names(language=nil)
-    if language
-      self.common_names.find(:all, :order => "name DESC") {|d| d.language.iso_code == language.iso_code }
-    else
-      self.common_names.all(:order => "name DESC")
-    end
-  end
-  
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end
