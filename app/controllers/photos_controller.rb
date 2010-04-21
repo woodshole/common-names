@@ -12,7 +12,7 @@ class PhotosController < ApplicationController
   end
 
   def index
-    @photos = @@flickr.photos.search(:machine_tags => machine_tag(params[:id]), :per_page => 8)
+    @photos = @@flickr.photos.search(:machine_tags => Taxon.find(params[:id]).machine_tag, :per_page => 8)
     render :partial => 'list', :layout => false
   end
   
@@ -24,26 +24,6 @@ class PhotosController < ApplicationController
     @photo.users << current_user
     @photo.only_preferred
     render :nothing => true, :layout => false
-  end
-  
-  private
-  
-  def machine_tag(id)
-    rank_num = Taxon.find(id).rank
-    name = Taxon.find(id).name
-    case rank_num
-      when 0
-        rank = "kingdom"
-      when 1
-        rank = "phylum"
-      when 2
-        rank = "class"
-      when 3
-        rank = "order"
-      when 4
-        rank = "family"
-    end
-    "taxonomy:#{rank}=#{name}"
   end
 
 end

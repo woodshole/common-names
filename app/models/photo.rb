@@ -19,4 +19,5 @@ class Photo < ActiveRecord::Base
       Photo.find_by_taxon_id(id)
     end
   end
+  
 end

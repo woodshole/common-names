@@ -14,6 +14,22 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
+  def machine_tag
+    case self.rank
+      when 0
+        rank = "kingdom"
+      when 1
+        rank = "phylum"
+      when 2
+        rank = "class"
+      when 3
+        rank = "order"
+      when 4
+        rank = "family"
+    end
+    "taxonomy:#{rank}=#{self.name}"
+  end
+  
   def dropdown_options(rank)
       # if current_filter
       #   # Map to sets of names and ids.
