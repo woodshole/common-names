@@ -1,6 +1,4 @@
 class PhotosController < ApplicationController
-  # This seems to make the flickr calls super slow...
-  @@flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
   before_filter :require_user, :only => :create
   
   def show
@@ -13,7 +11,10 @@ class PhotosController < ApplicationController
   end
 
   def index
-    @photos = @@flickr.photos.search(:machine_tags => Taxon.find(params[:id]).machine_tag, :per_page => 8)
+    #class variables get reloaded on each request, this doesn't help much either though.
+    @flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
+    page = params[:page] || 1
+    @photos = @flickr.photos.search(:machine_tags => Taxon.find(params[:id]).machine_tag, :per_page => 8, :page => page)
     render :partial => 'list', :layout => false
   end
   

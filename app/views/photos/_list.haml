@@ -1,6 +1,12 @@
 -if @photos.length == 0
   ="No images available."
 -else
+  -if @photos.page > 1
+    %a{:id => 'prev', :href => '#'}
+      <<
   -@photos.each do |photo|
-    %a{:href => "#{photo.url}"}
+    %a{:href => "#{photo.url}", :class => "thumbs"}
       %img{:src => "#{photo.photo_size(:thumbnail).source}"}
+  -if @photos.pages > @photos.page
+    %a{:id => 'next', :href => '#'}
+      >>

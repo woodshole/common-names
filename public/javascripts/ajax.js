@@ -49,14 +49,14 @@ var AJAX = (function() {
     });
   }
   
-  var getPhotos = function(id){
+  var getPhotos = function(id, page){
     $.ajax({
       type: 'GET',
       url: '/photos',
-      data: { id: id },
+      data: { id: id, page: page },
       success: function(response){
         $('#photos').html(response);
-        $('#photos > a').lightBox();
+        $('.thumbs').lightBox();
         $('#spinner').fadeOut();
       }
     });

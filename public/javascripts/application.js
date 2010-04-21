@@ -2,6 +2,8 @@
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
   
+  var page;
+  
   //options
   var state = 'up';
   $('#options_image').click(function(){
@@ -19,6 +21,22 @@ $(function(){
   //delete
   $('a.delete').live('click', function(){
     AJAX.deleteCommonName($(this).attr('dataid'));
+    return false;
+  });
+  
+  $('#prev').live('click', function(){
+    $('#photos').empty();
+    $('#spinner').fadeIn();
+    page -= 1;
+    AJAX.getPhotos(getCurrentId(), page);
+    return false;
+  });
+  
+  $('#next').live('click', function(){
+    $('#photos').empty();
+    $('#spinner').fadeIn();
+    page += 1;
+    AJAX.getPhotos(getCurrentId(), page);
     return false;
   });
   
@@ -53,7 +71,8 @@ $(function(){
       AJAX.getPhoto(taxon_id);
       $('#spinner').fadeIn();
       // fade out on the completion of the AJAX event.
-      AJAX.getPhotos(taxon_id);
+      page = 1;
+      AJAX.getPhotos(taxon_id, page);
     }
   }
 
@@ -149,6 +168,9 @@ $(function(){
   // defined seperately because it is so simple.
    $('#family-dropdown').change(function() {
      id = $('#family-dropdown').val();
+     if (id == ''){
+       id = getCurrentId();
+     }
      updateMainContent(id);
     });
     
