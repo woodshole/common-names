@@ -7,6 +7,14 @@ class Language < ActiveRecord::Base
   def to_s
     english_name
   end
+  
+  def self.active_languages
+    self.find_by_sql("SELECT DISTINCT languages.english_name, languages.id AS lang_id
+    FROM common_names 
+    JOIN languages 
+    ON common_names.language_id = languages.id")  
+  end
+  
 end
 
 # == Schema Information

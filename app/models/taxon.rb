@@ -14,6 +14,14 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
+  def preferred_photo
+    begin
+      Photo.find(:first, :limit => 1, :conditions => "taxon_id = #{self.id} AND preferred = 1")
+    rescue
+      Photo.find_by_taxon_id(id)
+    end
+  end  
+  
   def machine_tag
     case self.rank
       when 0

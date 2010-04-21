@@ -1,10 +1,11 @@
 class PhotosController < ApplicationController
+  # This seems to make the flickr calls super slow...
   @@flickr = Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
   before_filter :require_user, :only => :create
   
   def show
     begin
-      @photo = Photo.preferred(params[:id])
+      @photo = Taxon.find(params[:id]).preferred_photo
     rescue
       @photo = nil
     end

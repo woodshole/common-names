@@ -28,6 +28,11 @@ class CommonName < ActiveRecord::Base
       ORDER BY common_names.name ASC")
     end
   end
+  
+  def self.number_translated(language)
+    self.find_by_sql("SELECT COUNT(DISTINCT taxon_id) AS ct FROM common_names WHERE language_id = #{language.lang_id}")[0]['ct']
+  end
+  
 end
 
 # == Schema Information

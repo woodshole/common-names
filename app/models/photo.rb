@@ -5,18 +5,11 @@ class Photo < ActiveRecord::Base
   validates_presence_of :url, :taxon_id
   validates_uniqueness_of :url, :scope => [:taxon_id]
   
+  #ensures we only have one preferred photo per taxon
   def only_preferred
     Photo.find(:all, :conditions => "taxon_id = #{self.taxon_id} AND id <> #{self.id}").each do |photo|
       photo.preferred = 0
       photo.save
-    end
-  end
-  
-  def self.preferred(id)
-    begin
-      Photo.find(:first, :limit => 1, :conditions => "taxon_id = #{id} AND preferred = 1")
-    rescue
-      Photo.find_by_taxon_id(id)
     end
   end
   
