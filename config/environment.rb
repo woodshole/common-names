@@ -25,12 +25,12 @@ Rails::Initializer.run do |config|
   #FlickRaw
   config.gem 'flickr_fu'
   
+  # Alternate template and stylesheet engine.
+  config.gem 'haml', :version => '2.2.15'
+  
   # Stylesheet library.
   config.gem 'compass', :version => '0.8.17'
   
-  # Alternate template and stylesheet engine.
-  config.gem 'haml', :version => '2.2.15'
-
   # Show text-based progress bar for long-running console tasks.
   config.gem 'progressbar', :version => '0.9.0'  
   
