@@ -4,7 +4,7 @@ class CommonName < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :name, :taxon_id, :language_id
-  validates_uniqueness_of :name, :scope => [:taxon_id]
+  validates_uniqueness_of :name, :scope => [:user_id, :taxon_id]
   
   def owned_by?(user)
     return self.user == user
@@ -35,6 +35,7 @@ class CommonName < ActiveRecord::Base
   
 end
 
+
 # == Schema Information
 #
 # Table name: common_names
@@ -45,5 +46,6 @@ end
 #  created_at  :datetime
 #  updated_at  :datetime
 #  language_id :integer(4)
+#  user_id     :integer(4)
 #
 
