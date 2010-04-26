@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.0.1">
+    <dataset>
+        <title>GBIF NUB</title>
+        <creator>
+            <onlineUrl></onlineUrl>
+            <logoUrl>http://www.gbif.org/fileadmin/templates/main/images/logo_leaf.gif</logoUrl>
+        </creator>
+        <pubDate>Mar 29, 2010 5:26:59 PM</pubDate>
+        <language>en</language>
+        <abstract>
+            <para></para>
+        </abstract>
+        <keywordSet>
+        	<keyword></keyword>
+        </keywordSet>
+        <citation></citation>
+    </dataset>
+</eml:eml>
