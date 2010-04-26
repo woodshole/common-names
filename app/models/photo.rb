@@ -5,6 +5,10 @@ class Photo < ActiveRecord::Base
   validates_presence_of :url, :taxon_id
   validates_uniqueness_of :url, :scope => [:taxon_id]
   
+  def self.flickr
+    @flickr ||= Flickr.new(File.join(RAILS_ROOT, 'config', 'flickr.yml'))
+  end
+  
   #ensures we only have one preferred photo per taxon
   def only_preferred
     Photo.find(:all, :conditions => "taxon_id = #{self.taxon_id} AND id <> #{self.id}").each do |photo|
