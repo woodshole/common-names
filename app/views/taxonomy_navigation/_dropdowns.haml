@@ -1,15 +1,15 @@
-%h2.colored
+%h2.colored.nobreak
   Taxonomic Browser
-  =image_tag 'plus_button.gif', :id => 'options_image'
+Current Filter:
+%span#filterval
+  none
+=image_tag 'plus_button.gif', :id => 'options_image'
 
 = render :partial => '/shared/options'  
   
 .boxed
   #taxonomic_selector.clearfix
-    .rank
-      = label_tag 'kingdom-dropdown', 'Kingdom'
-      = select_tag 'kingdom', options_for_select(Taxon.kingdom.map!{|t| [t.name, t.id]}.unshift(['Any','']), nil), :id => 'kingdom-dropdown'
-    - %w( phylum class order family ).each_with_index do |rank, i|
+    - %w( kingdom phylum class order family ).each_with_index do |rank, i|
       .rank
         = label_tag "#{rank}-dropdown", rank.capitalize
         = select_tag rank, options_for_select([['Any','']], nil), :id => "#{rank}-dropdown"

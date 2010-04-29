@@ -38,30 +38,35 @@ class Taxon < ActiveRecord::Base
     "taxonomy:#{rank}=#{self.name}"
   end
   
-  def dropdown_options(rank)
-      # if current_filter
-      #   # Map to sets of names and ids.
-      #   elements = []
-      #   taxons.each do |t|
-      #     # Check to see if we're filtering taxa by common names, and skip loop if filter doesn't allow this taxon.
-      #     next if current_filter == "common" && t.language_common_names(current_language).empty?
-      #     next if current_filter == "scientific"  && ! t.language_common_names(current_language).empty?
-      #   
-      #     # If there are no common names, surround the scientific name with parentheses.
-      #     if t.language_common_names(current_language).empty?
-      #       text = "(" + t.name + ")"
-      #     else
-      #       text = t.language_common_names(current_language)[0].name
-      #     end
-      #     # save this mini array for each elementa
-      #     elements << [text, t.id]
-      #   end
-      # else
-      #   elements = taxons.map { |t| [t.name, t.id] }
-      # end
-      #   
+  def has_common_name?
+    not self.common_names.empty?
+  end
+  
+  def dropdown_options(rank, filt)
+    #get children taxa
     taxa = Taxon.send(rank, :parent_id => self.id)
-    taxa.map! {|t| [t.name, t.id]}
+    unless filt == "none"
+      to_del = []
+      taxa.each do |t|
+        # if we only want to see those with common names and this taxon does not have a common name
+        # delete it
+        if filt == 'common' and not t.has_common_name?
+          to_del << t
+        # if we only want to see those without common names and this taxon has a common name
+        # delete it
+        elsif filt == 'scientific' and t.has_common_name?
+          to_del << t
+        end
+      end
+      to_del.each {|t| taxa.delete t}
+    else
+      taxa.map! {|t| [t.name, t.id]}
+    end
+    if filt == 'common'
+      taxa.map! {|t| [t.common_names[0].name, t.id] }
+    elsif filt == 'scientific'
+      taxa.map! {|t| [t.name, t.id]}
+    end
     taxa.unshift(['Any', ''])
   end
   
@@ -117,4 +122,15 @@ end
 #  rank        :integer(4)
 #  lineage_ids :string(255)
 #
-
+  # 
+  # # Check to see if we're filtering taxa by common names, and skip loop if filter doesn't allow this taxon.
+  # next if current_filter == "common" && t.language_common_names(current_language).empty?
+  # next if current_filter == "scientific"  && ! t.language_common_names(current_language).empty?  
+  # # If there are no common names, surround the scientific name with parentheses.
+  # if t.language_common_names(current_language).empty?
+  #   text = "(" + t.name + ")"
+  # else
+  #   text = t.language_common_names(current_language)[0].name
+  # end
+  # # save this mini array for each elementa
+  # elements << [text, t.id]

@@ -11,7 +11,8 @@ RANKS = {
           "class"     => 2,
           "order"     => 3,
           "family"    => 4,
-          "subfamily" => 5
+          # destroy subfamily idea, we aren't using it
+          "subfamily" => 4
         }
 
 @log = Logger.new(STDOUT)
@@ -53,7 +54,7 @@ def create_taxon_from_line(taxon_line, i)
   
   # If it's a kingdom, GBIF doesn't supply a parent_id, so we set one here.
   if rank_name == "kingdom" && parent_id.blank?
-    parent_id = -1
+    parent_id = 0
   end
   
   # Make sure data line is valid.

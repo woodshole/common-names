@@ -71,11 +71,13 @@ var AJAX = (function() {
   }
   
   // NOTE THIS IS PARENT ID
-  var getTaxonomyDropdown = function(id, dropdown, language){
+  // TODO: send the filter as data as well
+  var getTaxonomyDropdown = function(id, dropdown, filter){
+    if (dropdown == null) { return; }
     $.ajax({
         type: 'GET',
         url: '/taxa/' + dropdown, 
-        data: { id: id },
+        data: { id: id, filter: filter },
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);

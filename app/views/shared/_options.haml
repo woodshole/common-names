@@ -12,21 +12,21 @@
           common names in
           =h current_language.to_s + "."
     - if current_language
-      %h4 Filters
-      %ul
-        %li
-          %a{'href' => "/"}
-            Clear filter
-        %li
-          %a{'href' => "?filter=all"}
-            = "View common names in #{current_language.to_s} where available with scientific names"
-        %li
-          %a{'href' => "?filter=common"}
-            = "View only taxa with common names in #{current_language.to_s}"
-        %li
-          %a{'href' => "?filter=scientific"}
-            = "View only taxa without common names in #{current_language.to_s}"
-      
+      #filters
+        %h4 Filters
+        %ul
+          %li
+            %a.filter{'href' => "none"}
+              Clear filter
+          %li
+            %a.filter{'href' => "all"}
+              = "View common names in #{current_language.to_s} where available with scientific names in parentheses"
+          %li
+            %a.filter{'href' => "common"}
+              = "View only taxa with common names in #{current_language.to_s}"
+          %li
+            %a.filter{'href' => "scientific"}
+              = "View only taxa without common names in #{current_language.to_s}"
   - else
     %p 
       You must be logged in to see your options!

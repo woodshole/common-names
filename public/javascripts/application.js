@@ -1,23 +1,36 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
-  
   var page;
+  var dds = $("select[id$='-dropdown']");
+
+  //on load
+    // reset everything
+  dds.each(function(i){
+    $(this).attr('disabled','disabled').val('Any');
+  });
+    // load kingdom names
+  AJAX.getTaxonomyDropdown(1, 'kingdom', pageData.getFilter());
   
-  //options
-  var state = 'up';
-  $('#options_image').click(function(){
-    if (state == 'up') {
-      $('#options_image').attr("src", '/images/minus_button.gif');
-      $('#options').slideDown();
-      state = "down";
-    } else { 
-      $('#options_image').attr("src", '/images/plus_button.gif');
-      $('#options').slideUp();
-      state = "up";
-    }
+  // options
+  $('.filter').each(function(){
+    $(this).click(function(){
+      $('#filterval').html($(this).attr('href'));
+      return false;
+    });
   });
   
+  $('#options_image').toggle(
+    function(){
+      $(this).attr("src", '/images/minus_button.gif');
+      $('#options').slideDown();
+    },
+    function(){
+      $(this).attr("src", '/images/plus_button.gif');
+      $('#options').slideUp();
+    }
+  );
+      
   //delete
   $('a.delete').live('click', function(){
     AJAX.deleteCommonName($(this).attr('dataid'));
@@ -28,7 +41,7 @@ $(function(){
     $('#photos').empty();
     $('#spinner').fadeIn();
     page -= 1;
-    AJAX.getPhotos(getCurrentId(), page);
+    AJAX.getPhotos(pageData.findCurrentId(), page);
     return false;
   });
   
@@ -36,7 +49,7 @@ $(function(){
     $('#photos').empty();
     $('#spinner').fadeIn();
     page += 1;
-    AJAX.getPhotos(getCurrentId(), page);
+    AJAX.getPhotos(pageData.findCurrentId(), page);
     return false;
   });
   
@@ -58,12 +71,11 @@ $(function(){
     }
   } 
 
-  function getCurrentId() {
-    return $('#family-dropdown').val() || $('#order-dropdown').val() ||
-      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val() || '';
-  }
-  
 	function updateMainContent(taxon_id){
+	  $('#create').slideDown();
+    $('#names').slideDown();
+    $('#best-photo > img').slideDown();
+    $('#photos').slideDown();
 	  $('#flash').empty();
 	  AJAX.getCommonNames(taxon_id);
 	  $('#photos').empty();
@@ -74,115 +86,84 @@ $(function(){
       page = 1;
       AJAX.getPhotos(taxon_id, page);
     }
+
   }
 
   function resetRightOf(taxa){
     switch(taxa){
       case 'kingdom':
         $('#phylum-dropdown').val('Any');
+        $('#phylum-dropdown').attr('disabled', 'disabled');
         resetRightOf('phylum');
       case 'phylum':
         $('#class-dropdown').val('Any');
+        $('#class-dropdown').attr('disabled', 'disabled');
         resetRightOf('class');
       case 'class':
         $('#order-dropdown').val('Any');
+        $('#order-dropdown').attr('disabled', 'disabled');
         resetRightOf('order');
       case 'order':
         $('#family-dropdown').val('Any');
-      case 'family':
-        return;
-      }
-  }
-  
-  function disableRightOf(taxa){
-    switch(taxa){
-      case 'kingdom':
-        $('#phylum-dropdown').attr('disabled', 'disabled');
-        disableRightOf('phylum');
-      case 'phylum':
-        $('#class-dropdown').attr('disabled', 'disabled');
-        disableRightOf('class');
-      case 'class':
-        $('#order-dropdown').attr('disabled', 'disabled');
-        disableRightOf('order');
-      case 'order':
         $('#family-dropdown').attr('disabled', 'disabled');
       case 'family':
         return;
       }
   }
   
-  function resetMainDivs(){
+  function hideMainDivs(){
     $('#create').slideUp();
     $('#names').slideUp();
     $('#best-photo > img').slideUp();
     $('#photos').slideUp();  
   }
   
-  function enableMainDivs(){
-    $('#create').slideDown();
-    $('#names').slideDown();
-    $('#best-photo > img').slideDown();
-    $('#photos').slideDown();
-  }
-
-  var higherOrder = ['kingdom','phylum','class','order','family'];
-  //on load, reset everything to zero
-  for (var i=0; i<higherOrder.length; i++){
-    $('#' + higherOrder[i] + '-dropdown').attr('disabled','disabled');
-    $('#' + higherOrder[i] + '-dropdown').val('Any');
-  }
-  $('#kingdom-dropdown').attr('disabled','');
-  //this just binds the same function to each div
-  // #kingdom-dropdown, #phylum-dropdown, etc.
-  jQuery.each(higherOrder, function(i, on) {
-    $('#' + on + '-dropdown').change(function() {
-      right = higherOrder[i+1];
-      currentTaxonId = $('#' + on + '-dropdown').val();
-      $('#names').fadeOut();  
-      resetRightOf(on);
-      disableRightOf(right);
-      // set something to "any"
-      if (currentTaxonId == '') {
-        // try to update current_taxon
-        currentTaxonId = getCurrentId();
-        // if it's still empty, that means kingdom is Any
-        if (currentTaxonId == '') {
-          resetMainDivs();
+  //each dropdown except family
+  //on change
+  //  if change value == '' //ie if Any is selected
+  //    reset right of current
+  //    disable all to the right of the right
+  //    get id to the left
+  //    if id still empty //then kingdom is Any
+  //      hide everything
+  //      return
+  //    else
+  //      we got something in the one to the left
+  //      update content and show
+  //  else // we are moving to the right....
+  //    get, display, enable next dropdown set
+  //    update content and show
+  
+  // search only once and get all the dropdowns
+  
+  dds.each(function(index){
+    $(this).change(function(){
+      var id = $(this).val();
+      // we got an "Any"
+      if (id == '') {
+        resetRightOf($(this).attr('name').trim());
+        // get the id to the left of the change function
+        id = dds.eq(index-1).val();
+        // kingdom is "any"
+        if (id == '' || id == null) {
+          hideMainDivs();
+          return false;
         } else {
-          // if we got something, update the main content
-          updateMainContent(currentTaxonId);
+          showMainDivs();
+          updateMainContent(id);
         }
-        $('#' + right + '-dropdown').attr('disabled', 'disabled');
       } else {
-        AJAX.getTaxonomyDropdown(currentTaxonId, right);
-        // we have a taxon so we should show the create form
-        enableMainDivs();
-        updateMainContent(currentTaxonId);
+        AJAX.getTaxonomyDropdown(id, dds.eq(index+1).attr('name'), pageData.getFilter());
+        showMainDivs();
+        updateMainContent(id);
       }
     });
-    //return after binding the function to order so it doesn't bind to family
-    return (on != 'order');
   });
-
-  // defined seperately because it is so simple.
-   $('#family-dropdown').change(function() {
-     id = $('#family-dropdown').val();
-     if (id == ''){
-       id = getCurrentId();
-     }
-     updateMainContent(id);
-    });
     
   // override submit action and use ajax instead
   $('#create_form').submit(function() {
-    AJAX.createCommonName($('#new-name').val(), getCurrentId());
+    AJAX.createCommonName($('#new-name').val(), pageData.findCurrentId());
     return false;
-  });
-  
-  // redirect to a language if a language is chosen from the taxonomic browser
-  $('#choose_language').change(function(){
-    window.location.replace( '/language/' + $(this).val() );
   });
 
 });

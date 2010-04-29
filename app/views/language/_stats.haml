@@ -16,4 +16,5 @@
       %td
         =c
       %td
-        ="#{(c.to_f/count.to_f)*100}%"
+        - num = c.to_f/count.to_f
+        = sprintf('%.2f%%', num*100)
