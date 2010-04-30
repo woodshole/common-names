@@ -141,7 +141,7 @@ $(function(){
       var id = $(this).val();
       // we got an "Any"
       if (id == '') {
-        resetRightOf($(this).attr('name').trim());
+        resetRightOf(jQuery.trim($(this).attr('name')));
         // get the id to the left of the change function
         id = dds.eq(index-1).val();
         // kingdom is "any"
@@ -149,12 +149,10 @@ $(function(){
           hideMainDivs();
           return false;
         } else {
-          showMainDivs();
           updateMainContent(id);
         }
       } else {
         AJAX.getTaxonomyDropdown(id, dds.eq(index+1).attr('name'), pageData.getFilter());
-        showMainDivs();
         updateMainContent(id);
       }
     });

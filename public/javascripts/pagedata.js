@@ -6,7 +6,7 @@ var pageData = (function() {
   }
   
   var getFilter = function(){
-    return $('#filterval').text().trim();
+    return jQuery.trim($('#filterval').text());
   }
   
   return {

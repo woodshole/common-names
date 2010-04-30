@@ -42,34 +42,72 @@ class Taxon < ActiveRecord::Base
     not self.common_names.empty?
   end
   
-  def dropdown_options(rank, filt)
-    #get children taxa
-    taxa = Taxon.send(rank, :parent_id => self.id)
-    unless filt == "none"
-      to_del = []
-      taxa.each do |t|
-        # if we only want to see those with common names and this taxon does not have a common name
-        # delete it
-        if filt == 'common' and not t.has_common_name?
-          to_del << t
-        # if we only want to see those without common names and this taxon has a common name
-        # delete it
-        elsif filt == 'scientific' and t.has_common_name?
-          to_del << t
-        end
+  def dropdown_options(rank, filt,current_user=nil)
+    taxa = if current_user
+      if filt == "common"
+        Taxon.find_by_sql("SELECT taxa.id as id, common_names.name as common
+        	FROM taxa
+        	LEFT JOIN common_names
+        	ON taxa.id = common_names.taxon_id
+        	WHERE taxa.parent_id = #{self.id}
+        	AND taxa.rank = #{self.rank + 1}
+        	AND common_names.name IS NOT NULL
+        	AND common_names.language_id = #{current_user.language.id}
+        	GROUP BY taxa.name")
+      elsif filt == "scientific"
+        Taxon.find_by_sql("SELECT taxa.id as id, taxa.name as name
+        	FROM taxa
+        	LEFT JOIN common_names
+        	ON taxa.id = common_names.taxon_id
+        	WHERE taxa.parent_id = #{self.id}
+        	AND taxa.rank = #{self.rank + 1}
+        	AND common_names.name IS NULL
+        	GROUP BY taxa.name")
+      else
+        Taxon.send(rank, :parent_id => self.id)
       end
-      to_del.each {|t| taxa.delete t}
     else
-      taxa.map! {|t| [t.name, t.id]}
+      Taxon.send(rank, :parent_id => self.id)
     end
+    
     if filt == 'common'
-      taxa.map! {|t| [t.common_names[0].name, t.id] }
-    elsif filt == 'scientific'
+      taxa.map! {|t| [t.common, t.id] }
+    else
       taxa.map! {|t| [t.name, t.id]}
     end
     taxa.unshift(['Any', ''])
   end
-  
+    
+  #   # SQL:
+  #   # SELECT 
+  #   
+  #   #get children taxa
+  #   taxa = Taxon.send(rank, :parent_id => self.id)
+  #   unless filt == "none"
+  #     to_del = []
+  #     taxa.each do |t|
+  #       # if we only want to see those with common names and this taxon does not have a common name
+  #       # delete it
+  #       if filt == 'common' and not t.has_common_name?
+  #         to_del << t
+  #       # if we only want to see those without common names and this taxon has a common name
+  #       # delete it
+  #       elsif filt == 'scientific' and t.has_common_name?
+  #         to_del << t
+  #       end
+  #     end
+  #     to_del.each {|t| taxa.delete t}
+  #   else
+  #     taxa.map! {|t| [t.name, t.id]}
+  #   end
+  #   if filt == 'common'
+  #     taxa.map! {|t| [t.common_names[0].name, t.id] }
+  #   elsif filt == 'scientific'
+  #     taxa.map! {|t| [t.name, t.id]}
+  #   end
+  #   taxa.unshift(['Any', ''])
+  # end
+  # 
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end

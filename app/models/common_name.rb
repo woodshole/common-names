@@ -7,6 +7,7 @@ class CommonName < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:user_id, :taxon_id]
   
   def owned_by?(user)
+    return false if user == nil
     return self.user == user
   end
   
