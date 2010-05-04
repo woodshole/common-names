@@ -542,10 +542,10 @@ a:hover.ico-more {
   display: none; }
 
 /* line 543, ../../app/stylesheets/styles.sass */
-#filters {
+.filters {
   display: block; }
   /* line 545, ../../app/stylesheets/styles.sass */
-  #filters .in {
+  .filters .in {
     margin: 0 0;
     float: left; }
 

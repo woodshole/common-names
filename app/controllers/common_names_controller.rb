@@ -2,7 +2,7 @@ class CommonNamesController < ApplicationController
   before_filter :require_user, :only => :create
   
   def show
-    taxon = params[:id].blank? ? Taxon.root : Taxon.find(params[:id])
+    taxon = Taxon.find(params[:id]) || Taxon.root
     render_list(taxon)
   end
   
@@ -22,8 +22,7 @@ class CommonNamesController < ApplicationController
   end
   
   def render_list(taxon)
-    language = current_language if current_filter
-    @names = CommonName.language_filter(taxon, language)
+    @names = taxon.common_names_list(params[:filter], current_language)
     render :partial => "list", :layout => false
   end
   

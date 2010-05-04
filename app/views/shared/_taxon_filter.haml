@@ -1,0 +1,22 @@
+-# TAXON FILTER
+.filters
+  %p.in
+    Current Filter: 
+    %span#taxon-filter-val
+      none
+  =image_tag 'plus_button.gif', :id => 'taxon_image'
+  - if current_user
+    .words
+      &nbsp; 
+      %a.filter.taxon{"href" => "common"}
+        Common Names
+      |
+      %a.filter.taxon{"href" => "scientific"}
+        Scientific Names
+      |
+      %a.filter.taxon{"href" => "none"}
+        None
+  - else
+    .words
+      %p.no-margin
+        &nbsp;Please log in before changing filters

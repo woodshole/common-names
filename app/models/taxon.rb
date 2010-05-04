@@ -22,6 +22,37 @@ class Taxon < ActiveRecord::Base
     end
   end  
   
+  def common_names_list(filt, language)
+    if filt == 'all' 
+      Taxon.find_by_sql("SELECT languages.english_name as lang, 
+          common_names.name as name, 
+          users.email as user, 
+          common_names.source as source,
+          common_names.id as id
+        FROM common_names
+        LEFT JOIN languages
+        ON common_names.language_id = languages.id
+        LEFT JOIN users
+        ON common_names.user_id = users.id
+        WHERE common_names.taxon_id = #{self.id}
+        ORDER BY common_names.name")
+    elsif filt == 'only'
+      Taxon.find_by_sql("SELECT languages.english_name as lang, 
+          common_names.name as name, 
+          users.email as user, 
+          common_names.source as source,
+          common_names.id as id
+        FROM common_names
+        LEFT JOIN languages
+        ON common_names.language_id = languages.id
+        LEFT JOIN users
+        ON common_names.user_id = users.id
+        WHERE common_names.taxon_id = #{self.id}
+        AND common_names.language_id = #{language.id}
+        ORDER BY common_names.name")
+    end
+  end
+  
   def machine_tag
     case self.rank
       when 0

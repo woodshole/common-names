@@ -4,30 +4,42 @@ $(function(){
   var page;
   var dds = $("select[id$='-dropdown']");
 
-  //on load
-    // reset everything
+  // reset everything
   dds.each(function(i){
     $(this).attr('disabled','disabled').val('Any');
   });
-    // load kingdom names
-  AJAX.getTaxonomyDropdown(1, 'kingdom', pageData.getFilter());
+  // load kingdom names
+  AJAX.getTaxonomyDropdown(1, 'kingdom');
   
-  $('#options_image').click(function(){
+  // apply click function to the images
+  $("img[id$='_image']").each(function(){
+    $(this).click(function(){
       $(this).next().animate({width: 'toggle'});
+    });
   });
   
-  // options
-  $('.filter').each(function(){
+  // taxon options
+  $('.taxon.filter').each(function(){
     $(this).click(function(){
-      $('#filterval').html($(this).attr('href'));
-      $('#options_image').trigger('click');
+      $('#taxon-filter-val').html($(this).attr('href'));
+      $('#taxon_image').trigger('click');
       resetRightOf('kingdom');
-      AJAX.getTaxonomyDropdown(1, 'kingdom', pageData.getFilter());
+      AJAX.getTaxonomyDropdown(1, 'kingdom');
+      return false;
+    });
+  });
+  
+  // common names options
+  $('.common.filter').each(function(){
+    $(this).click(function(){
+      $('#common-filter-val').html($(this).attr('href'));
+      $('#common_names_image').trigger('click');
+      AJAX.getCommonNames(pageData.getCurrentId());
       return false;
     });
   });
 
-  $('#options_image').toggle(
+  $("img[id$='_image']").toggle(
     function(){
       $(this).attr("src", '/images/minus_button.gif');
     },
@@ -94,20 +106,16 @@ $(function(){
   function resetRightOf(taxa){
     switch(taxa){
       case 'kingdom':
-        $('#phylum-dropdown').val('Any');
-        $('#phylum-dropdown').attr('disabled', 'disabled');
+        $('#phylum-dropdown').val('Any').attr('disabled', 'disabled');
         resetRightOf('phylum');
       case 'phylum':
-        $('#class-dropdown').val('Any');
-        $('#class-dropdown').attr('disabled', 'disabled');
+        $('#class-dropdown').val('Any').attr('disabled', 'disabled');
         resetRightOf('class');
       case 'class':
-        $('#order-dropdown').val('Any');
-        $('#order-dropdown').attr('disabled', 'disabled');
+        $('#order-dropdown').val('Any').attr('disabled', 'disabled');
         resetRightOf('order');
       case 'order':
-        $('#family-dropdown').val('Any');
-        $('#family-dropdown').attr('disabled', 'disabled');
+        $('#family-dropdown').val('Any').attr('disabled', 'disabled');
       case 'family':
         return;
       }
@@ -154,7 +162,7 @@ $(function(){
           updateMainContent(id);
         }
       } else {
-        AJAX.getTaxonomyDropdown(id, dds.eq(index+1).attr('name'), pageData.getFilter());
+        AJAX.getTaxonomyDropdown(id, dds.eq(index+1).attr('name'));
         updateMainContent(id);
       }
     });

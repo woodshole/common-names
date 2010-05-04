@@ -21,6 +21,7 @@ var AJAX = (function() {
     $.ajax({
         type: 'GET',
         url: '/common_names/' + id,
+        data: {filter: pageData.getCommonNamesFilter()},
         success: function(response) {
           $('#names').html(response);
           $('#create-new').show();
@@ -36,7 +37,7 @@ var AJAX = (function() {
       dataType: 'json',
       success: function(response){
         if (response.status == "success"){
-          $('a[href=/common_names/' + id + ']').parent().remove();
+          $('a[href=/common_names/' + id + ']').parent().parent().remove();
         }
       }
     });
@@ -79,12 +80,12 @@ var AJAX = (function() {
   
   // NOTE THIS IS PARENT ID
   // TODO: send the filter as data as well
-  var getTaxonomyDropdown = function(id, dropdown, filter){
+  var getTaxonomyDropdown = function(id, dropdown){
     if (dropdown == null) { return; }
     $.ajax({
         type: 'GET',
         url: '/taxa/' + dropdown, 
-        data: { id: id, filter: filter },
+        data: { id: id, filter: pageData.getTaxonFilter() },
         success: function(response) {
             $('#' + dropdown + '-dropdown').html(response);
             $('#' + dropdown + '-dropdown').parent().effect('highlight', {}, 2000);

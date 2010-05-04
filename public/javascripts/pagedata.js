@@ -5,12 +5,17 @@ var pageData = (function() {
       $('#kingdom-dropdown').val() || '';
   }
   
-  var getFilter = function(){
-    return jQuery.trim($('#filterval').text());
+  var getTaxonFilter = function(){
+    return jQuery.trim($('#taxon-filter-val').text());
+  }
+  
+  var getCommonNamesFilter = function(){
+    return jQuery.trim($('#common-filter-val').text());
   }
   
   return {
     findCurrentId: findCurrentId,
-    getFilter: getFilter
+    getTaxonFilter: getTaxonFilter,
+    getCommonNamesFilter: getCommonNamesFilter
   };
 })();

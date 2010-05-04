@@ -1,12 +1,6 @@
 %h2.colored.nobreak
   Taxonomic Browser
-#filters
-  %p.in
-    Current Filter: 
-    %span#filterval
-      none
-  =image_tag 'plus_button.gif', :id => 'options_image'
-  = render :partial => '/shared/options'
+= render :partial => '/shared/taxon_filter'
 
 .boxed
   #taxonomic_selector.clearfix
