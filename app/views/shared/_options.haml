@@ -1,32 +1,15 @@
-#options
-  %h2.colored
-    Options
-  - if current_user
-    %p
-      - if current_language == nil
-        You are currently viewing
-        %strong scientific names.
-      - else
-        You are currently viewing
-        %strong
-          common names in
-          =h current_language.to_s + "."
-    - if current_language
-      #filters
-        %h4 Filters
-        %ul
-          %li
-            %a.filter{'href' => "none"}
-              Clear filter
-          %li
-            %a.filter{'href' => "all"}
-              = "View common names in #{current_language.to_s} where available with scientific names in parentheses"
-          %li
-            %a.filter{'href' => "common"}
-              = "View only taxa with common names in #{current_language.to_s}"
-          %li
-            %a.filter{'href' => "scientific"}
-              = "View only taxa without common names in #{current_language.to_s}"
-  - else
-    %p 
-      You must be logged in to see your options!
+- if current_user
+  .words
+    &nbsp; 
+    %a.filter{"href" => "common"}
+      Common Names
+    |
+    %a.filter{"href" => "scientific"}
+      Scientific Names
+    |
+    %a.filter{"href" => "none"}
+      None
+- else
+  .words
+    %p.no-margin
+      &nbsp;Please log in before changing filters

@@ -1,4 +1,6 @@
 class CommonNamesController < ApplicationController
+  before_filter :require_user, :only => :create
+  
   def show
     taxon = params[:id].blank? ? Taxon.root : Taxon.find(params[:id])
     render_list(taxon)

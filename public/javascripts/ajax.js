@@ -3,7 +3,10 @@ var AJAX = (function() {
     $.ajax({
     	type: 'POST',
     	url: "/common_names",
-    	data: { id: parent_id, name: name },
+    	data: { id: parent_id, name: name},
+    	beforeSend: function(req) {
+    	  $('#new-name').val('').focus();
+    	},
     	success: function(response) {
     	  $('#names').html(response);
     	  $('#new-name').val('');
@@ -66,8 +69,12 @@ var AJAX = (function() {
     $.ajax({
       type: 'POST',
       url: '/photos',
-      data: { id: id, url: url }
+      data: { id: id, url: url },
+      success: function(response){
+        $('#best').attr('src', response);
+      }
     });
+    
   }
   
   // NOTE THIS IS PARENT ID

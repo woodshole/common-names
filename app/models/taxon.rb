@@ -42,34 +42,30 @@ class Taxon < ActiveRecord::Base
     not self.common_names.empty?
   end
   
-  def dropdown_options(rank, filt,current_user=nil)
-    taxa = if current_user
-      if filt == "common"
-        Taxon.find_by_sql("SELECT taxa.id as id, common_names.name as common
-        	FROM taxa
-        	LEFT JOIN common_names
-        	ON taxa.id = common_names.taxon_id
-        	WHERE taxa.parent_id = #{self.id}
-        	AND taxa.rank = #{self.rank + 1}
-        	AND common_names.name IS NOT NULL
-        	AND common_names.language_id = #{current_user.language.id}
-        	GROUP BY taxa.name")
-      elsif filt == "scientific"
-        Taxon.find_by_sql("SELECT taxa.id as id, taxa.name as name
-        	FROM taxa
-        	LEFT JOIN common_names
-        	ON taxa.id = common_names.taxon_id
-        	WHERE taxa.parent_id = #{self.id}
-        	AND taxa.rank = #{self.rank + 1}
-        	AND common_names.name IS NULL
-        	GROUP BY taxa.name")
-      else
-        Taxon.send(rank, :parent_id => self.id)
-      end
+  def dropdown_options(rank, filt,language)
+    if filt == "common"
+      taxa = Taxon.find_by_sql("SELECT taxa.id as id, common_names.name as common
+      	FROM taxa
+      	LEFT JOIN common_names
+      	ON taxa.id = common_names.taxon_id
+      	WHERE taxa.parent_id = #{self.id}
+      	AND taxa.rank = #{self.rank + 1}
+      	AND common_names.name IS NOT NULL
+      	AND common_names.language_id = #{language.id}
+      	GROUP BY taxa.name")
+    elsif filt == "scientific"
+      taxa = Taxon.find_by_sql("SELECT taxa.id as id, taxa.name as name
+      	FROM taxa
+      	LEFT JOIN common_names
+      	ON taxa.id = common_names.taxon_id
+      	WHERE taxa.parent_id = #{self.id}
+      	AND taxa.rank = #{self.rank + 1}
+      	AND common_names.name IS NULL
+      	GROUP BY taxa.name")
     else
-      Taxon.send(rank, :parent_id => self.id)
+      taxa = Taxon.send(rank, :parent_id => self.id)
     end
-    
+      
     if filt == 'common'
       taxa.map! {|t| [t.common, t.id] }
     else

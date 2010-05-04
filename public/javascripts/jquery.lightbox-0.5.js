@@ -14,10 +14,7 @@
 
 // Offering a Custom Alias suport - More info: http://docs.jquery.com/Plugins/Authoring#Custom_Alias
 (function($) {
-  function getCurrentId() {
-    return $('#family-dropdown').val() || $('#order-dropdown').val() ||
-      $('#class-dropdown').val() || $('#phylum-dropdown').val() || $('#kingdom-dropdown').val() || '';
-  }
+
 	/**
 	 * $ is an alias to jQuery object
 	 *
@@ -167,7 +164,7 @@
 			// USER CONTENT
 			// Asign the _favorite function to cn-secNav-btnClose
 			$('#cn-secNav-btnSave').click(function(){
-			  AJAX.createPhoto(getCurrentId(), $('#lightbox-image').attr('src'));
+			  AJAX.createPhoto(pageData.findCurrentId(), $('#lightbox-image').attr('src'));
 			  _finish();
 			  return false;
 			});

@@ -12,25 +12,30 @@ $(function(){
     // load kingdom names
   AJAX.getTaxonomyDropdown(1, 'kingdom', pageData.getFilter());
   
+  $('#options_image').click(function(){
+      $(this).next().animate({width: 'toggle'});
+  });
+  
   // options
   $('.filter').each(function(){
     $(this).click(function(){
       $('#filterval').html($(this).attr('href'));
+      $('#options_image').trigger('click');
+      resetRightOf('kingdom');
+      AJAX.getTaxonomyDropdown(1, 'kingdom', pageData.getFilter());
       return false;
     });
   });
-  
+
   $('#options_image').toggle(
     function(){
       $(this).attr("src", '/images/minus_button.gif');
-      $('#options').slideDown();
     },
     function(){
       $(this).attr("src", '/images/plus_button.gif');
-      $('#options').slideUp();
     }
   );
-      
+  
   //delete
   $('a.delete').live('click', function(){
     AJAX.deleteCommonName($(this).attr('dataid'));
@@ -72,21 +77,18 @@ $(function(){
   } 
 
 	function updateMainContent(taxon_id){
-	  $('#create').slideDown();
+    $('#create').slideDown();
     $('#names').slideDown();
     $('#best-photo > img').slideDown();
     $('#photos').slideDown();
 	  $('#flash').empty();
 	  AJAX.getCommonNames(taxon_id);
 	  $('#photos').empty();
-	  if (taxon_id != ''){
-      AJAX.getPhoto(taxon_id);
-      $('#spinner').fadeIn();
+    AJAX.getPhoto(taxon_id);
+    $('#spinner').fadeIn();
       // fade out on the completion of the AJAX event.
-      page = 1;
-      AJAX.getPhotos(taxon_id, page);
-    }
-
+    page = 1;
+    AJAX.getPhotos(taxon_id, page);
   }
 
   function resetRightOf(taxa){
@@ -139,15 +141,15 @@ $(function(){
   dds.each(function(index){
     $(this).change(function(){
       var id = $(this).val();
+      resetRightOf(jQuery.trim($(this).attr('name')));
       // we got an "Any"
-      if (id == '') {
-        resetRightOf(jQuery.trim($(this).attr('name')));
+      if (id == '' || id == null) {
         // get the id to the left of the change function
         id = dds.eq(index-1).val();
         // kingdom is "any"
         if (id == '' || id == null) {
           hideMainDivs();
-          return false;
+          //return false;
         } else {
           updateMainContent(id);
         }

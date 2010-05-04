@@ -540,3 +540,22 @@ a:hover.ico-more {
 /* line 540, ../../app/stylesheets/styles.sass */
 #create, #spinner, #options {
   display: none; }
+
+/* line 543, ../../app/stylesheets/styles.sass */
+#filters {
+  display: block; }
+  /* line 545, ../../app/stylesheets/styles.sass */
+  #filters .in {
+    margin: 0 0;
+    float: left; }
+
+/* line 549, ../../app/stylesheets/styles.sass */
+.words {
+  display: none;
+  white-space: nowrap;
+  margin: 0 0;
+  float: left; }
+
+/* line 555, ../../app/stylesheets/styles.sass */
+p.no-margin {
+  margin: 0 0; }

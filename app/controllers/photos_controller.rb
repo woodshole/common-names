@@ -24,7 +24,7 @@ class PhotosController < ApplicationController
     @photo = Photo.create!(attributes)
     @photo.users << current_user
     @photo.only_preferred
-    render :nothing => true, :layout => false
+    render :partial => 'best_photo', :layout => false
   end
 
 end

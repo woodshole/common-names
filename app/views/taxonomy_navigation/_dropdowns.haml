@@ -1,12 +1,13 @@
 %h2.colored.nobreak
   Taxonomic Browser
-Current Filter:
-%span#filterval
-  none
-=image_tag 'plus_button.gif', :id => 'options_image'
+#filters
+  %p.in
+    Current Filter: 
+    %span#filterval
+      none
+  =image_tag 'plus_button.gif', :id => 'options_image'
+  = render :partial => '/shared/options'
 
-= render :partial => '/shared/options'  
-  
 .boxed
   #taxonomic_selector.clearfix
     - %w( kingdom phylum class order family ).each_with_index do |rank, i|

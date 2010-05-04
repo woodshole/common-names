@@ -5,7 +5,7 @@ class TaxaController < ApplicationController
   
   # show dropdown options
   def show
-    @taxa = Taxon.find(params[:id]).dropdown_options(params[:rank],params[:filter],current_user)
+    @taxa = Taxon.find(params[:id]).dropdown_options(params[:rank],params[:filter], current_language)
     render :layout => false
   end
 end

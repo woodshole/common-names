@@ -103,7 +103,7 @@ def create_common_name_from_line(common_name_line, i)
       @log.error "Unknown language by iso code: #{iso_code}"
     else
       # Create the actual taxon.
-      common_name = CommonName.new(:taxon_id => taxon_id, :name => name, :language => language)
+      common_name = CommonName.new(:taxon_id => taxon_id, :name => name, :language => language, :source => "GBIF")
       # I don't force this save to raise, because some names are duplicates in GBIF's data
       common_name.save
     end
