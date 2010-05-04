@@ -1,14 +1,14 @@
-#colRight
-  #topmenu
-    - if current_user
-      #loggedin
-        %h4= "Logged in as #{current_user.email}"
-        = link_to "Settings", edit_user_path(current_user)
-        |
-        = link_to "Log out", user_session_path, :method => 'delete'
-    -else
-      - form_tag user_session_path, :method => :post do
-        = text_field_tag "email", "email", :class => "form-reset", :id => "user"
-        = password_field_tag "password", '', :class => "form-reset", :id => "pass"
-        = submit_tag "Login", :id => "login-submit"
+#topmenu
+  - if current_user
+    #loggedin
+      %h4= "Logged in as #{current_user.email}"
+      = link_to "Settings", edit_user_path(current_user)
+      |
+      = link_to "Log out", user_session_path, :method => 'delete'
+  -else
+    - form_tag user_session_path, :method => :post do
+      = text_field_tag "email", "email", :class => "form-reset", :id => "user"
+      = password_field_tag "password", '', :class => "form-reset", :id => "pass"
+      = submit_tag "Login", :id => "login-submit"
       = link_to 'Sign up', new_user_path
+.box.clear

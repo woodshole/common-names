@@ -6,7 +6,6 @@ class CreateTaxa < ActiveRecord::Migration
       t.integer :lft
       t.integer :rgt
       t.integer :rank
-      t.string :lineage_ids
     end
     add_index :taxa, :id
     add_index :taxa, :parent_id
@@ -15,6 +14,6 @@ class CreateTaxa < ActiveRecord::Migration
   def self.down
     remove_index :taxa, :parent_id
     remove_index :taxa, :id
-    drop_table :nodes
+    drop_table :taxa
   end
 end

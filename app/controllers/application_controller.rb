@@ -4,21 +4,17 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  helper_method  :current_language, :current_user_session, :current_user, :load_taxonomy, :logged_in?
+  helper_method  :current_language, :current_filter, :current_user_session, :current_user, :load_taxonomy, :logged_in?
   filter_parameter_logging :password, :password_confirmation
   
   private
     # grab the iso_code from the params, if none is chose... fall back to all
     def current_language
-      language = nil
-      if not params[:language].blank?
-        if language = Language.find_by_iso_code(params[:language])
-          # language was properly set, now return      
-        else
-          flash[:failure] = "That language does not exist, remember to use the proper ISO code."
-        end
-      end
-      return language
+      current_user ? current_user.language : nil
+    end
+    
+    def current_filter
+      current_user ? params[:filter] : nil
     end
   
     def current_user_session
@@ -33,10 +29,6 @@ class ApplicationController < ActionController::Base
     
     def logged_in?
       ! current_user.nil?
-    end
-    
-    def karma
-      current_user.karma
     end
     
     def require_user

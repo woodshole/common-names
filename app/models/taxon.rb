@@ -14,16 +14,100 @@ class Taxon < ActiveRecord::Base
   validates_presence_of :rank, :message => "must be set"
   validates_presence_of :name, :message => "can't be blank"
   
-  # Collect all common names attached to this taxon according to the language
-  # object that is passed in. If not, we send all common names back.
-  def language_common_names(language=nil)
-    if language
-      self.common_names.find_all {|d| d.language.iso_code == language.iso_code }
-    else
-      self.common_names
+  def preferred_photo
+    begin
+      Photo.find(:first, :limit => 1, :conditions => "taxon_id = #{self.id} AND preferred = 1")
+    rescue
+      Photo.find_by_taxon_id(id)
     end
+  end  
+  
+  def machine_tag
+    case self.rank
+      when 0
+        rank = "kingdom"
+      when 1
+        rank = "phylum"
+      when 2
+        rank = "class"
+      when 3
+        rank = "order"
+      when 4
+        rank = "family"
+    end
+    "taxonomy:#{rank}=#{self.name}"
   end
   
+  def has_common_name?
+    not self.common_names.empty?
+  end
+  
+  def dropdown_options(rank, filt,current_user=nil)
+    taxa = if current_user
+      if filt == "common"
+        Taxon.find_by_sql("SELECT taxa.id as id, common_names.name as common
+        	FROM taxa
+        	LEFT JOIN common_names
+        	ON taxa.id = common_names.taxon_id
+        	WHERE taxa.parent_id = #{self.id}
+        	AND taxa.rank = #{self.rank + 1}
+        	AND common_names.name IS NOT NULL
+        	AND common_names.language_id = #{current_user.language.id}
+        	GROUP BY taxa.name")
+      elsif filt == "scientific"
+        Taxon.find_by_sql("SELECT taxa.id as id, taxa.name as name
+        	FROM taxa
+        	LEFT JOIN common_names
+        	ON taxa.id = common_names.taxon_id
+        	WHERE taxa.parent_id = #{self.id}
+        	AND taxa.rank = #{self.rank + 1}
+        	AND common_names.name IS NULL
+        	GROUP BY taxa.name")
+      else
+        Taxon.send(rank, :parent_id => self.id)
+      end
+    else
+      Taxon.send(rank, :parent_id => self.id)
+    end
+    
+    if filt == 'common'
+      taxa.map! {|t| [t.common, t.id] }
+    else
+      taxa.map! {|t| [t.name, t.id]}
+    end
+    taxa.unshift(['Any', ''])
+  end
+    
+  #   # SQL:
+  #   # SELECT 
+  #   
+  #   #get children taxa
+  #   taxa = Taxon.send(rank, :parent_id => self.id)
+  #   unless filt == "none"
+  #     to_del = []
+  #     taxa.each do |t|
+  #       # if we only want to see those with common names and this taxon does not have a common name
+  #       # delete it
+  #       if filt == 'common' and not t.has_common_name?
+  #         to_del << t
+  #       # if we only want to see those without common names and this taxon has a common name
+  #       # delete it
+  #       elsif filt == 'scientific' and t.has_common_name?
+  #         to_del << t
+  #       end
+  #     end
+  #     to_del.each {|t| taxa.delete t}
+  #   else
+  #     taxa.map! {|t| [t.name, t.id]}
+  #   end
+  #   if filt == 'common'
+  #     taxa.map! {|t| [t.common_names[0].name, t.id] }
+  #   elsif filt == 'scientific'
+  #     taxa.map! {|t| [t.name, t.id]}
+  #   end
+  #   taxa.unshift(['Any', ''])
+  # end
+  # 
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end
@@ -76,4 +160,15 @@ end
 #  rank        :integer(4)
 #  lineage_ids :string(255)
 #
-
+  # 
+  # # Check to see if we're filtering taxa by common names, and skip loop if filter doesn't allow this taxon.
+  # next if current_filter == "common" && t.language_common_names(current_language).empty?
+  # next if current_filter == "scientific"  && ! t.language_common_names(current_language).empty?  
+  # # If there are no common names, surround the scientific name with parentheses.
+  # if t.language_common_names(current_language).empty?
+  #   text = "(" + t.name + ")"
+  # else
+  #   text = t.language_common_names(current_language)[0].name
+  # end
+  # # save this mini array for each elementa
+  # elements << [text, t.id]

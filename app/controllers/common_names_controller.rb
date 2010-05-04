@@ -1,16 +1,28 @@
 class CommonNamesController < ApplicationController
-  def create    
-    language = current_user.language
-    if @taxon = Taxon.find_by_name(params[:taxon_name])
-      common_name = CommonName.new(:name => params[:name], :taxon => @taxon, :language => language)
-      if common_name.save
-        @names = @taxon.language_common_names(language)
-        render :partial => "taxa/list", :layout => false; return
-      else
-        render :text => "Failure: Name did not save."; return
-      end
+  def show
+    taxon = params[:id].blank? ? Taxon.root : Taxon.find(params[:id])
+    render_list(taxon)
+  end
+  
+  def create
+    taxon = Taxon.find(params[:id])
+    common_name = CommonName.create!(:name => params[:name], :taxon => taxon, :language => current_language, :user => current_user)
+    render_list(taxon)
+  end
+  
+  def destroy
+    if @common_name = CommonName.find(params[:id])
+      @common_name.destroy
+      render :json => {:status => "success"}
     else
-      render :text => "Failure: Taxon not found."; return
+      render :json => {:status => "failure"}
     end
   end
+  
+  def render_list(taxon)
+    language = current_language if current_filter
+    @names = CommonName.language_filter(taxon, language)
+    render :partial => "list", :layout => false
+  end
+  
 end

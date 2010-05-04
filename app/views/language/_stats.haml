@@ -1,5 +1,4 @@
 -count = Taxon.count
--languages = CommonName.find_by_sql("SELECT DISTINCT language_id FROM common_names WHERE language_id <> 'NULL'")
 
 %table
   %tr
@@ -9,12 +8,13 @@
       translated taxon
     %th
       percent translated
-  -languages.each do |language|
+  -Language.active_languages.each do |language|
     %tr
-      -c = CommonName.count(:conditions => "language_id = #{language.language_id}")
+      -c = CommonName.number_translated(language)
       %td
-        =Language.find(language.language_id).english_name
+        =language.english_name
       %td
         =c
       %td
-        =c/count
+        - num = c.to_f/count.to_f
+        = sprintf('%.2f%%', num*100)
