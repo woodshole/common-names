@@ -6,7 +6,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   helper_method  :current_language, :current_filter, :current_user_session, :current_user, :load_taxonomy, :logged_in?
   filter_parameter_logging :password, :password_confirmation
+  before_filter :set_locale
   
+  def set_locale
+    I18n.locale = current_language ? current_language.iso_code : 'en'
+  end
+
   private
     # grab the iso_code from the params, if none is chose... fall back to all
     def current_language

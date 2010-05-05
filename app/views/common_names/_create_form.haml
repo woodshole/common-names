@@ -1,0 +1,5 @@
+#create-new
+  - form_tag '/', :id => "create_form" do
+    = select_tag 'language', options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, [current_language, current_language.id])
+    = text_field_tag 'new-name'
+    = submit_tag "Create", :class => "button"

@@ -18,8 +18,17 @@ $(function(){
     });
   });
   
+  $("img[id$='_image']").toggle(
+    function(){
+      $(this).attr("src", '/images/minus_button.gif');
+    },
+    function(){
+      $(this).attr("src", '/images/plus_button.gif');
+    }
+  );
+  
   // taxon options
-  $('.taxon.filter').each(function(){
+  $('a.taxon.filter').each(function(){
     $(this).click(function(){
       $('#taxon-filter-val').html($(this).attr('href'));
       $('#taxon_image').trigger('click');
@@ -30,24 +39,20 @@ $(function(){
   });
   
   // common names options
-  $('.common.filter').each(function(){
+  $('a.common.filter').each(function(){
     $(this).click(function(){
       $('#common-filter-val').html($(this).attr('href'));
       $('#common_names_image').trigger('click');
-      AJAX.getCommonNames(pageData.getCurrentId());
+      AJAX.getCommonNames(pageData.findCurrentId());
       return false;
     });
   });
-
-  $("img[id$='_image']").toggle(
-    function(){
-      $(this).attr("src", '/images/minus_button.gif');
-    },
-    function(){
-      $(this).attr("src", '/images/plus_button.gif');
-    }
-  );
   
+  $('#create_form').submit(function() {
+    AJAX.createCommonName($('#new-name').val(), pageData.findCurrentId());
+    return false;
+  });
+
   //delete
   $('a.delete').live('click', function(){
     AJAX.deleteCommonName($(this).attr('dataid'));
@@ -169,9 +174,5 @@ $(function(){
   });
     
   // override submit action and use ajax instead
-  $('#create_form').submit(function() {
-    AJAX.createCommonName($('#new-name').val(), pageData.findCurrentId());
-    return false;
-  });
 
 });

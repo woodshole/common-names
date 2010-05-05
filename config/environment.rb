@@ -55,6 +55,9 @@ Rails::Initializer.run do |config|
   
   # Zip files. Woohoo.
   config.gem 'zipruby', :version => '0.3.6'
+  
+  # Translator
+  #config.gem "graysky-translator", :lib => "translator", :source => "http://gems.github.com"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

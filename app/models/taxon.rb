@@ -24,7 +24,7 @@ class Taxon < ActiveRecord::Base
   
   def common_names_list(filt, language)
     if filt == 'all' 
-      Taxon.find_by_sql("SELECT languages.english_name as lang, 
+       t = Taxon.find_by_sql("SELECT languages.english_name as lang, 
           common_names.name as name, 
           users.email as user, 
           common_names.source as source,
@@ -37,7 +37,7 @@ class Taxon < ActiveRecord::Base
         WHERE common_names.taxon_id = #{self.id}
         ORDER BY common_names.name")
     elsif filt == 'only'
-      Taxon.find_by_sql("SELECT languages.english_name as lang, 
+      t = Taxon.find_by_sql("SELECT languages.english_name as lang, 
           common_names.name as name, 
           users.email as user, 
           common_names.source as source,
@@ -50,6 +50,9 @@ class Taxon < ActiveRecord::Base
         WHERE common_names.taxon_id = #{self.id}
         AND common_names.language_id = #{language.id}
         ORDER BY common_names.name")
+    end
+    t.each do |m|
+      m.user = m.user.gsub(/@.*/, '') unless m.user.nil?
     end
   end
   

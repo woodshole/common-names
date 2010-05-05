@@ -98,7 +98,7 @@ def create_common_name_from_line(common_name_line, i)
     end
     
     # Find the appropriate language by iso code.
-    language = Language.find_by_english_name(@languages[iso_code])
+    language = Language.find_by_iso_code(iso_code.downcase)
     if language.nil?
       @log.error "Unknown language by iso code: #{iso_code}"
     else
@@ -125,7 +125,7 @@ def get_languages
     # Load all taxa from GBIF here.
     progress("Languages", num_lines) do |progress_bar|
       i = 1 # incrementor, to see what line we're on
-      languages.each_line do |languageline|
+      languages.each_line do |languagelin e|
         code, language = languageline.rstrip.split("\t")
         @languages[code] = language
         progress_bar.inc

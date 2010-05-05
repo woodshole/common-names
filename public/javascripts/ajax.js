@@ -3,14 +3,16 @@ var AJAX = (function() {
     $.ajax({
     	type: 'POST',
     	url: "/common_names",
-    	data: { id: parent_id, name: name},
+    	data: { id: parent_id,
+    	  name: name,
+    	  language: pageData.getCreationLanguage()
+    	},
     	beforeSend: function(req) {
     	  $('#new-name').val('').focus();
     	},
     	success: function(response) {
-    	  $('#names').html(response);
-    	  $('#new-name').val('');
-      },
+    	  getCommonNames(parent_id)
+  	  },
       error: function(){
         alert(name + " already exists");
       }

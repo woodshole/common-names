@@ -1,3 +1,1 @@
-- options = Language.all.map!{|d|[d.english_name, d.id]}
-- default = current_user ? [current_user.language, current_user.language_id] : nil
-= select_tag 'user[language_id]', options_for_select(options.unshift(['all','']), :selected => default)
+= select_tag 'language', options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, [current_language, current_language.id])

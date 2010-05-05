@@ -13,9 +13,14 @@ var pageData = (function() {
     return jQuery.trim($('#common-filter-val').text());
   }
   
+  var getCreationLanguage = function(){
+    return $('#language').val();
+  }
+  
   return {
     findCurrentId: findCurrentId,
     getTaxonFilter: getTaxonFilter,
-    getCommonNamesFilter: getCommonNamesFilter
+    getCommonNamesFilter: getCommonNamesFilter,
+    getCreationLanguage: getCreationLanguage
   };
 })();
