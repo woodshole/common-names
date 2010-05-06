@@ -2,13 +2,13 @@
   - if current_user
     #loggedin
       %h4= "Logged in as #{current_user.email}"
-      = link_to "Settings", edit_user_path(current_user)
+      = link_to t(:settings), edit_user_path(current_user)
       |
-      = link_to "Log out", user_session_path, :method => 'delete'
+      = link_to t(:log_out), user_session_path, :method => 'delete'
   -else
     - form_tag user_session_path, :method => :post do
-      = text_field_tag "email", "email", :class => "form-reset", :id => "user"
+      = text_field_tag t(:email), "email", :class => "form-reset", :id => "user"
       = password_field_tag "password", '', :class => "form-reset", :id => "pass"
-      = submit_tag "Login", :id => "login-submit"
-      = link_to 'Sign up', new_user_path
+      = submit_tag t(:login), :id => "login-submit"
+      = link_to t(:sign_up), new_user_path
 .box.clear

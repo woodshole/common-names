@@ -559,3 +559,26 @@ a:hover.ico-more {
 /* line 555, ../../app/stylesheets/styles.sass */
 p.no-margin {
   margin: 0 0; }
+
+/* line 560, ../../app/stylesheets/styles.sass */
+form #create-button {
+  width: 300px; }
+/* line 562, ../../app/stylesheets/styles.sass */
+form .field {
+  width: 300px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  display: block;
+  clear: left; }
+  /* line 568, ../../app/stylesheets/styles.sass */
+  form .field label {
+    float: left;
+    text-align: right;
+    width: 110px;
+    padding-right: 3px; }
+  /* line 573, ../../app/stylesheets/styles.sass */
+  form .field input {
+    width: 180px; }
+  /* line 575, ../../app/stylesheets/styles.sass */
+  form .field select {
+    width: 180px; }

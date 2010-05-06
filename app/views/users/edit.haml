@@ -1,5 +1,11 @@
-= render :partial => "/shared/header", :locals => { :flash => flash, :title => 'Edit My Account'}
+= render :partial => "/shared/header"
+= render :partial => '/shared/nav', :locals => {:nav => [[t(:home), root_path]], :active =>t(:home)}
 .box.clear
+%h2.colored
+  =t :account_settings
 - form_for @user do |f|
   = f.error_messages
   = render :partial => "form", :object => f
+  %button{:type => "submit", :name => "commit", :value => t(:register), :class => 'button positive'} 
+    =t(:save)
+  = link_to t(:cancel), request.env["HTTP_REFERER"], :class => 'button'

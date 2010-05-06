@@ -1,10 +1,10 @@
 %h2.colored.nobreak
-  Taxonomic Browser
+  =t :taxonomic_browser
 = render :partial => '/shared/taxon_filter'
 
 .boxed
   #taxonomic_selector.clearfix
     - %w( kingdom phylum class order family ).each_with_index do |rank, i|
       .rank
-        = label_tag "#{rank}-dropdown", rank.capitalize
+        = label_tag "#{rank}-dropdown", t(rank.to_sym)
         = select_tag rank, options_for_select([['Any','']], nil), :id => "#{rank}-dropdown"

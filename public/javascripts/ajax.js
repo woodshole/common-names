@@ -1,17 +1,18 @@
 var AJAX = (function() {
-  var createCommonName = function(name, parent_id){
+  var createCommonName = function(parent_id){
     $.ajax({
     	type: 'POST',
     	url: "/common_names",
     	data: { id: parent_id,
-    	  name: name,
-    	  language: pageData.getCreationLanguage()
+    	  name: pageData.getCreationName(),
+    	  language: pageData.getCreationLanguage(),
+    	  source: pageData.getCreationSource()
     	},
     	beforeSend: function(req) {
     	  $('#new-name').val('').focus();
     	},
     	success: function(response) {
-    	  getCommonNames(parent_id)
+    	  getCommonNames(parent_id);
   	  },
       error: function(){
         alert(name + " already exists");

@@ -9,7 +9,13 @@ class CommonNamesController < ApplicationController
   
   def create
     taxon = Taxon.find(params[:id])
-    common_name = CommonName.create!(:name => params[:name], :taxon => taxon, :language => Language.find(params[:language]), :user => current_user)
+    common_name = CommonName.create!(
+      :name => params[:name],
+      :taxon => taxon,
+      :language => Language.find(params[:language]),
+      :user => current_user,
+      :source => params[:source]
+    )
     render :nothing => true, :layout => false
   end
   

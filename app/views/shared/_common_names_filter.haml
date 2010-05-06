@@ -1,19 +1,20 @@
 -# COMMON NAMES FILTER
 .filters
   %p.in
-    Current Filter: 
+    = t :current_filter
     %span#common-filter-val
-      all
+      =t :all
   =image_tag 'plus_button.gif', :id => 'common_names_image'
   - if current_user
     .words
       &nbsp; 
       %a.filter.common{"href" => "only"}
-        ="Only #{current_user.language.english_name}"
+        =t(:only) + " #{current_user.language.english_name}"
       |
       %a.filter.common{"href" => "all"}
-        ="All"
+        =t :all
   - else
     .words
       %p.no-margin
-        &nbsp;Please log in before changing filters
+        &nbsp;
+        =t :please_login

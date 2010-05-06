@@ -1,18 +1,13 @@
-%h2.colored
-  Account Settings
 .boxed
-  %p.colored
-    = form.label :language_id, 'Default Language'
+  %p
+    = form.label :language_id, t(:default_language)
   = render :partial => 'language/language_select' 
-  %p.colored
-    = form.label :email
+  %p
+    = form.label :email, t(:email)
   = form.text_field :email, :class => 'title'
-  %p.colored
-    = form.label :password, form.object.new_record? ? nil : "Change password"
+  %p
+    = form.label :password, form.object.new_record? ? nil : t(:change_password)
   = form.password_field :password, :class => 'title'
-  %p.colored
-    = form.label :password_confirmation
+  %p
+    = form.label :password_confirmation, t(:password_confirmation)
   = form.password_field :password_confirmation, :class => 'title'
-  .box.clear
-  %button{:type => "submit", :name => "commit", :value => "Register", :class => 'button positive'} Save
-  = link_to "Cancel", request.env["HTTP_REFERER"], :class => 'button'

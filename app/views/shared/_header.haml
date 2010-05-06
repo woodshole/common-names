@@ -1,6 +1,7 @@
 .box#header
   %h1#logo
-    = image_tag 'gbif_small.gif', :alt => 'GBIF'
-    = title
+    %a{'href' => '/'}
+      = image_tag 'gbif_small.gif', :alt => t(:gbif)
+    = t :title
 .box.clear
 

@@ -1,1 +1,5 @@
-= select_tag 'language', options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, [current_language, current_language.id])
+- if current_user
+  = select_tag t(:language), options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, [current_language, current_language.id])
+- else
+  = select_tag t(:language), options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, ["English",45])
+  

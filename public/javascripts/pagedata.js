@@ -17,10 +17,20 @@ var pageData = (function() {
     return $('#language').val();
   }
   
+  var getCreationSource = function(){
+    return $("#source").val();
+  }
+  
+  var getCreationName = function(){
+    return $('#new-name').val();
+  }
+  
   return {
     findCurrentId: findCurrentId,
     getTaxonFilter: getTaxonFilter,
     getCommonNamesFilter: getCommonNamesFilter,
-    getCreationLanguage: getCreationLanguage
+    getCreationLanguage: getCreationLanguage,
+    getCreationSource: getCreationSource,
+    getCreationName: getCreationName
   };
 })();

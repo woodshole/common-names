@@ -12,12 +12,11 @@
     = javascript_include_tag 'pagedata', 'ajax', 'application'
     = javascript_include_tag 'jquery.lightbox-0.5'
     
-    
     %script{:type => "text/javascript"}
       = yield(:script)
       
     %title
-      Common Names for Higher Taxa
+      =t :title
   %body
     #main
       = render :partial => "/shared/user_control"

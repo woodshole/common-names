@@ -1,29 +1,36 @@
-
-= render :partial => "/shared/header", :locals => { :flash => flash, :title => 'Common Names for Higher Taxa'}
-= render :partial => '/shared/nav', :locals => {:nav => [['Home', root_path]], :active => 'Home'}
+= render :partial => "/shared/header"
+= render :partial => '/shared/nav', :locals => {:nav => [[t(:home), root_path]], :active =>t(:home)}
 = render :partial => "/shared/flash", :locals => { :flash => flash }
 = render :partial => "/taxonomy_navigation/dropdowns"
           
 .box.clear
 #colLeft
   %h2.colored
-    Common Names
+    =t :common_names
+    %span#browsing
   = render :partial => "shared/common_names_filter"
   .boxed
     #names
-    #create
-      -if current_user
-        = render :partial => "common_names/create_form"
         
 #colRight
   %h2.colored
-    Exemplary Photo
+    =t :exemplary_photo
   #best-photo.boxed
     %img{:id => 'best'}
+  %h2.colored
+    =t :name_it
+  .boxed
+    #create
+      - if current_user
+        = render:partial => "common_names/create_form"
+      - else
+        %p
+          =t :please_login
+
 
 .box.clear
   %h2.colored
-    Photos
+    =t :photos
   .boxed
     #photos
     #no-results 
@@ -31,5 +38,5 @@
   
 .box.clear
   %h2.colored
-    Stats
+    =t :statistics
   =render :partial => "language/stats"

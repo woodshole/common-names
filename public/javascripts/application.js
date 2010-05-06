@@ -49,7 +49,7 @@ $(function(){
   });
   
   $('#create_form').submit(function() {
-    AJAX.createCommonName($('#new-name').val(), pageData.findCurrentId());
+    AJAX.createCommonName(pageData.findCurrentId());
     return false;
   });
 

@@ -1,15 +1,15 @@
 %table
   %tr
     %th
-      Language
+      =t :language
     %th
-      Common Name
+      =t :common_name
     %th
-      User submitted
+      =t :user_submitted
     %th
-      Source
+      =t :source
     %th
-      Delete
+      =t :delete
   - user = current_user  
   - @names.each do |name|
     %tr

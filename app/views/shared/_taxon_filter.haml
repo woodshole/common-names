@@ -1,22 +1,23 @@
 -# TAXON FILTER
 .filters
   %p.in
-    Current Filter: 
+    =t :current_filter
     %span#taxon-filter-val
-      none
+      =t :none
   =image_tag 'plus_button.gif', :id => 'taxon_image'
   - if current_user
     .words
       &nbsp; 
       %a.filter.taxon{"href" => "common"}
-        Common Names
+        =t :common_names
       |
       %a.filter.taxon{"href" => "scientific"}
-        Scientific Names
+        =t :scientific_names
       |
       %a.filter.taxon{"href" => "none"}
-        None
+        =t :none
   - else
     .words
       %p.no-margin
-        &nbsp;Please log in before changing filters
+        &nbsp;
+        =t :please_login
