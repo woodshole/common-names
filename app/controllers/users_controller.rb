@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(params[:user], options => {:country => params[:country]})
+    @user = User.new(params[:user])
     if @user.save
       flash[:success] = t(:account_registered)
       redirect_to root_url

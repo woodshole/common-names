@@ -6,9 +6,6 @@
     = form.label :email, t(:email)
   = form.text_field :email, :class => 'title'
   %p
-    =form.label :country, t(:country)
-  = form.text_field :country, :class => 'title'
-  %p
     = form.label :password, form.object.new_record? ? nil : t(:change_password)
   = form.password_field :password, :class => 'title'
   %p
