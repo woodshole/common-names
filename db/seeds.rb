@@ -125,7 +125,7 @@ def get_languages
     # Load all taxa from GBIF here.
     progress("Languages", num_lines) do |progress_bar|
       i = 1 # incrementor, to see what line we're on
-      languages.each_line do |languagelin e|
+      languages.each_line do |languageline|
         code, language = languageline.rstrip.split("\t")
         @languages[code] = language
         progress_bar.inc
