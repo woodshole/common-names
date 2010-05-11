@@ -20,40 +20,55 @@ class Taxon < ActiveRecord::Base
     rescue
       Photo.find_by_taxon_id(id)
     end
-  end  
+  end
+  
+  def get_languages_of_children
+    sql = "SELECT DISTINCT common_names.language_id as lang_id,
+      languages.english_name as english_name
+    FROM taxa
+    RIGHT JOIN common_names
+    ON common_names.taxon_id = taxa.id
+    LEFT JOIN languages
+    ON common_names.language_id = languages.id
+    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}"
+    Taxon.find_by_sql(sql)
+  end
+  
+  def get_count_of_children_translated(language=nil)
+    sql = "SELECT COUNT(DISTINCT taxa.id) as number_of_children
+    FROM taxa
+    RIGHT JOIN common_names
+    ON common_names.taxon_id = taxa.id
+    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}"
+    sql += " AND common_names.language_id = #{language.id}" unless language.nil?
+    Taxon.find_by_sql(sql)[0].number_of_children
+  end
+  
+  def get_number_of_children
+    Taxon.find_by_sql("SELECT COUNT(id) as count
+    FROM taxa
+    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}").first.count
+  end
+  
+  def get_stats(language_id)
+    sprintf("%.2f%%", (self.get_count_of_children_translated(Language.find(language_id)).to_f / number_of_children.to_f)*100)
+  end
   
   def common_names_list(filt, language)
-    if filt == 'all' 
-       t = Taxon.find_by_sql("SELECT languages.english_name as lang, 
-          common_names.name as name, 
-          users.email as user, 
-          common_names.source as source,
-          common_names.id as id
-        FROM common_names
-        LEFT JOIN languages
-        ON common_names.language_id = languages.id
-        LEFT JOIN users
-        ON common_names.user_id = users.id
-        WHERE common_names.taxon_id = #{self.id}
-        ORDER BY common_names.name")
-    elsif filt == 'only'
-      t = Taxon.find_by_sql("SELECT languages.english_name as lang, 
-          common_names.name as name, 
-          users.email as user, 
-          common_names.source as source,
-          common_names.id as id
-        FROM common_names
-        LEFT JOIN languages
-        ON common_names.language_id = languages.id
-        LEFT JOIN users
-        ON common_names.user_id = users.id
-        WHERE common_names.taxon_id = #{self.id}
-        AND common_names.language_id = #{language.id}
-        ORDER BY common_names.name")
-    end
-    t.each do |m|
-      m.user = m.user.gsub(/@.*/, '') unless m.user.nil?
-    end
+    filt = filt.downcase
+    sql = "SELECT languages.english_name as lang,
+      common_names.name as name,
+      users.email as user,
+      common_names.source as source,
+      common_names.id as id
+    FROM common_names
+    LEFT JOIN languages
+    ON common_names.language_id = languages.id
+    LEFT JOIN users
+    ON common_names.user_id = users.id
+    WHERE common_names.taxon_id = #{self.id}"
+    sql = sql + " AND common_names.language_id = #{language.id}" if filt == "only" and not language.nil?
+    Taxon.find_by_sql(sql)
   end
   
   def machine_tag
@@ -76,36 +91,17 @@ class Taxon < ActiveRecord::Base
     not self.common_names.empty?
   end
   
-  def dropdown_options(rank, filt,language)
-    if filt == "common"
-      taxa = Taxon.find_by_sql("SELECT taxa.id as id, common_names.name as common
-      	FROM taxa
-      	LEFT JOIN common_names
-      	ON taxa.id = common_names.taxon_id
-      	WHERE taxa.parent_id = #{self.id}
-      	AND taxa.rank = #{self.rank + 1}
-      	AND common_names.name IS NOT NULL
-      	AND common_names.language_id = #{language.id}
-      	GROUP BY taxa.name")
-    elsif filt == "scientific"
-      taxa = Taxon.find_by_sql("SELECT taxa.id as id, taxa.name as name
-      	FROM taxa
-      	LEFT JOIN common_names
-      	ON taxa.id = common_names.taxon_id
-      	WHERE taxa.parent_id = #{self.id}
-      	AND taxa.rank = #{self.rank + 1}
-      	AND common_names.name IS NULL
-      	GROUP BY taxa.name")
-    else
-      taxa = Taxon.send(rank, :parent_id => self.id)
-    end
-      
-    if filt == 'common'
-      taxa.map! {|t| [t.common, t.id] }
-    else
-      taxa.map! {|t| [t.name, t.id]}
-    end
-    taxa.unshift(['Any', ''])
+  def dropdown_options(rank, filt, language)
+    sql = "SELECT taxa.id as id, taxa.name as name FROM taxa"
+    sql += " LEFT JOIN common_names	ON taxa.id = common_names.taxon_id" unless filt == 'none'
+    sql += " WHERE taxa.parent_id = #{self.id} AND taxa.rank = #{self.rank + 1}"
+    sql += " AND common_names.name IS NOT NULL
+      AND common_names.language_id = #{language.id}" if filt == 'common'
+    sql += " AND common_names.name IS NULL" if filt == 'scientific'
+    sql += " GROUP BY taxa.name"
+    taxa = Taxon.find_by_sql(sql)
+    taxa.map! {|t| [t.common, t.id]} if filt == 'common'
+    taxa.map! {|t| [t.name, t.id]} unless filt == 'common'
   end
     
   #   # SQL:

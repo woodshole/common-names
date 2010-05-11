@@ -6,19 +6,19 @@ class UserSessionsController < ApplicationController
     # flattened the params hash wtoutrageousskuillduggery
     @user_session = UserSession.new(params)
     if @user_session.save
-      flash[:success] = "Login successful!"
+      flash[:success] = t(:login_successful)
       redirect_to root_url
     else
       if !performed?
         redirect_to root_url
       end
-      flash[:failure] = "Login failed. Were your credentials correct?"
+      flash[:failure] = t(:login_failed)
     end
   end
   
   def destroy
     current_user_session.destroy
-    flash[:success] = "Logout successful!"
+    flash[:success] = t(:login_successful)
     redirect_to root_url
   end
   

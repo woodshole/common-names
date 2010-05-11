@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  serialize :options, Hash
   belongs_to :language
   has_and_belongs_to_many :photo
   has_many :common_names

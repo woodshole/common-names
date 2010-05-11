@@ -7,4 +7,4 @@
     - %w( kingdom phylum class order family ).each_with_index do |rank, i|
       .rank
         = label_tag "#{rank}-dropdown", t(rank.to_sym)
-        = select_tag rank, options_for_select([['Any','']], nil), :id => "#{rank}-dropdown"
+        = select_tag rank, options_for_select([[t(:any),'']], nil), :id => "#{rank}-dropdown"

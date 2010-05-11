@@ -15,6 +15,10 @@ ActionController::Routing::Routes.draw do |map|
     :action => :index,
     :rank => /(kingdom|phylum|class|order|family)/,
     :conditions => {:method => :get}
+    
+  map.stats '/stats/:taxon_id',
+    :controller => :taxa,
+    :action => :stats
   
   map.root :controller => :taxa
 end

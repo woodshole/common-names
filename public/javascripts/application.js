@@ -102,6 +102,7 @@ $(function(){
 	  AJAX.getCommonNames(taxon_id);
 	  $('#photos').empty();
     AJAX.getPhoto(taxon_id);
+    AJAX.getStats();
     $('#spinner').fadeIn();
       // fade out on the completion of the AJAX event.
     page = 1;

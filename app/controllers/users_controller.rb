@@ -7,9 +7,9 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(params[:user])
+    @user = User.new(params[:user], options => {:country => params[:country]})
     if @user.save
-      flash[:success] = "Account registered!"
+      flash[:success] = t(:account_registered)
       redirect_to root_url
     else
       render :action => :new
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   def update
     @user = current_user # makes our views "cleaner" and more consistent
     if @user.update_attributes(params[:user])
-      flash[:success] = "Account updated!"
+      flash[:success] = t(:account_updated)
       redirect_to root_url
     else
       render :action => :edit

@@ -18,11 +18,11 @@
       %td
         =name.name
       %td
-        =name.user
+        =name.user.gsub(/@.*/, '') unless name.user.nil?
       %td
         =name.source
       %td
         - if current_user
-          - if name.user == user.email.gsub(/@.*/,'')
+          - if name.user == user.email
             %a{:class => "delete", :dataid => name.id, :href=>"/common_names/#{name.id}"}
               =image_tag 'delete.gif'

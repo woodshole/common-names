@@ -1,7 +1,8 @@
 #topmenu
   - if current_user
     #loggedin
-      %h4= "Logged in as #{current_user.email}"
+      %h4
+        =t(:logged_in_as, :user => current_user.email)
       = link_to t(:settings), edit_user_path(current_user)
       |
       = link_to t(:log_out), user_session_path, :method => 'delete'

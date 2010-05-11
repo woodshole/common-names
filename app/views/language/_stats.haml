@@ -1,20 +1,29 @@
--count = Taxon.count
-
 %table
   %tr
     %th
       language
     %th
-      translated taxon
+      number of children with a common name
+      (including self)
     %th
-      percent translated
-  -Language.active_languages.each do |language|
+      number of children
+      (including self)
+    %th
+      percent of children translated
+  - c = @taxon.get_number_of_children
+  - total = 0.0
+  -@languages.each do |language|
     %tr
-      -c = CommonName.number_translated(language)
       %td
         =language.english_name
       %td
-        =c
+        -ct = @taxon.get_count_of_children_translated(Language.find(language.lang_id))
+        = ct
       %td
-        - num = c.to_f/count.to_f
-        = sprintf('%.2f%%', num*100)
+        = c
+      %td
+        - total += (ct.to_f/c.to_f)
+        =sprintf("%.2f%%", (ct.to_f/c.to_f)*100)
+  %p
+    Total percent of children translated:
+    =sprintf("%.2f%%", total*100)

@@ -82,7 +82,6 @@ var AJAX = (function() {
   }
   
   // NOTE THIS IS PARENT ID
-  // TODO: send the filter as data as well
   var getTaxonomyDropdown = function(id, dropdown){
     if (dropdown == null) { return; }
     $.ajax({
@@ -96,6 +95,16 @@ var AJAX = (function() {
         }
     });
   }
+  
+  var getStats = function(){
+    $.ajax({
+      type: 'GET',
+      url: '/stats/' + pageData.findCurrentId(),
+      success: function(response){
+        $('#stats').html(response);
+      }
+    });
+  }
 
   return {
     createCommonName: createCommonName,
@@ -104,6 +113,7 @@ var AJAX = (function() {
     getPhoto: getPhoto,
     getPhotos: getPhotos,
     createPhoto: createPhoto,
-    getTaxonomyDropdown: getTaxonomyDropdown
+    getTaxonomyDropdown: getTaxonomyDropdown,
+    getStats: getStats
   };
 })();

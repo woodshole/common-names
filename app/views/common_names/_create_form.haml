@@ -1,13 +1,13 @@
 #create-new
   - form_tag '/', :id => "create_form" do
     .field
-      = label_tag 'language', 'language: '
+      = label_tag 'language', t(:language)
       = select_tag 'language', options_for_select(Language.all.map!{|d|[d.english_name, d.id]}, [current_language, current_language.id])
     .field
-      = label_tag 'new-name', 'name: '
+      = label_tag 'new-name', t(:name)
       = text_field_tag 'new-name'
     .field
-      = label_tag 'source', 'source: '
+      = label_tag 'source', t(:source)
       = text_field_tag 'source'
     .field
-      = submit_tag "Create", :id => "create-button"
+      = submit_tag t(:create), :id => "create-button"
