@@ -114,12 +114,32 @@ def create_common_name_from_line(common_name_line, i)
       common_name.save
     end
   end
+end
+
+
+# A UTF-8 database connection is required for the native languages to import properly.
+def ensure_database_is_utf8
+  ar_config = ActiveRecord::Base.configurations
   
+  unless ar_config[Rails.env]['encoding'] == 'utf8'
+    
+    new_database_yaml = ar_config.clone
+    new_database_yaml.each{|env, config| config['encoding'] = 'utf8'} # Add the utf8 encoding to every environment in database.yml
+    
+    @log.error "Your database connection's character set is not set to UTF-8.\n" +
+               "This is required for native languages to import correctly.\n\n" + 
+               "To fix this problem, open config/database.yml and ensure that each\n" + 
+               "connection contains the line 'encoding: utf8' like so:\n" +
+               new_database_yaml.to_yaml
+
+    exit
+  end
 end
 
 # Load languages into Database
 def import_languages
-  @languages = {}
+  ensure_database_is_utf8
+
   path = File.join(Rails.root, "db/data", LANGUAGES)
   File.open(path, 'r') do |languages|
     if languages.nil?
