@@ -1,136 +1,186 @@
-AA	Afar
-AB	Abkhazian
-AF	Afrikaans
-AM	Amharic
-AR	Arabic
-AS	Assamese
-AY	Aymara
-AZ	Azerbaijani
-BA	Bashkir
-BE	Byelorussian
-BG	Bulgarian
-BH	Bihari
-BI	Bislama
-BN	Bengali
-BO	Tibetan
-BR	Breton
-CA	Catalan
-CO	Corsican
-CS	Czech
-CY	Welsh
-DA	Danish
-DE	German
-DZ	Bhutani
-EL	Greek
-EN	English
-EO	Esperanto
-ES	Spanish
-ET	Estonian
-EU	Basque
-FA	Persian
-FI	Finnish
-FJ	Fiji
-FO	Faeroese
-FR	French
-FY	Frisian
-GA	Irish
-GD	Gaelic
-GL	Galician
-GN	Guarani
-GU	Gujarati
-HA	Hausa
-HI	Hindi
-HR	Croatian
-HU	Hungarian
-HY	Armenian
-IA	Interlingua
-IE	Interlingue
-IK	Inupiak
-IN	Indonesian
-IS	Icelandic
-IT	Italian
-IW	Hebrew
-JA	Japanese
-JI	Yiddish
-JW	Javanese
-KA	Georgian
-KK	Kazakh
-KL	Greenlandic
-KM	Cambodian
-KN	Kannada
-KO	Korean
-KS	Kashmiri
-KU	Kurdish
-KY	Kirghiz
-LA	Latin
-LN	Lingala
-LO	Laothian
-LT	Lithuanian
-LV	Latvian
-MG	Malagasy
-MI	Maori
-MK	Macedonian
-ML	Malayalam
-MN	Mongolian
-MO	Moldavian
-MR	Marathi
-MS	Malay
-MT	Maltese
-MY	Burmese
-NA	Nauru
-NE	Nepali
-NL	Dutch
-NO	Norwegian
-OC	Occitan
-OM	Oromo
-OR	Oriya
-PA	Punjabi
-PL	Polish
-PS	Pashto
-PT	Portuguese
-QU	Quechua
-RM	Rhaeto-Romance
-RN	Kirundi
-RO	Romanian
-RU	Russian
-RW	Kinyarwanda
-SA	Sanskrit
-SD	Sindhi
-SG	Sangro
-SH	Serbo-Croatian                       
-SI	Singhalese
-SK	Slovak
-SL	Slovenian
-SM	Samoan
-SN	Shona
-SO	Somali
-SQ	Albanian
-SR	Serbian
-SS	Siswati
-ST	Sesotho
-SU	Sudanese
-SV	Swedish
-SW	Swahili
-TA	Tamil
-TE	Tegulu
-TG	Tajik
-TH	Thai
-TI	Tigrinya
-TK	Turkmen
-TL	Tagalog
-TN	Setswana
-TO	Tonga
-TR	Turkish
-TS	Tsonga
-TT	Tatar
-TW	Twi
-UK	Ukrainian	
-UR	Urdu
-UZ	Uzbek
-VI	Vietnamese
-VO	Volapuk
-WO	Wolof
-XH	Xhosa
-YO	Yoruba
-ZH	Chinese
-ZU	Zulu
+# These came straight from http://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
+#Code	English Name	Native Name
+aa	Afar	Qafara
+ab	Abkhazian	Аҧсуа
+ae	Avestan	avesta
+af	Afrikaans	Afrikaans
+ak	Akan	Akan
+am	Amharic	አማርኛ
+an	Aragonese	Aragonés
+ar	Arabic	العربية
+as	Assamese	অসমীয়া
+av	Avaric	авар мацӀ, магӀарул мацӀ
+ay	Aymara	aymar aru
+az	Azerbaijani	Azərbaycanca
+ba	Bashkir	башҡорт теле
+be	Belarusian	Беларуская мова
+bg	Bulgarian	български език
+bh	Bihari (languages)	Langues Biharis
+bi	Bislama	Bislama
+bm	Bambara	bamanankan
+bn	Bengali	বাংলা
+bo	Tibetan	བོད་ཡིག
+br	Breton	brezhoneg
+bs	Bosnian	bosanski jezik
+ca	Catalan, Valencian	català
+ce	Chechen	нохчийн мотт
+ch	Chamorro	Chamoru
+co	Corsican	corsu, lingua corsa
+cr	Cree	ᓀᐦᐃᔭᐍᐏᐣ
+cs	Czech	čeština (substantive), česky (adverb)
+cu	Church Slavonic, Church Slavic, Old Church Slavonic, Old Slavonic, Old Bulgarian	ѩзыкъ словѣньскъ
+cv	Chuvash	чӑваш чӗлхи
+cy	Welsh	Cymraeg
+da	Danish	Dansk
+de	German	Deutsch
+dv	Divehi, Dhivehi, Maldivian	ދިވެހިބަސ
+dz	Dzongkha	རྫོང་ཁ
+ee	Ewe	Ɛʋɛgbɛ
+el	Modern Greek (1453–)	Ελληνικά
+en	English	English
+eo	Esperanto	Esperanto
+es	Spanish, Castilian	español, castellano
+et	Estonian	eesti keel
+eu	Basque	euskara
+fa	Persian	فارسی
+ff	Fulah	Fulfulde, Pulaar, Pular
+fi	Finnish	suomi, suomen kieli
+fj	Fijian	vosa Vakaviti
+fo	Faroese	føroyskt
+fr	French	français, langue française
+fy	Western Frisian	frysk
+ga	Irish	Gaeilge
+gd	Scottish Gaelic, Gaelic	Gàidhlig
+gl	Galician	Galego
+gn	Guarani	Avañe'ẽ
+gu	Gujarati	ગુજરાતી
+gv	Manx	Gaelg, Manninagh
+ha	Hausa	Hausancī, هَوُسَ
+he	Hebrew	עִבְרִית, עברית
+hi	Hindi	हिन्दी
+ho	Hiri Motu	Hiri Motu
+hr	Croatian	hrvatski jezik
+ht	Haitian Creole, Haitian	Kreyòl ayisyen
+hu	Hungarian	magyar
+hy	Armenian	Հայերեն լեզու
+hz	Herero	Otjiherero
+ia	Interlingua (International Auxiliary Language Association)	interlingua
+id	Indonesian	Bahasa Indonesia
+ie	Interlingue, Occidental	Interlingue
+ig	Igbo	Igbo
+ii	Sichuan Yi, Nuosu	ꆇꉙ
+ik	Inupiaq	Iñupiaq, Iñupiatun
+io	Ido	Ido
+is	Icelandic	íslenska
+it	Italian	italiano
+iu	Inuktitut	ᐃᓄᒃᑎᑐᑦ
+ja	Japanese	日本語 (にほんご)
+jv	Javanese	basa Jawa (ꦧꦱꦗꦮ)
+ka	Georgian	ქართული ენა (kartuli ena)
+kg	Kongo	Kikongo
+ki	Kikuyu, Gikuyu	Gĩkũyũ
+kj	Kuanyama, Kwanyama	Kuanyama, Kwanyama
+kk	Kazakh	Қазақ тілі
+kl	Greenlandic, Kalaallisut	kalaallisut, kalaallit oqaasii
+km	Central Khmer	ភាសាខ្មែរ
+kn	Kannada	ಕನ್ನಡ
+ko	Korean	한국어 (韓國語), 조선말 (朝鮮語)
+kr	Kanuri	Kanouri
+ks	Kashmiri	कॉशुर, کٲشُر
+ku	Kurdish	Kurdî
+kv	Komi	коми кыв
+kw	Cornish	Kernewek
+ky	Kirghiz, Kyrgyz	кыргыз тили
+la	Latin	latine, lingua latina
+lb	Luxembourgish, Letzeburgesch	Lëtzebuergesch
+lg	Ganda	Luganda
+li	Limburgish, Limburger, Limburgan	Limburgs
+ln	Lingala	lingala
+lo	Lao	ພາສາລາວ
+lt	Lithuanian	lietuvių kalba
+lu	Luba-Katanga	Luba-Katanga
+lv	Latvian	latviešu valoda
+mg	Malagasy	Malagasy fiteny
+mh	Marshallese	Kajin M̧ajeļ
+mi	Māori	te reo Māori
+mk	Macedonian	македонски јазик
+ml	Malayalam	മലയാളം
+mn	Mongolian	монгол хэл
+mr	Marathi	मराठी
+ms	Malay	bahasa Melayu, بهاس ملايو
+mt	Maltese	Malti
+my	Burmese	ျမန္မာစာ
+na	Nauruan	Ekakairũ Naoero
+nb	Norwegian Bokmål	bokmål
+nd	Northern Ndebele	isiNdebele
+ne	Nepali	नेपाली
+ng	Ndonga	Owambo
+nl	Dutch, Flemish	Nederlands
+nn	Norwegian Nynorsk	nynorsk
+no	Norwegian	norsk
+nr	Southern Ndebele	isiNdebele
+nv	Navajo, Navaho	Diné bizaad, Dinékʼehǰí
+ny	Chichewa, Chewa, Nyanja	chiCheŵa, chinyanja
+oc	Occitan, Provençal (1500–)	Occitan
+oj	Ojibwa	ᐊᓂᔑᓇᐯᒧᐏᐣ (Anishinaabemowin)
+om	Oromo	Afaan Oromoo
+or	Oriya	ଓଡ଼ିଆ
+os	Ossetian, Ossetic	ирон ӕвзаг
+pa	Punjabi, Panjabi	ਪੰਜਾਬੀ, پنجابی
+pi	Pali	पालि
+pl	Polish	polski
+ps	Pashto language, Pashto	پښتو
+pt	Portuguese	português
+qu	Quechua	Runa Simi, Kichwa
+rm	Romansh	rumantsch grischun
+rn	Rundi	kiRundi
+ro	Romanian	română
+ru	Russian	русский язык
+rw	Kinyarwanda	kinyaRwanda
+sa	Sanskrit	संस्कृतम्
+sc	Sardinian	sardu
+sd	Sindhi	سنڌي، سندھی, सिन्धी
+se	Northern Sami	sámi, sámegiella
+sg	Sango	yângâ tî sängö
+si	Sinhalese, Sinhala	සිංහල
+sk	Slovak	slovenčina
+sl	Slovenian	slovenščina
+sm	Samoan	gagana fa'a Samoa
+sn	Shona	chiShona
+so	Somali	Soomaaliga, af Soomaali
+sq	Albanian	Shqip
+sr	Serbian	српски језик, srpski jezik
+ss	Swati	siSwati
+st	Southern Sotho	Sesotho
+su	Sundanese	basa Sunda
+sv	Swedish	svenska
+sw	Swahili	kiswahili
+ta	Tamil	தமிழ்
+te	Telugu	తెలుగు
+tg	Tajik	тоҷикӣ, تاجیکی
+th	Thai	ภาษาไทย
+ti	Tigrinya	ትግርኛ
+tk	Turkmen	Түркмен
+tl	Tagalog	Wikang Tagalog, ᜏᜒᜃᜅ᜔ ᜆᜄᜎᜓᜄ᜔
+tn	Tswana	Setswana
+to	Tonga (Tonga Islands)	faka-Tonga
+tr	Turkish	Türkçe
+ts	Tsonga	Xitsonga
+tt	Tatar	татарча, tatarça, تاتارچا
+tw	Twi	Twi
+ty	Tahitian	te reo Tahiti, te reo Māʼohi
+ug	Uighur, Uyghur	Uyƣurqə, Uyğurçe, ئۇيغۇرچ
+uk	Ukrainian	українська мова
+ur	Urdu	اردو
+uz	Uzbek	O'zbek, Ўзбек, أۇزبېك
+ve	Venda	Tshivenḓa
+vi	Vietnamese	Tiếng Việt
+vo	Volapük	Volapük
+wa	Walloon	walon
+wo	Wolof	Wolof
+xh	Xhosa	isiXhosa
+yi	Yiddish	ייִדיש
+yo	Yoruba	Yorùbá
+za	Zhuang, Chuang	Saɯ cueŋƅ, Saw cuengh
+zh	Chinese	中文
+zu	Zulu	isiZulu

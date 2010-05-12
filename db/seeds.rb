@@ -29,6 +29,12 @@ def rebuild_lineages
   Taxon.transaction {Taxon.rebuild_lineages!}
 end
 
+# Destroy all languages. Uses a TRUNCATE command on the table, cause it's fast.
+def destroy_all_languages
+  @log.info "** Destroy Languages"
+  ActiveRecord::Base.connection.execute "TRUNCATE languages;"
+end
+
 # Destroy all taxa. Uses a TRUNCATE command on the table, cause it's fast.
 def destroy_all_taxa
   @log.info "** Destroy Taxa"
@@ -111,8 +117,8 @@ def create_common_name_from_line(common_name_line, i)
   
 end
 
-# Turn languages text file into a hash.
-def get_languages
+# Load languages into Database
+def import_languages
   @languages = {}
   path = File.join(Rails.root, "db/data", LANGUAGES)
   File.open(path, 'r') do |languages|
@@ -122,14 +128,21 @@ def get_languages
     end
     num_lines = get_num_lines(path)
   
-    # Load all taxa from GBIF here.
-    progress("Languages", num_lines) do |progress_bar|
-      i = 1 # incrementor, to see what line we're on
-      languages.each_line do |languageline|
-        code, language = languageline.rstrip.split("\t")
-        @languages[code] = language
-        progress_bar.inc
-        i += 1
+    Language.transaction do
+      destroy_all_languages
+      
+      progress("Load Languages", num_lines) do |progress_bar|
+        i = 1
+        languages.each_line do |languageline|
+          next if languageline.starts_with?('#') # Allow comments in datafile
+        
+          iso_code, english_name, native_name = languageline.rstrip.split("\t")
+        
+          Language.create(:iso_code => iso_code, :english_name => english_name, :native_name => native_name)
+        
+          progress_bar.inc
+          i += 1
+        end
       end
     end
   end
@@ -193,6 +206,6 @@ def import_gbif_vernacular
   end
 end
 
-get_languages
+import_languages
 import_gbif_taxa
 import_gbif_vernacular
