@@ -57,6 +57,11 @@ var AJAX = (function() {
   }
   
   var getPhotos = function(id, page){
+    $('#photos').empty();
+    if (pageData.getPhotoFilter() == 'Off'){
+      return false;
+    }
+    $('#spinner').fadeIn();
     $.ajax({
       type: 'GET',
       url: '/photos',
@@ -64,6 +69,10 @@ var AJAX = (function() {
       success: function(response){
         $('#photos').html(response);
         $('.thumbs').lightBox();
+        $('#spinner').fadeOut();
+      },
+      error: function(rsp){
+        $('#photos').html("<p>There was an error</p>");
         $('#spinner').fadeOut();
       }
     });

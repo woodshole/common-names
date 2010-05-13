@@ -4,8 +4,8 @@
     = t :current_filter
     %span#common-filter-val
       =t :all
-  =image_tag 'plus_button.gif', :id => 'common_names_image'
   - if current_user
+    =image_tag 'plus_button.gif', :id => 'common_names_image'
     .words
       &nbsp; 
       %a.filter.common{"href" => "only"}
@@ -13,8 +13,3 @@
       |
       %a.filter.common{"href" => "all"}
         =t :all
-  - else
-    .words
-      %p.no-margin
-        &nbsp;
-        =t :please_login

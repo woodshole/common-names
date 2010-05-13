@@ -11,3 +11,13 @@
   %p
     = form.label :password_confirmation, t(:password_confirmation)
   = form.password_field :password_confirmation, :class => 'title'
+  %p
+    =label_tag 'photo_filter', t(:photos)
+  -photo_filter = false
+  -photo_filter = current_user.options['photo_filter'] if current_user
+  -['On','Off'].each do |a|
+    - f = false
+    - if current_user
+      - f = true if a == photo_filter
+    = a + ":"
+    = radio_button_tag('user[options][photo_filter]', a, f)

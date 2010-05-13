@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-    # grab the iso_code from the params, if none is chose... fall back to all
     def current_language
       current_user ? current_user.language : nil
     end

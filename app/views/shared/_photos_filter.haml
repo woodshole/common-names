@@ -1,0 +1,9 @@
+-# PHOTOS FILTER
+.filters
+  %p.in
+    = t :current_filter
+    %span#photo-filter-val
+      -if current_user
+        =current_user.options['photo_filter']
+      -else
+        = t :on3

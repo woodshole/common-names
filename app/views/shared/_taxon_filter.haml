@@ -4,8 +4,8 @@
     =t :current_filter
     %span#taxon-filter-val
       =t :none
-  =image_tag 'plus_button.gif', :id => 'taxon_image'
   - if current_user
+    =image_tag 'plus_button.gif', :id => 'taxon_image'
     .words
       &nbsp; 
       %a.filter.taxon{"href" => "common"}
@@ -16,8 +16,3 @@
       |
       %a.filter.taxon{"href" => "none"}
         =t :none
-  - else
-    .words
-      %p.no-margin
-        &nbsp;
-        =t :please_login

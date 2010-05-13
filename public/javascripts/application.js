@@ -1,7 +1,7 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(function(){
-  var page;
+  var page = 1;
   var dds = $("select[id$='-dropdown']");
 
   // reset everything
@@ -9,6 +9,24 @@ $(function(){
     $(this).attr('disabled','disabled').val('Any');
   });
   // load kingdom names
+  
+  var location = window.location.href;
+  // if there is no hash
+  if (location.indexOf("#") == -1) {
+    window.location.href += '#/';
+  }
+  // if there is a hash, load it
+  else {
+    hash = location.substr(location.indexOf("#")+1);
+    var hashParams = hash.split(/\//);
+  }
+  
+  // if there is a saved state
+  //   load it
+  // else
+  //  add a /#/
+  //  get the taxonomy dropdown for kingdom
+  
   AJAX.getTaxonomyDropdown(1, 'kingdom');
   
   // apply click function to the images
@@ -60,16 +78,12 @@ $(function(){
   });
   
   $('#prev').live('click', function(){
-    $('#photos').empty();
-    $('#spinner').fadeIn();
     page -= 1;
     AJAX.getPhotos(pageData.findCurrentId(), page);
     return false;
   });
   
   $('#next').live('click', function(){
-    $('#photos').empty();
-    $('#spinner').fadeIn();
     page += 1;
     AJAX.getPhotos(pageData.findCurrentId(), page);
     return false;
@@ -100,11 +114,8 @@ $(function(){
     $('#photos').slideDown();
 	  $('#flash').empty();
 	  AJAX.getCommonNames(taxon_id);
-	  $('#photos').empty();
     AJAX.getPhoto(taxon_id);
     AJAX.getStats();
-    $('#spinner').fadeIn();
-      // fade out on the completion of the AJAX event.
     page = 1;
     AJAX.getPhotos(taxon_id, page);
   }
@@ -152,9 +163,13 @@ $(function(){
   
   // search only once and get all the dropdowns
   
+  // pageData.addToHref(string)
+  // pageData.removeLastFromHref()
+  
   dds.each(function(index){
     $(this).change(function(){
       var id = $(this).val();
+  //    var word = $(this).find("option:selected").text();
       resetRightOf(jQuery.trim($(this).attr('name')));
       // we got an "Any"
       if (id == '' || id == null) {
@@ -174,6 +189,4 @@ $(function(){
     });
   });
     
-  // override submit action and use ajax instead
-
 });

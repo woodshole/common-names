@@ -30,7 +30,7 @@ class Taxon < ActiveRecord::Base
     ON common_names.taxon_id = taxa.id
     LEFT JOIN languages
     ON common_names.language_id = languages.id
-    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}"
+    WHERE lft > #{self.lft} AND rgt < #{self.rgt}"
     Taxon.find_by_sql(sql)
   end
   
@@ -39,7 +39,7 @@ class Taxon < ActiveRecord::Base
     FROM taxa
     RIGHT JOIN common_names
     ON common_names.taxon_id = taxa.id
-    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}"
+    WHERE lft > #{self.lft} AND rgt < #{self.rgt}"
     sql += " AND common_names.language_id = #{language.id}" unless language.nil?
     Taxon.find_by_sql(sql)[0].number_of_children
   end
@@ -47,7 +47,7 @@ class Taxon < ActiveRecord::Base
   def get_number_of_children
     Taxon.find_by_sql("SELECT COUNT(id) as count
     FROM taxa
-    WHERE lft BETWEEN #{self.lft} AND #{self.rgt}").first.count
+    WHERE lft > #{self.lft} AND rgt < #{self.rgt}").first.count
   end
   
   def get_stats(language_id)

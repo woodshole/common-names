@@ -13,6 +13,10 @@ var pageData = (function() {
     return jQuery.trim($('#common-filter-val').text());
   }
   
+  var getPhotoFilter = function(){
+    return jQuery.trim($('#photo-filter-val').text());
+  }
+  
   var getCreationLanguage = function(){
     return $('#language').val();
   }
@@ -25,12 +29,30 @@ var pageData = (function() {
     return $('#new-name').val();
   }
   
+  var appendToLoc = function(string){
+    window.location.href += string + '/'; 
+  }
+  
+  var removeLastLoc = function(){
+    var loc = window.location.href.split(/\//);
+    loc.pop()
+    var toRemove = loc.pop()
+    if (toRemove == "#"){
+      return false;
+    }
+    var a = window.location.href;
+    window.location.href = a.slice(0,a.lastIndexOf(toRemove));
+  }
+  
   return {
     findCurrentId: findCurrentId,
     getTaxonFilter: getTaxonFilter,
     getCommonNamesFilter: getCommonNamesFilter,
+    getPhotoFilter: getPhotoFilter,
     getCreationLanguage: getCreationLanguage,
     getCreationSource: getCreationSource,
-    getCreationName: getCreationName
+    getCreationName: getCreationName,
+    appendToLoc: appendToLoc,
+    removeLastLoc: removeLastLoc
   };
 })();

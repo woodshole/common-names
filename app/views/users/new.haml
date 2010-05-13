@@ -1,5 +1,5 @@
-= render :partial => "shared/header"
-= render :partial => '/shared/nav', :locals => {:nav => [[t(:home), root_path]], :active =>t(:home)}
+= render :partial => "/shared/header"
+= render :partial => '/shared/nav'
 %h2.colored
   Register
 - form_for @user, :url => users_path, :method => :post do |f|

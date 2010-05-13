@@ -1,5 +1,5 @@
 = render :partial => "/shared/header"
-= render :partial => '/shared/nav', :locals => {:nav => [[t(:home), root_path]], :active =>t(:home)}
+= render :partial => '/shared/nav'
 = render :partial => "/shared/flash", :locals => { :flash => flash }
 = render :partial => "/taxonomy_navigation/dropdowns"
           
@@ -17,20 +17,19 @@
     =t :exemplary_photo
   #best-photo.boxed
     %img{:id => 'best'}
-  %h2.colored
-    =t :name_it
-  .boxed
-    #create
-      - if current_user
+  - if current_user
+    %h2.colored
+      =t :name_it
+    .boxed
+      #create
         = render:partial => "common_names/create_form"
-      - else
-        %p
-          =t :please_login
+
 
 
 .box.clear
   %h2.colored
     =t :photos
+  = render :partial => "shared/photos_filter"
   .boxed
     #photos
     #no-results 

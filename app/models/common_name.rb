@@ -12,26 +12,24 @@ class CommonName < ActiveRecord::Base
   end
   
   def self.language_filter(taxa=nil, language=nil)
-    if language
-      self.find_by_sql("SELECT common_names.name, common_names.id, common_names.user_id
-       FROM common_names 
-       JOIN taxa 
-       ON common_names.taxon_id = taxa.id 
-       WHERE common_names.language_id = #{language.id} 
-       AND taxa.id = #{taxa.id} 
-       ORDER BY common_names.name ASC")
-    else
-      self.find_by_sql("SELECT common_names.name, common_names.id, common_names.user_id
-      FROM common_names
-      JOIN taxa
-      ON common_names.taxon_id = taxa.id
-      WHERE taxa.id = #{taxa.id}
-      ORDER BY common_names.name ASC")
-    end
+    sql = "SELECT common_names.name, 
+      common_names.id, 
+      common_names.user_id
+     FROM common_names 
+     JOIN taxa 
+     ON common_names.taxon_id = taxa.id"
+    sql += " WHERE common_names.language_id = #{language.id}" unless language.nil?
+    sql += " AND taxa.id = #{taxa.id}
+     ORDER BY common_names.name ASC"
+    self.find_by_sql(sql)
   end
   
   def self.number_translated(language)
     self.find_by_sql("SELECT COUNT(DISTINCT taxon_id) AS ct FROM common_names WHERE language_id = #{language.lang_id}")[0]['ct']
+  end
+  
+  def self.report
+    self.find_by_sql()
   end
   
 end

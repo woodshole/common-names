@@ -1,5 +1,4 @@
 class PhotosController < ApplicationController
-  before_filter :require_user, :only => :create
   
   def show
     begin
@@ -18,13 +17,16 @@ class PhotosController < ApplicationController
   end
   
   def create
-    attributes = {:taxon => Taxon.find(params[:id]),
-      :url => params[:url],
-      :preferred => 1}
-    @photo = Photo.create!(attributes)
-    @photo.users << current_user
-    @photo.only_preferred
-    render :partial => 'best_photo', :layout => false
+    # need a different callback than require_user
+    unless current_user.nil?
+      attributes = {:taxon => Taxon.find(params[:id]),
+        :url => params[:url],
+        :preferred => 1}
+      @photo = Photo.create!(attributes)
+      @photo.users << current_user
+      @photo.only_preferred
+    end
+    show
   end
 
 end

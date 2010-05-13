@@ -19,6 +19,10 @@ ActionController::Routing::Routes.draw do |map|
   map.stats '/stats/:taxon_id',
     :controller => :taxa,
     :action => :stats
+    
+  map.report '/report/',
+    :controller => :common_names,
+    :action => :report
   
   map.root :controller => :taxa
 end

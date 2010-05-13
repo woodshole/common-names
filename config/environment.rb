@@ -22,7 +22,10 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  #FlickRaw
+  
+  config.gem 'rubyzip', :version => '0.9.4', :lib => 'zip/zip'
+  
+  #FlickRaw  
   config.gem 'flickr_fu'
   
   # Alternate template and stylesheet engine.
@@ -54,7 +57,6 @@ Rails::Initializer.run do |config|
   config.gem 'hoptoad_notifier', :version => '2.1.3'
   
   # Zip files. Woohoo.
-  config.gem 'zipruby', :version => '0.3.6'
   
   # Translator
   #config.gem "graysky-translator", :lib => "translator", :source => "http://gems.github.com"
