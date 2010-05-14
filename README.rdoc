@@ -44,7 +44,7 @@ accumulated content for import and use in biodiversity applications.
 
 == Installing
 
-+rake gems:install+
++rake+ gems:install+
 +# edit your config/database.yml file+
 +rake db:create+
 +rake db:migrate+
