@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   
   validates_presence_of :language_id
   
+  def is_admin?
+    return self.options['admin']
+  end
+  
 end
 
 # == Schema Information

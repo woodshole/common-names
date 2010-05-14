@@ -20,8 +20,9 @@
       %td
         = c
       %td
-        - total += (ct.to_f/c.to_f)
         =sprintf("%.2f%%", (ct.to_f/c.to_f)*100)
   %p
-    Total percent of children translated:
-    =sprintf("%.2f%%", total*100)
+    - unless c.to_f == 0.0
+      Total percent of children with at least one translation:
+      - cc= @taxon.get_count_of_children_translated()
+      =sprintf ("%.2f%%",(cc.to_f/c.to_f)*100)
