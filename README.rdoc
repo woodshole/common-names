@@ -9,7 +9,7 @@ taxonomic classification of organism group names. The scope of this
 classification is on the higher taxonomic groups
 (Kingdom-Phylum-Class-Order-Family). The two distinct tasks are:
 
-1. Enables users of the system to view and create and download common name alternatives for Latinized taxon names for the higher taxonomic groups (Kingdom through Family) of organisms.  Common names may be created for any written language recognized by the ISO 693-3 language encoding system.
+1. Enables users of the system to view and create and download common name alternatives for Latinized taxon names for the higher taxonomic groups (Kingdom through Family) of organisms.  Common names may be created for any written language recognized by the ISO 693-1 language encoding system.
 2. Enable users of the system to browse image thumbnails associated with an organism group and select one or more images that best represent the group according to the opinion of the user.
 
 In addition to their common connection to a hierarchical taxonomic framework,
@@ -41,3 +41,17 @@ taxon groups to improve navigation and orientation. The objective of this
 application is to provide interfaces to add these two classes of content to a
 consensus higher taxonomy and to easily download some or all of the
 accumulated content for import and use in biodiversity applications.
+
+== Installing
+
+rake gems:install
+# edit your config/database.yml file
+rake db:create
+rake db:migrate
+rake db:seed
+
+=== User Administration
+
+To create an administrative user, simply create the user using the "sign up" form
+and then run the rake task
+rake user=ema@il.com user_admin:make_admin
