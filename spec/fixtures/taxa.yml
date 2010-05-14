@@ -27,17 +27,6 @@ family:
   name: Famimilia
   rank: 4
   parent_id: 5
-genus:
-  id: 7
-  name: Genimilia
-  rank: 5
-  parent_id: 6
-species:
-  id: 8
-  name: Specimilia
-  rank: 6
-  parent_id: 7
-  
   
 
 # == Schema Information

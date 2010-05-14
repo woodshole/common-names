@@ -7,6 +7,11 @@ class UsersController < ApplicationController
   end
   
   def create
+    default = {'photo_filter'=>'On', 'admin'=>false}
+    unless params[:user][:options].nil?
+      default['photo_filter'] = params[:user][:options]['photo_filter']
+    end
+    params[:user][:options] = default
     @user = User.new(params[:user])
     if @user.save
       flash[:success] = t(:account_registered)

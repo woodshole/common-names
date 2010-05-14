@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_language ? current_language.iso_code : 'en'
   end
 
-  private
+  private  
     def current_language
       current_user ? current_user.language : nil
     end

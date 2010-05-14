@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   validates_presence_of :language_id
   
   def is_admin?
-    return self.options['admin']
+    return false if self.nil?
+    return true if self.options['admin']
   end
   
 end
