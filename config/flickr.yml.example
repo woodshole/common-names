@@ -1,0 +1,4 @@
+key: api_key
+secret: secret_key
+token_cache: token_cache.yml
+eol_group_id: 806927@N20

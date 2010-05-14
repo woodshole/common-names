@@ -89,8 +89,7 @@ var AJAX = (function() {
     });
     
   }
-  
-  // NOTE THIS IS PARENT ID
+
   var getTaxonomyDropdown = function(id, dropdown){
     if (dropdown == null) { return; }
     $.ajax({
@@ -109,8 +108,11 @@ var AJAX = (function() {
     $.ajax({
       type: 'GET',
       url: '/stats/' + pageData.findCurrentId(),
+      beforeSend: function(){
+        $('#stats-table tr:gt(0)').empty();
+      },
       success: function(response){
-        $('#stats').html(response);
+        $('#stats-table tr:last').after(response);
       }
     });
   }

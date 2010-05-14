@@ -1,28 +1,11 @@
-%table
+-@languages.each do |language|
   %tr
-    %th
-      language
-    %th
-      number of children with a common name
-    %th
-      number of children
-    %th
-      percent of children translated
-  - c = @taxon.get_number_of_children
-  - total = 0.0
-  -@languages.each do |language|
-    %tr
-      %td
-        =language.english_name
-      %td
-        -ct = @taxon.get_count_of_children_translated(Language.find(language.lang_id))
-        = ct
-      %td
-        = c
-      %td
-        =sprintf("%.2f%%", (ct.to_f/c.to_f)*100)
-  %p
-    - unless c.to_f == 0.0
-      Total percent of children with at least one translation:
-      - cc= @taxon.get_count_of_children_translated()
-      =sprintf ("%.2f%%",(cc.to_f/c.to_f)*100)
+    %td
+      =language.english_name
+    %td
+      - ct = @taxon.get_count_of_children_translated(Language.find(language.lang_id))
+      = ct
+    %td
+      = @count
+    %td
+      =sprintf("%.2f%%", (ct.to_f/@count.to_f)*100)

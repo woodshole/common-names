@@ -1,0 +1,6 @@
+development:
+  adapter: mysql
+  encoding: utf8
+  database: common_names_development
+  user: username
+  password: password

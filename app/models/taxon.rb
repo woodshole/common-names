@@ -22,6 +22,13 @@ class Taxon < ActiveRecord::Base
     end
   end
   
+  def percent_of_children_with_common_name
+    count = self.get_number_of_children.to_f
+    trans_count = self.get_count_of_children_translated.to_f
+    return sprintf("%.2f%%", (trans_count/count)*100) unless count == 0.0
+    "There are no children of this taxon"
+  end
+  
   def get_languages_of_children
     sql = "SELECT DISTINCT common_names.language_id as lang_id,
       languages.english_name as english_name
