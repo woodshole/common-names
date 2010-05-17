@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   def is_admin?
     return false if self.nil?
     return true if self.options['admin']
+    false
   end
   
 end

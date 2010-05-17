@@ -1,12 +1,20 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  iso_code: MyString
-  english_name: MyString
-
-two:
-  iso_code: MyString
-  english_name: MyString
+english:
+  id: 1
+  iso_code: en
+  english_name: English
+  native_name: English
+slovak:
+  id: 2
+  iso_code: sk
+  english_name: Slovak
+  native_name: slovenčina
+spanish:
+  id: 3
+  iso_code: es
+  english_name: Spanish
+  native_name: español
 
 # == Schema Information
 #
@@ -17,5 +25,5 @@ two:
 #  english_name :string(255)
 #  created_at   :datetime
 #  updated_at   :datetime
-#
+#  native_name  :string
 

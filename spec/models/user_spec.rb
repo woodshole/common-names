@@ -1,26 +1,18 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User do
-  before(:each) do
-    @user = User.make
-  end
+  fixtures :users
   
-  it "should include the karma client" do
-    User.included_modules.should include(KarmaClient::User)
-  end
-  
-  describe "#karma_permalink" do
-    before(:each) do
-      @user = User.make(:email => 'bob@example.com')
+  describe "is_admin?" do
+    it "should return true if the user is an admin" do
+      User.find(1).is_admin?.should == true
     end
-    it "should return an escaped version of the email address" do
-      @user.karma_permalink.should == 'bobexamplecom'
-    end
+    it "should return false if the user is not an admin" do
+      User.find(2).is_admin?.should == false
+    end 
   end
-    
 end
-
-# == Schema Information
+# # == Schema Information
 #
 # Table name: users
 #

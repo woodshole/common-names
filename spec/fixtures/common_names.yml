@@ -1,0 +1,43 @@
+animal:
+  id: 1
+  name: Animals
+  taxon_id: 2
+  user_id: 1
+  language_id: 1
+animales:
+  id: 2
+  name: Animales
+  taxon_id: 2
+  user_id: 2
+  language_id: 3
+annelids:
+  id: 3
+  name: Worms
+  taxon_id: 3
+  user_id: 2
+  language_id: 1
+obrúčkavce:
+  id: 4
+  name: Obrúčkavce
+  taxon_id: 3
+  user_id: 1
+  language_id: 2
+exxoon:
+  id: 5
+  name: Exxoon
+  taxon_id: 15
+  user_id: 1
+  language_id: 1
+pythes:
+  id: 6
+  name: Pythes
+  taxon_id: 5
+  user_id: 1
+  language_id: 3
+
+# id          :integer
+# name        :string
+# taxon_id    :integer
+# language_id :integer
+# user_id     :integer
+# source      :string

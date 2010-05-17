@@ -1,0 +1,15 @@
+admin:
+  id: 1
+  email: fake@unreal.net
+  language_id: 1
+  options: "--- !map:HashWithIndifferentAccess\n  photo_filter: \"On\"\n  admin: true"
+no_admin:
+  id: 2
+  email: real@notfake.org
+  language_id: 3
+  options: "--- !map:HashWithIndifferentAccess\n  photo_filter: \"On\"\n  admin: false"
+
+# id          :integer
+# email       :string
+# language_id :integer
+# options     :text

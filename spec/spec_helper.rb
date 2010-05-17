@@ -53,9 +53,6 @@ Spec::Runner.configure do |config|
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
 end
 
-# Use machinist blueprints.
-require File.expand_path(File.dirname(__FILE__) + "/blueprints")
-
 # Use shoulda matchers
 require 'shoulda'
 
@@ -63,5 +60,3 @@ require 'shoulda'
 require 'authlogic/test_case'
 include Authlogic::TestCase
 activate_authlogic
-end
-

@@ -1,24 +1,37 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Photo do
-  before(:each) do
-    @valid_attributes = {
-      :url => "value for url",
-      :taxon_id => 2
-    }
-  end
-  validates_presence_of :url, :taxon_id
-  validates_uniqueness_of :url, :scope => [:taxon_id]
+  fixtures :taxa, :users, :photos
   
-
-  it "should create a new instance given valid attributes" do
-    photo = Photo.create(@valid_attributes)
-    photo.should
+  describe "Photo.flickr" do
+    it "should return an instance of Flickr" do
+      Photo.flickr.should_not == nil
+    end    
   end
   
-  it "should be able to create a Flickr object by reading the flickr.yml file" do
-    flicka = Photo.flickr
+  describe "only_preferred" do
+    it "should only have one preferred photo at a time" do
+      photos = Photo.find(:all, :conditions => "taxon_id = 5")
+      count = 0
+      photos.each do |photo|
+        count += 1 if photo.preferred
+      end
+      count.should == 1
+    end
+    
+    it "should return most recently added as the preferred" do
+      p = Photo.create!(:url => "http://google.com", :taxon_id => 5, :preferred => 1)
+      p.only_preferred
+      photos = Photo.find(:all, :conditions => "taxon_id = 5")
+      count = 0
+      photos.each do |photo|
+        count += 1 if photo.preferred
+      end
+      count.should == 1
+      Photo.find_by_taxon_id(5, :conditions => "preferred = 1").url.should == "http://google.com"
+    end
   end
+  
 end
 
 # == Schema Information

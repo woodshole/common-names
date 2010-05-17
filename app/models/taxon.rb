@@ -38,7 +38,7 @@ class Taxon < ActiveRecord::Base
     LEFT JOIN languages
     ON common_names.language_id = languages.id
     WHERE lft > #{self.lft} AND rgt < #{self.rgt}"
-    Taxon.find_by_sql(sql)
+    Language.find_by_sql(sql)
   end
   
   def get_count_of_children_translated(language=nil)
@@ -111,36 +111,6 @@ class Taxon < ActiveRecord::Base
     taxa.map! {|t| [t.name, t.id]} unless filt == 'common'
   end
     
-  #   # SQL:
-  #   # SELECT 
-  #   
-  #   #get children taxa
-  #   taxa = Taxon.send(rank, :parent_id => self.id)
-  #   unless filt == "none"
-  #     to_del = []
-  #     taxa.each do |t|
-  #       # if we only want to see those with common names and this taxon does not have a common name
-  #       # delete it
-  #       if filt == 'common' and not t.has_common_name?
-  #         to_del << t
-  #       # if we only want to see those without common names and this taxon has a common name
-  #       # delete it
-  #       elsif filt == 'scientific' and t.has_common_name?
-  #         to_del << t
-  #       end
-  #     end
-  #     to_del.each {|t| taxa.delete t}
-  #   else
-  #     taxa.map! {|t| [t.name, t.id]}
-  #   end
-  #   if filt == 'common'
-  #     taxa.map! {|t| [t.common_names[0].name, t.id] }
-  #   elsif filt == 'scientific'
-  #     taxa.map! {|t| [t.name, t.id]}
-  #   end
-  #   taxa.unshift(['Any', ''])
-  # end
-  # 
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end

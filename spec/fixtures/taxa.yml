@@ -2,33 +2,84 @@ ubt:
   id: 1
   name: UBT
   rank: -1
-kingdom:
+#kingdom
+animalia:
   id: 2
   name: Animalia
   rank: 0
   parent_id: 1
-phylum:
+fungi:
+  id: 7
+  name: Fungi
+  rank: 0
+  parent_id: 1
+#phylum
+annelida:
   id: 3
-  name: Aniphylum
+  name: Annelida
   rank: 1
   parent_id: 2
-class:
+agmata:
+  id: 8
+  name: Agmata
+  rank: 1
+  parent_id: 2
+oomycota:
+  id: 9
+  name: Oomycota
+  rank: 1
+  parent_id: 7
+zygomycota:
+  id: 10
+  name: Zygomycota
+  rank: 1
+  parent_id: 7
+#class
+oomycetes:
   id: 4
-  name: Classamilia
+  name: Oomycetes
+  rank: 2
+  parent_id: 9
+clitellata:
+  id: 11
+  name: Clitellata
   rank: 2
   parent_id: 3
-order:
+#order
+pythiales:
   id: 5
-  name: Aniorder
+  name: Pythiales
   rank: 3
   parent_id: 4
-family:
+haplotaxida:
+  id: 12
+  name: Haplotaxida
+  rank: 3
+  parent_id: 11
+moniligastrida:
+  id: 13
+  name: Moniligastrida
+  rank: 3
+  parent_id: 11
+#family
+almidae:
+  id: 14
+  name: Almidae
+  rank: 4
+  parent_id: 12
+exxiidae:
+  id: 15
+  name: Exxiidae
+  rank: 4
+  parent_id: 12
+pythiaceae:
   id: 6
-  name: Famimilia
+  name: Pythiaceae
   rank: 4
   parent_id: 5
   
-
+  
+  
 # == Schema Information
 #
 # Table name: taxa
@@ -40,5 +91,3 @@ family:
 #  rgt         :integer(4)
 #  rank        :integer(4)
 #  lineage_ids :string(255)
-#
-

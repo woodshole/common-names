@@ -1,12 +1,18 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-one:
-  url: MyString
-  preferred: false
-
-two:
-  url: MyString
-  preferred: false
+first:
+  id: 1
+  url: http://farm5.static.flickr.com/4013/4616094106_75b1f3a2a7.jpg
+  preferred: 0
+  taxon_id: 5
+second:
+  id: 2
+  url: http://farm4.static.flickr.com/3592/4611113322_ae4659d000.jpg
+  preferred: 1
+  taxon_id: 5
+third:
+  id: 3
+  url: http://farm2.static.flickr.com/1141/4609928773_b12e2d7b0b.jpg
+  preferred: 1
+  taxon_id: 15
 
 # == Schema Information
 #
@@ -17,6 +23,7 @@ two:
 #  preferred  :boolean(1)
 #  created_at :datetime
 #  updated_at :datetime
+#  preferred  :integer
 #  taxon_id   :integer(4)
 #
 
