@@ -20,5 +20,15 @@
         <field index="3" term="http://rs.tdwg.org/dwc/terms/locality"/>
         <field index="4" term="http://rs.tdwg.org/dwc/terms/lifeStage"/>
         <field index="5" term="http://rs.tdwg.org/dwc/terms/sex"/>
-    </extension>    
+    </extension>
+    <extension encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" fieldsEnclosedBy='' ignoreHeaderLines="0"
+rowType="">
+      <note>to be updated when a standard exists</note>
+      <files>
+        <location>photos.txt</location>
+      </files>
+      <coreid index="0" />
+      <field index ="1" term="preferred" />
+      <field index ="2" term="url" />
+    </extension
 </archive>

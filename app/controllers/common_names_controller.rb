@@ -48,6 +48,13 @@ class CommonNamesController < ApplicationController
                              ON common_names.language_id = languages.id").each do |cn|
       c.print cn.csv
     end
+    p = Tempfile.new("photos-#{Time.now}.csv")
+    Photo.find_by_sql("SELECT CONCAT(taxon_id, '\t',
+                        preferred, '\t',
+                        url, '\n') as csv
+                        FROM photos").each do |photo|
+      p.print photo.csv
+    end
     m = 'db/data/nubHigherTaxa/meta.xml'
    # get meta
     zip = Tempfile.new("report-#{Time.now.to_f}.zip")
@@ -56,6 +63,8 @@ class CommonNamesController < ApplicationController
       z.print IO.read(t.path)
       z.put_next_entry("vernacular.txt")
       z.print IO.read(c.path)
+      z.put_next_entry("photos.txt")
+      z.print IO.read(p.path)
       z.put_next_entry("meta.xml")
       z.print IO.read(m)
     end
@@ -65,6 +74,7 @@ class CommonNamesController < ApplicationController
                         :filename => file_name
     t.close!
     c.close!
+    p.close!
     # m.close
     zip.close
     #zip

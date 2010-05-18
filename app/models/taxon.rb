@@ -21,14 +21,14 @@ class Taxon < ActiveRecord::Base
       Photo.find_by_taxon_id(id)
     end
   end
-  
+  #tested
   def percent_of_children_with_common_name
     count = self.get_number_of_children.to_f
     trans_count = self.get_count_of_children_translated.to_f
     return sprintf("%.2f%%", (trans_count/count)*100) unless count == 0.0
     "There are no children of this taxon"
   end
-  
+  #tested
   def get_languages_of_children
     sql = "SELECT DISTINCT common_names.language_id as lang_id,
       languages.english_name as english_name
@@ -40,7 +40,7 @@ class Taxon < ActiveRecord::Base
     WHERE lft > #{self.lft} AND rgt < #{self.rgt}"
     Language.find_by_sql(sql)
   end
-  
+  #tested
   def get_count_of_children_translated(language=nil)
     sql = "SELECT COUNT(DISTINCT taxa.id) as number_of_children
     FROM taxa
@@ -50,18 +50,15 @@ class Taxon < ActiveRecord::Base
     sql += " AND common_names.language_id = #{language.id}" unless language.nil?
     Taxon.find_by_sql(sql)[0].number_of_children
   end
-  
+  #tested
   def get_number_of_children
     Taxon.find_by_sql("SELECT COUNT(id) as count
     FROM taxa
     WHERE lft > #{self.lft} AND rgt < #{self.rgt}").first.count
   end
-  
-  def get_stats(language_id)
-    sprintf("%.2f%%", (self.get_count_of_children_translated(Language.find(language_id)).to_f / number_of_children.to_f)*100)
-  end
-  
+  #tested
   def common_names_list(filt, language)
+    filt = 'none' if filt.nil?
     filt = filt.downcase
     sql = "SELECT languages.english_name as lang,
       common_names.name as name,
@@ -77,7 +74,7 @@ class Taxon < ActiveRecord::Base
     sql = sql + " AND common_names.language_id = #{language.id}" if filt == "only" and not language.nil?
     Taxon.find_by_sql(sql)
   end
-  
+  #tested
   def machine_tag
     case self.rank
       when 0
@@ -93,13 +90,15 @@ class Taxon < ActiveRecord::Base
     end
     "taxonomy:#{rank}=#{self.name}"
   end
-  
+  #tested
   def has_common_name?
     not self.common_names.empty?
   end
-  
-  def dropdown_options(rank, filt, language)
-    sql = "SELECT taxa.id as id, taxa.name as name FROM taxa"
+  #tested
+  def dropdown_options(filt, language)
+    sql = "SELECT taxa.id as id, taxa.name as name"
+    sql += ", common_names.name as common" if filt == 'common'
+    sql += " FROM taxa"
     sql += " LEFT JOIN common_names	ON taxa.id = common_names.taxon_id" unless filt == 'none'
     sql += " WHERE taxa.parent_id = #{self.id} AND taxa.rank = #{self.rank + 1}"
     sql += " AND common_names.name IS NOT NULL
@@ -107,31 +106,31 @@ class Taxon < ActiveRecord::Base
     sql += " AND common_names.name IS NULL" if filt == 'scientific'
     sql += " GROUP BY taxa.name"
     taxa = Taxon.find_by_sql(sql)
-    taxa.map! {|t| [t.common, t.id]} if filt == 'common'
-    taxa.map! {|t| [t.name, t.id]} unless filt == 'common'
+    return taxa.map! {|t| [t.common, t.id]} if filt == 'common'
+    return taxa.map! {|t| [t.name, t.id]} unless filt == 'common'
   end
-    
+  #tested
   def parents
     lineage_ids.split(/,/).collect { |ancestor_id| Taxon.find(ancestor_id) }
   end
-  
+  #tested  
   # Rebuild lineage_ids for this taxon.
   def rebuild_lineage_ids
     unless parent_id.nil? || parent.lineage_ids.blank?
       self.lineage_ids = (parent.lineage_ids + "," + parent_id.to_s)
     end
   end
-  
+  #tested
   # Redefining our own 'root' method, which should run much faster...
   def self.root
     find(1)
   end
-  
+  #tested
   # This method rebuilds lineage_ids for the entire taxonomy.
   def self.rebuild_lineages!
     Taxon.find(1).rebuild_lineage_branch(nil) # Run rebuild_lineage on root node.
   end
-  
+
   # This is a recursive method to rebuild a tree of lineage_ids.
   def rebuild_lineage_branch(parent_id, parent_lineage_ids="")
     lineage_ids = if parent_id.nil?  # Root node

@@ -33,6 +33,26 @@ describe Taxon do
     end
   end
   
+  describe "dropdown_options(filt, language)" do
+    it "should return scientific names of children if filt is none" do
+      taxa = Taxon.find(2).dropdown_options('none',nil)
+      taxa.should include(['Annelida', 3])
+      taxa.should include(['Agmata', 8])
+    end
+    it "should only return common names in a given language if filt is common" do
+      taxa = Taxon.find(2).dropdown_options('common',Language.find(1))
+      taxa.should include(['Worms', 3])
+      Taxon.find(8).common_names.should be_empty
+    end
+    it "should only return names with no common names if filt is scientific" do
+      taxa = Taxon.find(11).dropdown_options('scientific', nil)
+      taxa.should include(['Haplotaxida', 12])
+      taxa.should include(['Moniligastrida', 13])
+      Taxon.find(12).common_names.should be_empty
+      Taxon.find(13).common_names.should be_empty
+    end
+  end
+  
   describe "machine_tag" do
     it "should return the machine tag to search flickr with" do
       Taxon.find(13).machine_tag.should == "taxonomy:order=Moniligastrida"
@@ -69,6 +89,33 @@ describe Taxon do
     end
     it "should return a string if there are no children" do
       Taxon.find(13).percent_of_children_with_common_name.should == "There are no children of this taxon"
+    end
+  end
+  
+  describe "has_common_name?" do
+    it "should return true if there is a common name" do
+      Taxon.find(5).has_common_name?.should be_true
+    end
+    it "should return false if there is no common name" do
+      Taxon.find(9).has_common_name?.should be_false
+    end
+  end
+  
+  describe "common_names_list(filt, language)" do
+    it "should return all common names if language and filt is nil" do
+      cns = Taxon.find(3).common_names_list('none', nil).collect{|t| t.name}
+      cns.should include('Obrúčkavce')
+      cns.should include('Worms')
+    end
+    it "should return only common names in a given language" do
+      cns = Taxon.find(2).common_names_list('only', Language.find(3)).collect{|t| t.name}
+      cns.should include('Animales')
+    end
+  end
+  
+  describe "self.root" do
+    it "should return the root taxon" do
+      Taxon.root.id.should == 1
     end
   end
   

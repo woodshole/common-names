@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Language do
   fixtures :taxa, :common_names, :languages
   
-  before(:all) do
+  before(:each) do
     Taxon.rebuild!
     Taxon.rebuild_lineages!
   end
