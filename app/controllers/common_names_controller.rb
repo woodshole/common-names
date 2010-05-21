@@ -39,6 +39,8 @@ class CommonNamesController < ApplicationController
                        FROM taxa").each do |taxa|
       t.print taxa.csv
     end
+    tpath = t.path
+    t.close
     c = Tempfile.new("common-names-#{Time.now}.csv")
     CommonName.find_by_sql("SELECT CONCAT(common_names.taxon_id, '\t',
                               common_names.name, '\t',
@@ -48,23 +50,28 @@ class CommonNamesController < ApplicationController
                              ON common_names.language_id = languages.id").each do |cn|
       c.print cn.csv
     end
+    cpath = c.path
+    c.close
     p = Tempfile.new("photos-#{Time.now}.csv")
+    p = Tempfile.new("yaaaaboi")
     Photo.find_by_sql("SELECT CONCAT(taxon_id, '\t',
                         preferred, '\t',
                         url, '\n') as csv
                         FROM photos").each do |photo|
-      p.print photo.csv
+      p.print "yo mama"
     end
+    ppath = p.path
+    p.close
     m = 'db/data/nubHigherTaxa/meta.xml'
    # get meta
     zip = Tempfile.new("report-#{Time.now.to_f}.zip")
     Zip::ZipOutputStream.open(zip.path) do |z|
       z.put_next_entry("taxa.txt")
-      z.print IO.read(t.path)
+      z.print IO.read(tpath)
       z.put_next_entry("vernacular.txt")
-      z.print IO.read(c.path)
+      z.print IO.read(cpath)
       z.put_next_entry("photos.txt")
-      z.print IO.read(p.path)
+      z.print IO.read(ppath)
       z.put_next_entry("meta.xml")
       z.print IO.read(m)
     end
@@ -72,9 +79,6 @@ class CommonNamesController < ApplicationController
     send_file zip.path, :type => 'application/zip',
                         :disposition => 'attachment',
                         :filename => file_name
-    t.close!
-    c.close!
-    p.close!
     # m.close
     zip.close
     #zip
