@@ -50,8 +50,11 @@ var AJAX = (function() {
     $.ajax({
       type: 'GET',
       url: '/photos/' + id,
+      befreSend: function(){
+        $('#best-photo').empty();
+      },
       success: function(response){
-        $('#best').attr('src', response);
+        $('#best-photo').html('<img src="' + response + '" id="best"/>');
       }
     });
   }
@@ -116,6 +119,7 @@ var AJAX = (function() {
       }
     });
   }
+
 
   return {
     createCommonName: createCommonName,

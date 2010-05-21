@@ -44,6 +44,10 @@ var pageData = (function() {
     window.location.href = a.slice(0,a.lastIndexOf(toRemove));
   }
   
+  var getUser = function(){
+    return $('#loggedin').length > 0;
+  }
+  
   return {
     findCurrentId: findCurrentId,
     getTaxonFilter: getTaxonFilter,
@@ -53,6 +57,7 @@ var pageData = (function() {
     getCreationSource: getCreationSource,
     getCreationName: getCreationName,
     appendToLoc: appendToLoc,
-    removeLastLoc: removeLastLoc
+    removeLastLoc: removeLastLoc,
+    getUser: getUser
   };
 })();

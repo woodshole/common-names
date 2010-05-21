@@ -46,7 +46,8 @@
 			keyToNext:				'n',		// (string) (n = next) Letter to show the next image.
 			// Don´t alter these variables in any way
 			imageArray:				[],
-			activeImage:			0
+			activeImage:			0,
+			exemplaryText:    'Set as exemplary:'
 		},settings);
 		// Caching the jQuery object with all elements matched
 		var jQueryMatchedObj = this; // This, in this context, refer to jQuery object
@@ -114,15 +115,11 @@
 						<div id="lightbox-image-details">
 							<span id="lightbox-image-details-caption"></span>
 							<span id="lightbox-image-details-currentNumber"></span>
+							<!--USER ADDED-->
+							<a href="#" id="cn-secNav-btnSave"></a>
+							<!--END USER ADDED-->
 						</div>
 						<div id="lightbox-secNav">
-						
-						<!--USER ADDED-->
-						  <a href="#" id="cn-secNav-btnSave">
-						    <img src="../images/cn-btn-save.gif">
-						  </a>
-						<!--END USER ADDED-->
-						
 							<a href="#" id="lightbox-secNav-btnClose">
 								<img src="../images/lightbox-btn-close.gif">
 							</a>
@@ -134,7 +131,7 @@
 		 */
 		function _set_interface() {
 			// Apply the HTML markup into body tag
-			$('body').append('<div id="jquery-overlay"></div><div id="jquery-lightbox"><div id="lightbox-container-image-box"><div id="lightbox-container-image"><img id="lightbox-image"><div style="" id="lightbox-nav"><a href="#" id="lightbox-nav-btnPrev"></a><a href="#" id="lightbox-nav-btnNext"></a></div><div id="lightbox-loading"><a href="#" id="lightbox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="lightbox-container-image-data-box"><div id="lightbox-container-image-data"><div id="lightbox-image-details"><span id="lightbox-image-details-caption"></span><span id="lightbox-image-details-currentNumber"></span></div><div id="lightbox-secNav"><a href="#" id="lightbox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a><a href="#" id="cn-secNav-btnSave"><img src="' + settings.imageBtnSave + '"></a></div></div></div></div>');	
+			$('body').append('<div id="jquery-overlay"></div><div id="jquery-lightbox"><div id="lightbox-container-image-box"><div id="lightbox-container-image"><img id="lightbox-image"><div style="" id="lightbox-nav"><a href="#" id="lightbox-nav-btnPrev"></a><a href="#" id="lightbox-nav-btnNext"></a></div><div id="lightbox-loading"><a href="#" id="lightbox-loading-link"><img src="' + settings.imageLoading + '"></a></div></div></div><div id="lightbox-container-image-data-box"><div id="lightbox-container-image-data"><div id="lightbox-image-details"><span id="lightbox-image-details-caption"></span><span id="lightbox-image-details-currentNumber"></span><a href="#" id="cn-secNav-btnSave"></a></div><div id="lightbox-secNav"><a href="#" id="lightbox-secNav-btnClose"><img src="' + settings.imageBtnClose + '"></a></div></div></div></div>');	
 			// Get page sizes
 			var arrPageSizes = ___getPageSize();
 			// Style overlay and show it
@@ -265,7 +262,10 @@
 			// If we have a image set, display 'Image X of X'
 			if ( settings.imageArray.length > 1 ) {
 				$('#lightbox-image-details-currentNumber').html(settings.txtImage + ' ' + ( settings.activeImage + 1 ) + ' ' + settings.txtOf + ' ' + settings.imageArray.length).show();
-			}		
+			}
+			if (pageData.getUser()){
+			  $('#cn-secNav-btnSave').html(settings.exemplaryText + '<img src="' + settings.imageBtnSave + '">');
+			}
 		}
 		/**
 		 * Display the button navigations

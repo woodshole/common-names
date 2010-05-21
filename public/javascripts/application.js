@@ -12,15 +12,15 @@ $(function(){
   
   var location = window.location.href;
   // if there is no hash
-  if (location.indexOf("#") == -1) {
-    window.location.href += '#/';
-  }
-  // if there is a hash, load it
-  else {
-    hash = location.substr(location.indexOf("#")+1);
-    var hashParams = hash.split(/\//);
-  }
-  
+  // if (location.indexOf("#") == -1) {
+  //   window.location.href += '#/';
+  // }
+  // // if there is a hash, load it
+  // else {
+  //   hash = location.substr(location.indexOf("#")+1);
+  //   var hashParams = hash.split(/\//);
+  // }
+  // 
   // if there is a saved state
   //   load it
   // else
