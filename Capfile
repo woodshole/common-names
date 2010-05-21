@@ -1,6 +1,9 @@
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 load 'config/deploy'
+
+after  'deploy:update_code', 'database_yml:symlink'
+
 namespace :passenger do
   desc "Start Application"
   task :start, :roles => :app do
@@ -28,5 +31,12 @@ namespace :deploy do
 
   task :stop do
     passenger.stop rescue nil # This catches the error if we don't have an app server defined
+  end
+end
+
+namespace :database_yml do
+  desc "Make symlink for database.yml"
+  task :symlink do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
 end
