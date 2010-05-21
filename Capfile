@@ -2,7 +2,7 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 load 'config/deploy'
 
-after  'deploy:update_code', 'database_yml:symlink'
+after  'deploy:update_code', 'database_yml:symlink', 'flickr_yml:symlink'
 
 namespace :passenger do
   desc "Start Application"
@@ -38,5 +38,12 @@ namespace :database_yml do
   desc "Make symlink for database.yml"
   task :symlink do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+
+namespace :flickr_yml do
+  desc "Make a symlink for flickr.yml"
+  task :symlink do
+    run "ln -nfs #{shared_path}/config/flickr.yml #{release_path}/config/flickr.yml"
   end
 end
