@@ -1,0 +1,24 @@
+.bar_graph {
+  position: relative;
+  border-bottom: 1px solid #ededed;
+  width: 25em; }
+  .bar_graph:hover {
+    background-color: #f9fbe6; }
+  .bar_graph:hover .amount,
+  .bar_graph:hover .total {
+    color: #000; }
+  .bar_graph:hover .percentage {
+    background-color: rgb(165, 187, 15); }
+  .bar_graph .amount {
+    position: absolute;
+    right: 0.5em;
+    text-align: right;
+    color: #555;
+    font-size: 0.8em;
+    line-height: 1.875em; }
+  .bar_graph .total {
+    color: #aaa; }
+  .bar_graph .percentage {
+    display: block;
+    background-color: #aaa;
+    min-width: 1px; }
