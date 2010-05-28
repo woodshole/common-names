@@ -1,7 +1,5 @@
--@languages.each do |language|
-  %tr
-    %td
-      =language.english_name
-    %td
-      - ct = @taxon.get_count_of_children_translated(Language.find(language.lang_id))
-      - bar_graph ct, @count
+%tr
+  %td
+    =stats.english_name
+  %td
+    - bar_graph stats.common_name_count, @count
