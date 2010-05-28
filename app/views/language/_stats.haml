@@ -4,8 +4,4 @@
       =language.english_name
     %td
       - ct = @taxon.get_count_of_children_translated(Language.find(language.lang_id))
-      = ct
-    %td
-      = @count
-    %td
-      =sprintf("%.2f%%", (ct.to_f/@count.to_f)*100)
+      - bar_graph ct, @count
