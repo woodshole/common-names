@@ -30,6 +30,8 @@ class Taxon < ActiveRecord::Base
   end
   #tested
   def get_languages_of_children
+    # I don't think the right and left join are necessary here, in fact I think
+    # they are slower than just doing an inner join -- RMS
     sql = "SELECT DISTINCT common_names.language_id as lang_id,
       languages.english_name as english_name
     FROM taxa
@@ -40,6 +42,23 @@ class Taxon < ActiveRecord::Base
     WHERE lft > #{self.lft} AND rgt < #{self.rgt}"
     Language.find_by_sql(sql)
   end
+  
+  # Returns the number of child taxa that have common names in each language
+  def get_language_coverage
+    sql = "SELECT COUNT(DISTINCT taxa.id) as common_name_count,
+                  languages.english_name as english_name
+           FROM taxa
+           INNER JOIN common_names 
+                   ON common_names.taxon_id = taxa.id
+           INNER JOIN languages
+                   ON common_names.language_id = languages.id
+           WHERE lft > #{self.lft} 
+             AND rgt < #{self.rgt}
+           GROUP BY english_name
+           ORDER BY common_name_count DESC"
+    Language.find_by_sql(sql)
+  end
+  
   #tested
   def get_count_of_children_translated(language=nil)
     sql = "SELECT COUNT(DISTINCT taxa.id) as number_of_children

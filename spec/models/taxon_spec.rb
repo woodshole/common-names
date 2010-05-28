@@ -74,6 +74,14 @@ describe Taxon do
     end
   end
   
+  describe "get_language_coverage" do
+    it "should return the language coverage of the children" do
+      coverage = Taxon.find(2).get_language_coverage.map{|x| [x.english_name, x.common_name_count.to_i]}
+      coverage.should include( [Language.find(1).english_name, 2] )
+      coverage.should include( [Language.find(2).english_name, 1] )
+    end
+  end
+  
   describe "get_count_of_children_translated" do
     it "should count all children with common names in any language" do
       Taxon.find(2).get_count_of_children_translated.to_i.should == 2
