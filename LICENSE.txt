@@ -1,4 +1,4 @@
-Copyright (C) 2010, Marine Biological Laboratory 
+Copyright (C) 2010, Marine Biological Laboratory and Global Biodiversity Information Facility 
 
 Permission is hereby granted, free of charge, to any person obtaining a 
 copy of this software and associated documentation files (the "Software"), 
